@@ -21,6 +21,8 @@ Term frequency–inverse document frequency (**tf-idf**) is an NLP technique to 
 
 In our case, our words are within the non-standardized cell labels and our "documents" are the clusters. The goals is to find words that are enriched in each cluster relative to all the other clusters. This can be thought of as an NLP equivalent of finding gene markers for each cluster.  
 
+# [Documentation website](https://neurogenomics.github.io/scNLP/)
+
 # Quick examples 
 
 ```{r}
