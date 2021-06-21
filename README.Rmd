@@ -1,0 +1,69 @@
+---
+title: "scNLP"
+author: "<h5>Author: <i>Brian M. Schilder</i></h5>" 
+date: "<h5>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h5>"
+output:
+  github_document 
+---
+
+```{r setup, include=F}
+knitr::opts_chunk$set(echo = T)
+```
+
+## Tools for applying natural language processing (NLP) techniques to single-cell (sc) omics data.
+
+
+# Intro 
+
+When trying to re-analyze single-cell [RNA-seq] data that has previously been annotated, the same cell-types are not usually labeled in the same way (e.g. "Purkinje cells" vs. "purkinje neurons" vs. "pkj_neurons"). This makes harmonizing data across multiple source quite challenging. One solution is to re-annotate all cells yourself. Alternatively, you can re-use the existing cell-type labels with natural language processing (NLP).
+
+Term frequency–inverse document frequency (**tf-idf**) is an NLP technique to identify words or phrases that are enriched in one document relative to some other larger set of documents. 
+
+In our case, our words are within the non-standardized cell labels and our "documents" are the clusters. The goals is to find words that are enriched in each cluster relative to all the other clusters. This can be thought of as an NLP equivalent of finding gene markers for each cluster.  
+
+# Quick examples 
+
+```{r}
+library(scNLP) 
+data("pseudo_seurat")
+```
+
+## td-idf annotation  
+
+`seurat_tfidf` will run **tf-idf** on each cluster and put the results in the **enriched_words** and **tf_idf** cols of the `meta.data`. 
+
+```{r} 
+pseudo_seurat <- run_tfidf(object = pseudo_seurat,
+                           reduction = "UMAP",
+                           cluster_var = "cluster",
+                           label_var = "celltype") 
+head(pseudo_seurat@meta.data)
+```
+
+## td-idf scatter plot  
+
+You can also plot the results in reduced dimensional space (e.g. UMAP). 
+`plot_tfidf()` will produce a list with three items.
+- `data`: The processed data used to create the plot. 
+- `tfidf_df`: The full per-cluster TF-IDF enrichment results.
+- `plot`: The `ggplot`. 
+
+### `Seurat` input
+
+```{r}
+res <- plot_tfidf(object = pseudo_seurat, 
+                  label_var = "celltype", 
+                  cluster_var = "cluster", 
+                  show_plot = T)
+```
+ 
+
+# Session Info
+
+<details>
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details> 
