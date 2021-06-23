@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wordckiyd from tf-idf results — wordcloud_tfidf • scNLP</title>
+<title>Wordcloud from tf-idf results — wordcloud_tfidf • scNLP</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Wordckiyd from tf-idf results — wordcloud_tfidf" />
-<meta property="og:description" content="Wordckiyd from tf-idf results" />
+<meta property="og:title" content="Wordcloud from tf-idf results — wordcloud_tfidf" />
+<meta property="og:description" content="Wordcloud from tf-idf results" />
 
 
 
@@ -120,13 +120,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wordckiyd from tf-idf results</h1>
+    <h1>Wordcloud from tf-idf results</h1>
     <small class="dont-index">Source: <a href='https://github.com/bschilder/scNLP/blob/master/R/wordcloud_tfidf.R'><code>R/wordcloud_tfidf.R</code></a></small>
     <div class="hidden name"><code>wordcloud_tfidf.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wordckiyd from tf-idf results</p>
+    <p>Wordcloud from tf-idf results</p>
     </div>
 
     <pre class="usage"><span class='fu'>wordcloud_tfidf</span><span class='op'>(</span>
@@ -138,6 +138,30 @@
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>Single-cell data object. Can be in <code>SingleCellExperiment</code> or Seurat format.</p></td>
+    </tr>
+    <tr>
+      <th>label_var</th>
+      <td><p>Which cell metadata column to input to tf-idf enrichment analysis.</p></td>
+    </tr>
+    <tr>
+      <th>cluster_var</th>
+      <td><p>Which cell metadata column to use to identify which cluster each cell is assigned to.</p></td>
+    </tr>
+    <tr>
+      <th>terms_per_cluster</th>
+      <td><p>The number of top significantly enriched terms to include per cluster.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters to pass to <code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot2::ggplot(aes_string(...))</a></code>.</p></td>
+    </tr>
+    </table>
 
 
   </div>

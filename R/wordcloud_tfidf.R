@@ -1,6 +1,10 @@
 
-#' Wordckiyd from tf-idf results 
+#' Wordcloud from tf-idf results 
 #' 
+#' @inheritParams run_tfidf 
+#' @param ... Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}. 
+#' 
+#' @export
 wordcloud_tfidf <- function(object,
                             label_var = "celltype", 
                             cluster_var = "cluster", 
@@ -23,7 +27,7 @@ wordcloud_tfidf <- function(object,
   #                               figPath = "images/brain.png")
   
   library(ggwordcloud) 
-  plt <- ggplot(dat, aes(label = word, size = tf_idf, color=tf_idf)) + 
+  plt <- ggplot(dat, aes_string(label = "word", size = "tf_idf", color="tf_idf", ...)) + 
     geom_text_wordcloud_area() +
     # scale_size_area(max_size = 18) +
     theme_minimal() +

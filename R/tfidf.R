@@ -1,11 +1,20 @@
+
+#' tfidf 
+#' 
+#' Run tf-idf on a metadata table.
+#' 
+#' @param clusts \code{data.frame}/\code{data.table} with the per-cell meteadata and cluster assignments. 
+#' @inheritParams run_tfidf 
+#' 
+#' @export
 tfidf <- function(clusts,
-                  col_name="dataset",
+                  label_var="dataset",
                   cluster_var="seurat_clusters",
                   terms_per_cluster=1,
                   replace_regex="[.]|[_]|[-]",
                   force_new=F){
   clusts <- data.frame(clusts)
-  if(!col_name %in% colnames(clusts)) stop(col_name," not found in metadata.")
+  if(!label_var %in% colnames(clusts)) stop(label_var," not found in metadata.")
   
   library(tidytext)
   data(stop_words)
@@ -14,7 +23,7 @@ tfidf <- function(clusts,
   }
   # From here: https://www.tidytextmining.com/tfidf.html
   clusts$cluster <- clusts[[cluster_var]]
-  clusts$var <- gsub(replace_regex," ",clusts[[col_name]])
+  clusts$var <- gsub(replace_regex," ",clusts[[label_var]])
   clust_words <- clusts %>%
     unnest_tokens(word, var, drop = F) %>%
     anti_join(stop_words, keep=T) %>%

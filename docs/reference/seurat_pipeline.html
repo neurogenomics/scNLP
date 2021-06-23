@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • scNLP</title>
+<title>Run standardized Seurat pipeline — seurat_pipeline • scNLP</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Run standardized Seurat pipeline — seurat_pipeline" />
+<meta property="og:description" content="Run Seurat pipeline on Seurat object 
+or raw counts and meta.data." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,78 +119,49 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Run standardized <span class="pkg">Seurat</span> pipeline</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bschilder/scNLP/blob/master/R/seurat_pipeline.R'><code>R/seurat_pipeline.R</code></a></small>
+    <div class="hidden name"><code>seurat_pipeline.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Run <span class="pkg">Seurat</span> pipeline on <span class="pkg">Seurat</span> object 
+or raw <code>counts</code> and <code>meta.data</code>.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>seurat_pipeline</span><span class='op'>(</span>
+  seurat_obj <span class='op'>=</span> <span class='cn'>NULL</span>,
+  counts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  meta.data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nfeatures <span class='op'>=</span> <span class='fl'>2000</span>,
+  vars.to.regress <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dims <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span>,
+  add_specificity <span class='op'>=</span> <span class='cn'>F</span>,
+  assay_name <span class='op'>=</span> <span class='st'>"RNA"</span>,
+  default_assay <span class='op'>=</span> <span class='cn'>NULL</span>,
+  n.components <span class='op'>=</span> <span class='fl'>2L</span>,
+  log_norm <span class='op'>=</span> <span class='cn'>F</span>,
+  parallelize <span class='op'>=</span> <span class='cn'>T</span>,
+  seed <span class='op'>=</span> <span class='fl'>2020</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="plot_tfidf.html">plot_tfidf()</a></code> </p>
-        </td>
-        <td><p>Plot tf-idf results in reduced dimensions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pseudo_sce.html">pseudo_sce</a></code> </p>
-        </td>
-        <td><p>Example <code>SingleCellExperiment</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pseudo_seurat.html">pseudo_seurat</a></code> </p>
-        </td>
-        <td><p>Example <code>Seurat</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="run_tfidf.html">run_tfidf()</a></code> </p>
-        </td>
-        <td><p>Run tf-idf on single-cell data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="seurat_pipeline.html">seurat_pipeline()</a></code> </p>
-        </td>
-        <td><p>Run standardized <span class="pkg">Seurat</span> pipeline</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tfidf.html">tfidf()</a></code> </p>
-        </td>
-        <td><p>tfidf</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="wordcloud_tfidf.html">wordcloud_tfidf()</a></code> </p>
-        </td>
-        <td><p>Wordcloud from tf-idf results</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Automatically performs</p><dl>
+<dt><code>FindVariableFeatures</code></dt><dd><p>Variable feature selection</p></dd>
+<dt><code>NormalizeData</code></dt><dd><p>Data normalization</p></dd>
+<dt><code>RunPCA</code></dt><dd><p>PCA</p></dd>
+<dt><code>RunUMAP</code></dt><dd><p>UMAP</p></dd>
+<dt><code>FindNeighbors</code></dt><dd><p>K-nearest neighbors</p></dd>
+<dt><code>FindClusters</code></dt><dd><p>Clustering</p></dd>
+
+</dl>
+
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

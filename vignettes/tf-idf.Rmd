@@ -29,6 +29,20 @@ library(scNLP)
 data("pseudo_seurat")
 ```
 
+## Preprocessing 
+
+If you don't already have a `Seurat` object with reduced dimensions and cluster assignments, you can generate a new one with the following support function.
+
+```{r}
+## Create some mock raw data 
+counts <- Seurat::GetAssayData(pseudo_seurat)
+meta.data <- pseudo_seurat@meta.data
+
+processed_seurat <- seurat_pipeline(counts = counts, 
+                                    meta.data = meta.data)
+```
+
+
 ## td-idf annotation  
 
 `seurat_tfidf` will run **tf-idf** on each cluster and put the results in the **enriched_words** and **tf_idf** cols of the `meta.data`. 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/wordcloud_tfidf.R
 \name{wordcloud_tfidf}
 \alias{wordcloud_tfidf}
-\title{Wordckiyd from tf-idf results}
+\title{Wordcloud from tf-idf results}
 \usage{
 wordcloud_tfidf(
   object,
@@ -13,6 +13,17 @@ wordcloud_tfidf(
   ...
 )
 }
+\arguments{
+\item{object}{Single-cell data object. Can be in \code{SingleCellExperiment} or {Seurat} format.}
+
+\item{label_var}{Which cell metadata column to input to tf-idf enrichment analysis.}
+
+\item{cluster_var}{Which cell metadata column to use to identify which cluster each cell is assigned to.}
+
+\item{terms_per_cluster}{The number of top significantly enriched terms to include per cluster.}
+
+\item{...}{Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}.}
+}
 \description{
-Wordckiyd from tf-idf results
+Wordcloud from tf-idf results
 }

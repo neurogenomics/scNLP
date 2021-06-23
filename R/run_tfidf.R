@@ -1,9 +1,31 @@
-
+#' Run tf-idf on single-cell data
+#' 
+#' @param object Single-cell data object. Can be in \code{SingleCellExperiment} or {Seurat} format.
+#' @param reduction Name of the reduction to use (\emph{case insensitive}). 
+#' @param label_var Which cell metadata column to input to tf-idf enrichment analysis. 
+#' @param cluster_var Which cell metadata column to use to identify which cluster each cell is assigned to.
+#' @param replace_regex Characters by which to split \code{label_var} into terms (i.e. tokens) for tf-idf enrichment analysis.
+#' @param terms_per_cluster The number of top significantly enriched terms to include per cluster. 
+#' @param force_new If tf-idf results are already detected the metadata, set \code{force_new=T} to replace them with new results.
+#' @param return_all_results Whether to return just the \code{object} with updated metadata (\code{return_all_results=F}), 
+#' or all intermediate results (\code{return_all_results=F}).
+#' @param verbose Whether to print messages. 
+#' 
+#' @examples  
+#' library(scNLP)
+#' data("pseudo_seurat")
+#' pseudo_seurat_tfidf <- run_tfidf(object = pseudo_seurat,
+#'                                  reduction = "UMAP",
+#'                                  cluster_var = "cluster",
+#'                                  label_var = "celltype") 
+#' head(pseudo_seurat_tfidf@meta.data)  
+#' 
+#' @export
 run_tfidf <- function(object=NULL, 
                       reduction="UMAP",
                       label_var="label",
                       cluster_var="seurat_clusters",
-                      replace_regex = " ",
+                      replace_regex = "[.]|[_]|[-]",
                       terms_per_cluster=3,
                       force_new=F,
                       return_all_results=F,
@@ -26,7 +48,7 @@ run_tfidf <- function(object=NULL,
     }
   }
   tfidf_df <- tfidf(clusts = input_dat,
-                    col_name =  label_var,
+                    label_var =  label_var,
                     cluster_var = cluster_var,
                     replace_regex = replace_regex,
                     terms_per_cluster = terms_per_cluster)

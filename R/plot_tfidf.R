@@ -1,10 +1,38 @@
-
-plot_tfidf <- function(object=NULL,
-                       metadata=NULL,
-                       embeddings=NULL,
+#' Plot tf-idf results in reduced dimensions 
+#' 
+#' Plot tf-idf enrichment results in reduced dimensional space (e.g. PCA/tSNe/UMAP), 
+#' Reduced dimensions can be computed based on single-cell data (e.g. RNA expression). . 
+#' 
+#' @inheritParams run_tfidf
+#' @param size_var Point size variable in \code{object} metadata. 
+#' @param color_var Point color variable in \code{object} metadata. 
+#' @param point_alpha Point opacity.
+#' @param point_palette Point palette.
+#' @param density_palette Density palette.
+#' @param density_adjust Density adjust (controls granularity of density plot). 
+#' @param label_fill Cluster label background color.
+#' @param show_plot Whether to print the plot.
+#' @param background_color Plot background color.
+#' @param text_color Cluster label text color.
+#' @param interact Whether to make the plot interactive with \pkg{plotly}. 
+#' @param verbose Whether to print messages. 
+#' @param ... Additional arguments to be passed to \code{ggplot2::geom_point(aes_string(...))}. 
+#' 
+#' @examples 
+#' data("scNLP")
+#' data("pseudo_seurat")
+#' 
+#' res <- plot_tfidf(object = pseudo_seurat, 
+#'                   label_var = "celltype", 
+#'                   cluster_var = "cluster", 
+#'                   show_plot = T)
+#' @export                    
+plot_tfidf <- function(object=NULL, 
                        reduction="UMAP",
                        label_var="label",
-                       cluster_var="seurat_clusters",
+                       cluster_var="seurat_clusters", 
+                       replace_regex="[.]|[_]|[-]",
+                       terms_per_cluster=3,
                        size_var=1,
                        color_var="cluster",
                        point_alpha=.7,
@@ -13,8 +41,6 @@ plot_tfidf <- function(object=NULL,
                        density_adjust=.2,
                        label_fill=alpha(c("white"),0.7),
                        show_plot=T,
-                       replace_regex=" ",
-                       terms_per_cluster=3,
                        background_color="white",
                        text_color="black",
                        interact=F,
