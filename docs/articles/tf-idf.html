@@ -85,7 +85,7 @@ Author: <i>Brian M. Schilder</i>
 </h5></h4>
             
             <h4 class="date"><h5>
-Most recent update: <i>Jun-21-2021</i>
+Most recent update: <i>Jun-23-2021</i>
 </h5></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bschilder/scNLP/blob/master/vignettes/tf-idf.Rmd"><code>vignettes/tf-idf.Rmd</code></a></small>
@@ -227,19 +227,17 @@ Most recent update: <i>Jun-21-2021</i>
                   label_var <span class="op">=</span> <span class="st">"celltype"</span>, 
                   cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, 
                   interact <span class="op">=</span> <span class="cn">T</span>,
-                  show_plot <span class="op">=</span> <span class="cn">F</span>,
+                  show_plot <span class="op">=</span> <span class="cn">T</span>,
                   <span class="co">### Add other metadata vars you want in the hover label like so:</span>
                   species<span class="op">=</span><span class="st">"species"</span>,
                   dataset<span class="op">=</span><span class="st">"dataset"</span>, 
                   enriched_words<span class="op">=</span><span class="st">"enriched_words"</span>,
-                  tf_idf<span class="op">=</span><span class="st">"tf_idf"</span><span class="op">)</span></code></pre></div>
+                  tf_idf<span class="op">=</span><span class="st">"tf_idf"</span><span class="op">)</span> </code></pre></div>
 <pre><code>## [1] "+ Extracting data from Seurat object."
 ## [1] "+ Using reduction: umap"</code></pre>
 <pre><code>## Joining, by = "word"</code></pre>
 <pre><code>## Joining, by = "cluster"
 ## Joining, by = "cluster"</code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">plot</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -247,7 +245,7 @@ Most recent update: <i>Jun-21-2021</i>
 <h1 class="hasAnchor">
 <a href="#tf-idf-wordcloud" class="anchor"></a>tf-idf wordcloud</h1>
 <p>You can also show the per-cluster <strong>tf-idk</strong> results as a wordcloud.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">wordcloud_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wordcloud_tfidf.html">wordcloud_tfidf</a></span><span class="op">(</span>object<span class="op">=</span><span class="va">pseudo_seurat</span>,
                                  label_var <span class="op">=</span> <span class="st">"celltype"</span>, 
                                  cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, 
@@ -259,9 +257,9 @@ Most recent update: <i>Jun-21-2021</i>
 ## Joining, by = "cluster"</code></pre>
 <pre><code>## Warning: Ignoring unknown aesthetics: label</code></pre>
 <pre><code>## Warning in wordcloud_boxes(data_points = points_valid_first, boxes = boxes, :
-## Some words could not fit on page. They have been placed at their original
-## positions.</code></pre>
-<pre><code>## Warning in wordcloud_boxes(data_points = points_valid_first, boxes = boxes, :
+## One word could not fit on page. It has been placed at its original position.
+
+## Warning in wordcloud_boxes(data_points = points_valid_first, boxes = boxes, :
 ## One word could not fit on page. It has been placed at its original position.</code></pre>
 <pre><code>## Warning in wordcloud_boxes(data_points = points_valid_first, boxes = boxes, :
 ## Some words could not fit on page. They have been placed at their original
@@ -288,7 +286,7 @@ Most recent update: <i>Jun-21-2021</i>
 ## Some words could not fit on page. They have been placed at their original
 ## positions.</code></pre>
 <p><img src="tf-idf_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">wordcloud_res</span><span class="op">$</span><span class="va">tfidf_df</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 150 x 8
 ## # Groups:   cluster [15]
@@ -309,7 +307,7 @@ Most recent update: <i>Jun-21-2021</i>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
-<details><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<details><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R version 4.1.0 (2021-05-18)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -342,7 +340,7 @@ Most recent update: <i>Jun-21-2021</i>
 ##  [19] Exact_2.1                   compiler_4.1.0             
 ##  [21] cli_2.5.0                   Biobase_2.52.0             
 ##  [23] textshaping_0.3.5           expm_0.999-6               
-##  [25] plotly_4.9.4                DelayedArray_0.18.0        
+##  [25] plotly_4.9.4.1              DelayedArray_0.18.0        
 ##  [27] desc_1.3.0                  isoband_0.2.4              
 ##  [29] labeling_0.4.2              sass_0.4.0                 
 ##  [31] scales_1.1.1                mvtnorm_1.1-2              
@@ -357,7 +355,7 @@ Most recent update: <i>Jun-21-2021</i>
 ##  [49] pals_1.7                    rstudioapi_0.13            
 ##  [51] jquerylib_0.1.4             farver_2.1.0               
 ##  [53] generics_0.1.0              jsonlite_1.7.2             
-##  [55] crosstalk_1.1.1             dplyr_1.0.6                
+##  [55] crosstalk_1.1.1             dplyr_1.0.7                
 ##  [57] tokenizers_0.2.1            RCurl_1.98-1.3             
 ##  [59] magrittr_2.0.1              GenomeInfoDbData_1.2.6     
 ##  [61] Matrix_1.3-4                Rcpp_1.0.6                 

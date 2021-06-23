@@ -4,6 +4,8 @@ author: "<h5>Author: <i>Brian M. Schilder</i></h5>"
 date: "<h5>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h5>"
 output:
   github_document 
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=F}
@@ -60,12 +62,12 @@ res <- plot_tfidf(object = pseudo_seurat,
 ```
  
 
-# Session Info
+# Session Info 
 
-<details>
+<details> 
 
 ```{r Session Info}
 utils::sessionInfo()
 ```
 
-</details> 
+</details>  
