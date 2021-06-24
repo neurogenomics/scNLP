@@ -38,6 +38,8 @@ representative of a particular anatomical region.
 
 # [Documentation website](https://neurogenomics.github.io/scNLP/)
 
+# [tf-idf vingette](https://neurogenomics.github.io/scNLP/articles/tf-idf.html)
+
 # Quick examples
 
 ``` r
