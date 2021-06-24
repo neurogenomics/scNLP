@@ -21,7 +21,9 @@ When trying to re-analyze single-cell [RNA-seq] data that has previously been an
 
 Term frequency–inverse document frequency (**tf-idf**) is an NLP technique to identify words or phrases that are enriched in one document relative to some other larger set of documents. 
 
-In our case, our words are within the non-standardized cell labels and our "documents" are the clusters. The goals is to find words that are enriched in each cluster relative to all the other clusters. This can be thought of as an NLP equivalent of finding gene markers for each cluster.  
+In our case, our words are within the non-standardized cell labels and our "documents" are the clusters. The goals is to find words that are enriched in each cluster relative to all the other clusters. This can be thought of as an NLP equivalent of finding gene markers for each cluster.
+
+Another use case is to identify whether certain metadata attributes (e.g. dataset, species, brain region) are over-represented in some clusters relative to others This is a quantitative way to assess whether, for example, two or more datasets have successfully been integrated (i.e. are well-"mixed"), or whether some clusters are more representative of a particular anatomical region. 
 
 # [Documentation website](https://neurogenomics.github.io/scNLP/)
 
@@ -47,7 +49,8 @@ head(pseudo_seurat@meta.data)
 ## td-idf scatter plot  
 
 You can also plot the results in reduced dimensional space (e.g. UMAP). 
-`plot_tfidf()` will produce a list with three items.
+`plot_tfidf()` will produce a list with three items. 
+
 - `data`: The processed data used to create the plot. 
 - `tfidf_df`: The full per-cluster TF-IDF enrichment results.
 - `plot`: The `ggplot`. 
