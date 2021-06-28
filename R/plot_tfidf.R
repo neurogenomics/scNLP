@@ -44,9 +44,11 @@ plot_tfidf <- function(object=NULL,
                        background_color="white",
                        text_color="black",
                        interact=F,
+                       force_new=F,
                        verbose=T,
                        ...){
-  # object<-scNLP::pseudo_seurat;  reduction="UMAP"; label_var="label";cluster_var="seurat_clusters";size_var="genes";point_alpha=.7;density_palette="purples";density_adjust=.2; label_fill=alpha(c("white"),0.7);show_plot=T;replace_regex=" ";terms_per_cluster=3; show_plot=T; verbose=T
+  # object<-scNLP::pseudo_seurat;  reduction="UMAP"; label_var="label";cluster_var="seurat_clusters";size_var="nCount_RNA";point_alpha=.7;density_palette="purples";density_adjust=.2; label_fill=alpha(c("white"),0.7);show_plot=T;replace_regex=" ";terms_per_cluster=3; show_plot=T; verbose=T; force_new=F; point_palette=c(unname(pals::alphabet()),rev(unname(pals::alphabet2()) ));  color_var="cluster"; background_color="white";  text_color="black";
+  # object <- readRDS("~/Desktop/phenome_decomposition/raw_data/DEGAS/DEGAS.seurat.rds"); reduction="umap_contributionGene"; label_var="label_phe";cluster_var=NULL;size_var="Number.of.cases";point_alpha=.7;density_palette="purples";density_adjust=.2; label_fill=alpha(c("white"),0.7);show_plot=T;replace_regex=" ";terms_per_cluster=3; show_plot=T; verbose=T; force_new=F; point_palette=c(unname(pals::alphabet()),rev(unname(pals::alphabet2()) ));  color_var="cluster"; background_color="white";  text_color="black";
   
   #### Prepare input_dat #### 
   r <- run_tfidf(object=object, 
@@ -55,7 +57,7 @@ plot_tfidf <- function(object=NULL,
                   cluster_var=cluster_var,
                   replace_regex = replace_regex,
                   terms_per_cluster=terms_per_cluster,
-                  force_new=F,
+                  force_new=force_new,
                   return_all_results=T,
                   verbose=verbose) 
    
@@ -85,8 +87,8 @@ plot_tfidf <- function(object=NULL,
     geom_point(aes_string(color=color_var,
                           # shape=Type,
                           size=size_var,
-                          label=label_var,
-                          ...),
+                          label=label_var,),
+                          # ...),
                alpha=point_alpha, show.legend = F) +
     scale_color_manual(values = point_palette) +
     # geom_label(data = cluster_centers,

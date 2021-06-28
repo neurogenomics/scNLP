@@ -2,8 +2,9 @@ get_input_dat <- function(object=NULL,
                           cluster_var=NULL,
                           reduction="UMAP",
                           verbose=T){
-  #### Extract necessary info ####
+  # object=scNLP::pseudo_seurat; verbose=T; reduction="UMAP"; cluster_var=NULL;  
   
+  #### Extract necessary info ####
   # object = list(metadata=scNLP::pseudo_seurat@meta.data, embeddings=scNLP::pseudo_seurat@reductions$umap@cell.embeddings); reduction="UMAP";
   if(is.list(object) & all(c("metadata","embeddings") %in% names(object)) ){
     printer("+ Using data from list.",v=verbose)
@@ -36,8 +37,8 @@ get_input_dat <- function(object=NULL,
     object_type <- "SingleCellExperiment"
   } 
    
-  input_dat = metadata[,!startsWith(tolower(colnames(metadata)), tolower(reduction))]
-  input_dat  <- cbind(input_dat, embeddings)
+  metadata <- drop_reduction_vars(metadata = metadata, reduction = reduction, verbose = verbose)
+  input_dat  <- cbind(metadata, embeddings)
   
   #### Infer cluster var #### 
   cluster_var <- if(!is.null(cluster_var)){

@@ -30,7 +30,7 @@ run_tfidf <- function(object=NULL,
                       force_new=F,
                       return_all_results=F,
                       verbose=T){
-  # label_var="label";cluster_var="seurat_clusters";replace_regex = " ";terms_per_cluster=3;force_new=F
+  # object=scNLP::pseudo_seurat; reduction="UMAP"; label_var="label";cluster_var="seurat_clusters";replace_regex = " ";terms_per_cluster=3;force_new=F; verbose=T
   
   #### Prepare input_dat ####
   gid <-  get_input_dat(object=object,  
@@ -64,7 +64,7 @@ run_tfidf <- function(object=NULL,
   if(sum(new_metadata[[label_var]]!=input_dat[[label_var]], na.rm = T)>0){
     stop("Seurat sample names and tfidf samples names are not aligned!")
   }
-  new_metadata <- data.frame(new_metadata, row.names = row.names(input_dat))   
+  new_metadata <- data.frame(new_metadata, row.names = row.names(input_dat))    
   new_object <- add_metadata(object = object,
                              object_type = object_type, 
                              new_metadata = new_metadata)
