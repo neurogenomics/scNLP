@@ -45,7 +45,14 @@ Search [shared] K-nearest neighbor graph to find the
 library(scNLP)
 data("pseudo_seurat")
 
+### No group filter
 top_neighbors <- search_neighbors(seurat = pseudo_seurat, 
                                   var1_search = "purkinje", 
+#'                                   max_neighbors=5)
+### With group filter
+top_neighbors2 <- search_neighbors(seurat = pseudo_seurat,
+                                  var1_search = "purkinje",
+                                  var2_group = "human",
+                                  group_col = "species",
                                   max_neighbors=5)
 }

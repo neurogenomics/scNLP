@@ -21,8 +21,15 @@
 #' library(scNLP)
 #' data("pseudo_seurat")
 #' 
+#' ### No group filter
 #' top_neighbors <- search_neighbors(seurat = pseudo_seurat, 
 #'                                   var1_search = "purkinje", 
+#' #'                                   max_neighbors=5)
+#' ### With group filter
+#' top_neighbors2 <- search_neighbors(seurat = pseudo_seurat,
+#'                                   var1_search = "purkinje",
+#'                                   var2_group = "human",
+#'                                   group_col = "species",
 #'                                   max_neighbors=5)
 #' @export                    
 search_neighbors <- function(seurat,
@@ -58,7 +65,9 @@ search_neighbors <- function(seurat,
     sample_names <- rownames(fgraph)
   }else{
     sample_names <- make.unique(seurat@meta.data[[label_col]])
-  } 
+  }  
+  seurat@meta.data$sample_names <- sample_names  
+  
   fgraph <- fgraph %>% 
     `row.names<-`(sample_names) %>%
     `colnames<-`(sample_names)
@@ -75,7 +84,7 @@ search_neighbors <- function(seurat,
   if(!is.null(group_col)){
     printer("+ Filtering results by `var2_group`:",var2_group,v=verbose)  
     targets2 <- seurat@meta.data[grepl(var2_group, seurat@meta.data[[group_col]], ignore.case = T),
-                                 label_col]
+                                 "sample_names"]
     if(length(targets2)>0){
       printer("+",length(targets2),"entries matching `var2_group` identified.",v=verbose)
       fgraph <- fgraph[,targets2]
@@ -94,6 +103,11 @@ search_neighbors <- function(seurat,
     dplyr::arrange(desc(similarity)) %>% 
     data.table::data.table()    
   
-  print(paste("+ Returning",nrow(top_candidates),"pair-wise similarities."))
+  if(!is.null(group_col)){
+    printer("+ Adding `group_col` to results")
+    keys <- setNames(seurat@meta.data[[group_col]], seurat@meta.data$sample_names) 
+    top_candidates$Var2_group <- keys[top_candidates$Var2]
+  } 
+  printer("+ Returning",nrow(top_candidates),"pair-wise similarities.",v=verbose)
   return(top_candidates)
 }
