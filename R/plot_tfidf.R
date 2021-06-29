@@ -19,7 +19,7 @@
 #' @param ... Additional arguments to be passed to \code{ggplot2::geom_point(aes_string(...))}. 
 #' 
 #' @examples 
-#' data("scNLP")
+#' library(scNLP)
 #' data("pseudo_seurat")
 #' 
 #' res <- plot_tfidf(object = pseudo_seurat, 

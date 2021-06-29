@@ -1,0 +1,99 @@
+#' Search nearest neighbors 
+#' 
+#' Search [shared] K-nearest neighbor graph to find the
+#'  samples that are most similar to those matching a substring search.
+#'  
+#' @param seurat \pkg{Seurat} object. 
+#' @param graph_name Name of the graph to use. 
+#' If none provided, will use the last graph available.
+#' If no graphs are available, new ones will be computed using \code{Seurat::FindNeighbors}. 
+#' @param var1_search Substring search term to filter var1 by.
+#' @param label_col \code{meta.data} column used to name the rows/columns of the graph.
+#' \code{label_col} will also be used in the search for \code{var1_search} substring.
+#' @param var2_group Substring search term to filter var2 by, 
+#' according to  \code{group_col}.
+#' @param group_col \code{meta.data} column used to filter var2 
+#' when \code{var2_group} is used. 
+#' @param max_neighbors The max number of neighbors (var2) per term (var1).   
+#' @param verbose Whether to print messages. 
+#'      
+#' @examples 
+#' library(scNLP)
+#' data("pseudo_seurat")
+#' 
+#' top_neighbors <- search_neighbors(seurat = pseudo_seurat, 
+#'                                   var1_search = "purkinje", 
+#'                                   max_neighbors=5)
+#' @export                    
+search_neighbors <- function(seurat,
+                             graph_name=NULL,
+                             var1_search=NULL,  
+                             label_col=NULL,
+                             var2_group=NULL,
+                             group_col=NULL, 
+                             max_neighbors=Inf, 
+                             verbose=T){ 
+  if(is.null(names(seurat@graphs))){ 
+    if(!"pca" %in% names(seurat@reductions)){
+      if(length(Seurat::VariableFeatures(seurat))==0){
+        printer("No variable features detected. Computing",v=verbose)
+        seurat <- Seurat::FindVariableFeatures(seurat)
+      }
+      printer("No PCA detected. Computing",v=verbose)
+      seurat <- Seurat::NormalizeData(seurat)
+      seurat <- Seurat::ScaleData(seurat)
+      seurat <- Seurat::RunPCA(seurat)
+    }
+    printer("No graphs detected. Computing.",v=verbose)
+    seurat <- Seurat::FindNeighbors(seurat)
+  }
+  
+  if(is.null(graph_name)) graph_name <- rev(names(seurat@graphs))[1] 
+  if(any(graph_name %in% names(seurat@graphs))){
+    printer("Using graph:",graph_name,v=verbose)
+  }
+  fgraph <- seurat@graphs[[graph_name]]
+  
+  if(is.null(label_col)){
+    sample_names <- rownames(fgraph)
+  }else{
+    sample_names <- make.unique(seurat@meta.data[[label_col]])
+  } 
+  fgraph <- fgraph %>% 
+    `row.names<-`(sample_names) %>%
+    `colnames<-`(sample_names)
+  
+  if(!is.null(var1_search)){
+    printer("+ Filtering results by `var1_search`:",var1_search,v=verbose)
+    targets1 <- grep(var1_search,sample_names, ignore.case = T, value = T)
+    if(length(targets1)>0){
+      printer("+",length(targets1),"entries matching `var1_search` identified.",v=verbose)
+      fgraph <- fgraph[targets1,]
+    } else {stop("0 entries in `label_col` match the substring search for `var1_search`")} 
+  }
+  
+  if(!is.null(group_col)){
+    printer("+ Filtering results by `var2_group`:",var2_group,v=verbose)  
+    targets2 <- seurat@meta.data[grepl(var2_group, seurat@meta.data[[group_col]], ignore.case = T),
+                                 label_col]
+    if(length(targets2)>0){
+      printer("+",length(targets2),"entries matching `var2_group` identified.",v=verbose)
+      fgraph <- fgraph[,targets2]
+    } else {stop("0 entries in `group_col` match the substring search for `var2_group`")} 
+  }
+  
+  top_candidates <-  fgraph %>%
+    Matrix::as.matrix() %>%
+    reshape2::melt(value.name = "similarity") %>%
+    data.table::data.table() %>%
+    dplyr::mutate_at(c("Var1","Var2"), as.character) %>%
+    subset(Var1!=Var2) %>%  
+    subset(similarity>0) %>%
+    dplyr::group_by(Var1) %>% 
+    dplyr::slice_max(order_by = similarity, n = max_neighbors) %>% 
+    dplyr::arrange(desc(similarity)) %>% 
+    data.table::data.table()    
+  
+  print(paste("+ Returning",nrow(top_candidates),"pair-wise similarities."))
+  return(top_candidates)
+}

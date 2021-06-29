@@ -22,6 +22,7 @@ plot_tfidf(
   background_color = "white",
   text_color = "black",
   interact = F,
+  force_new = F,
   verbose = T,
   ...
 )
@@ -61,6 +62,8 @@ plot_tfidf(
 
 \item{interact}{Whether to make the plot interactive with \pkg{plotly}.}
 
+\item{force_new}{If tf-idf results are already detected the metadata, set \code{force_new=T} to replace them with new results.}
+
 \item{verbose}{Whether to print messages.}
 
 \item{...}{Additional arguments to be passed to \code{ggplot2::geom_point(aes_string(...))}.}
@@ -70,7 +73,7 @@ Plot tf-idf enrichment results in reduced dimensional space (e.g. PCA/tSNe/UMAP)
 Reduced dimensions can be computed based on single-cell data (e.g. RNA expression). .
 }
 \examples{
-data("scNLP")
+library(scNLP)
 data("pseudo_seurat")
 
 res <- plot_tfidf(object = pseudo_seurat, 
