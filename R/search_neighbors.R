@@ -58,6 +58,7 @@ search_neighbors <- function(seurat,
     seurat <- Seurat::FindNeighbors(seurat)
   }
   
+  if(length(var1_search)>1) var1_search <- paste(var1_search,collapse = "|")
   if(is.null(graph_name)) graph_name <- rev(names(seurat@graphs))[1] 
   if(any(graph_name %in% names(seurat@graphs))){
     printer("Using graph:",graph_name,v=verbose)
