@@ -15,6 +15,8 @@
 #' @param group_col \code{meta.data} column used to filter var2 
 #' when \code{var2_group} is used. 
 #' @param max_neighbors The max number of neighbors (var2) per term (var1).   
+#' @param add_original_names Add original names into the results. 
+#' This can be useful when var1 names are forced to be unique internally. 
 #' @param verbose Whether to print messages. 
 #'      
 #' @examples 
@@ -39,6 +41,7 @@ search_neighbors <- function(seurat,
                              var2_group=NULL,
                              group_col=NULL, 
                              max_neighbors=Inf, 
+                             add_original_names=T,
                              verbose=T){ 
   if(is.null(names(seurat@graphs))){ 
     if(!"pca" %in% names(seurat@reductions)){
@@ -66,7 +69,8 @@ search_neighbors <- function(seurat,
   }else{
     sample_names <- make.unique(seurat@meta.data[[label_col]])
   }  
-  seurat@meta.data$sample_names <- sample_names  
+  seurat@meta.data$sample_names <- sample_names   
+  names_dict <- setNames(rownames(fgraph), sample_names) 
   
   fgraph <- fgraph %>% 
     `row.names<-`(sample_names) %>%
@@ -108,6 +112,12 @@ search_neighbors <- function(seurat,
     keys <- setNames(seurat@meta.data[[group_col]], seurat@meta.data$sample_names) 
     top_candidates$Var2_group <- keys[top_candidates$Var2]
   } 
+  if(add_original_names){
+    printer("+ Adding original names to results")
+    top_candidates$Var1_id <- names_dict[top_candidates$Var1]
+    top_candidates$Var2_id <- names_dict[top_candidates$Var2]
+  }
+ 
   printer("+ Returning",nrow(top_candidates),"pair-wise similarities.",v=verbose)
   return(top_candidates)
 }

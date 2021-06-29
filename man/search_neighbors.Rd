@@ -12,6 +12,7 @@ search_neighbors(
   var2_group = NULL,
   group_col = NULL,
   max_neighbors = Inf,
+  add_original_names = T,
   verbose = T
 )
 }
@@ -34,6 +35,9 @@ according to  \code{group_col}.}
 when \code{var2_group} is used.}
 
 \item{max_neighbors}{The max number of neighbors (var2) per term (var1).}
+
+\item{add_original_names}{Add original names into the results. 
+This can be useful when var1 names are forced to be unique internally.}
 
 \item{verbose}{Whether to print messages.}
 }
