@@ -65,6 +65,19 @@ res <- plot_tfidf(object = pseudo_seurat,
                   show_plot = T)
 ```
  
+ 
+## Search nearest neighbors 
+
+Find the nearest neighbors to terms matching `var1_search`. 
+
+```{r} 
+top_neighbors <- search_neighbors(seurat = pseudo_seurat,
+                                  var1_search = "purkinje",
+                                  max_neighbors=5)
+print(top_neighbors)
+```
+
+ 
 
 # Session Info 
 

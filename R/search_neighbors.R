@@ -26,7 +26,7 @@
 #' ### No group filter
 #' top_neighbors <- search_neighbors(seurat = pseudo_seurat, 
 #'                                   var1_search = "purkinje", 
-#' #'                                   max_neighbors=5)
+#'                                   max_neighbors=5)
 #' ### With group filter
 #' top_neighbors2 <- search_neighbors(seurat = pseudo_seurat,
 #'                                   var1_search = "purkinje",
