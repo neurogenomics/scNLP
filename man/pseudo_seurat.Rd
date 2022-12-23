@@ -5,7 +5,7 @@
 \alias{pseudo_seurat}
 \title{Example \code{Seurat}}
 \format{
-An object of class \code{Seurat} with 1000 rows and 801 columns.
+An object of class \code{Seurat} with 2000 rows and 801 columns.
 }
 \usage{
 pseudo_seurat
@@ -17,8 +17,10 @@ Mean expression matrices have been downsampled to 1,000/21,000 genes.
 \examples{
 \dontrun{
 set.seed(2021)
-pseudo_seurat <- scKirby::ingest_data("/Users/schilder/Desktop/model_celltype_conservation/raw_data/scRNAseq/merged/merged.11datasets.h5ad", output_type="Seurat", save_output = F)
-pseudo_seurat <- pseudo_seurat[sample(1:nrow(pseudo_seurat),1000), ]
+pseudo_seurat <- scKirby::ingest_data("/Volumes/Steelix/model_celltype_conservation/merged/merged.11datasets.h5ad", output_type="Seurat", save_output = F)
+### Find the most variable features within each dataset  
+var_features <- FindVariableFeatures_split(pseudo_seurat, split.by = "batch", nfeatures = 4000, nfeatures_max = 2000)
+pseudo_seurat <- pseudo_seurat[var_features, ]
 usethis::use_data(pseudo_seurat, overwrite = T)
 }
 }

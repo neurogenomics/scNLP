@@ -23,7 +23,8 @@ search_neighbors(
 If none provided, will use the last graph available.
 If no graphs are available, new ones will be computed using \code{Seurat::FindNeighbors}.}
 
-\item{var1_search}{Substring search term to filter var1 by.}
+\item{var1_search}{Substring search term to filter var1 by. 
+If a vector is supplied instead, this will be interpreted as an "or" query.}
 
 \item{label_col}{\code{meta.data} column used to name the rows/columns of the graph.
 \code{label_col} will also be used in the search for \code{var1_search} substring.}

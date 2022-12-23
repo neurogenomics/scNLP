@@ -2,13 +2,21 @@
 title: "tf-idf"
 author: "<h5>Author: <i>Brian M. Schilder</i></h5>" 
 date: "<h5>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h5>"
-output: rmarkdown::html_vignette
-editor_options: 
-  chunk_output_type: inline
+output:
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    df_print: paged
 vignette: >
-  %\VignetteIndexEntry{tf-idf}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+    %\VignetteIndexEntry{GWAS_Atlas} 
+    %\usepackage[utf8]{inputenc}
+    %\VignetteEngine{knitr::rmarkdown} 
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r, include = FALSE}

@@ -9,7 +9,7 @@ editor_options:
 ---
 
 ```{r setup, include=F}
-knitr::opts_chunk$set(echo = T)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Tools for applying natural language processing (NLP) techniques to single-cell (sc) omics data.
@@ -76,8 +76,6 @@ top_neighbors <- search_neighbors(seurat = pseudo_seurat,
                                   max_neighbors=5)
 print(top_neighbors)
 ```
-
- 
 
 # Session Info 
 

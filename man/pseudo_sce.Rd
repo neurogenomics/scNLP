@@ -5,7 +5,7 @@
 \alias{pseudo_sce}
 \title{Example \code{SingleCellExperiment}}
 \format{
-An object of class \code{SingleCellExperiment} with 1000 rows and 801 columns.
+An object of class \code{SingleCellExperiment} with 2000 rows and 801 columns.
 }
 \usage{
 pseudo_sce
@@ -17,9 +17,8 @@ Mean expression matrices have been downsampled to 1,000/21,000 genes.
 \examples{
 \dontrun{
 set.seed(2021)
-pseudo_sce <- scKirby::ingest_data("/Users/schilder/Desktop/model_celltype_conservation/raw_data/scRNAseq/merged/merged.11datasets.h5ad", save_output = F)
+pseudo_sce <- scKirby::ingest_data(scNLP::pseudo_seurat, save_output = F)
 SingleCellExperiment::reducedDim(pseudo_sce,"UMAP") <- data.frame(SummarizedExperiment::colData(pseudo_sce)[,c("UMAP.1","UMAP.2")])
-pseudo_sce <- pseudo_sce[sample(1:nrow(pseudo_sce),1000), ] 
 usethis::use_data(pseudo_sce, overwrite = T)
 }
 }

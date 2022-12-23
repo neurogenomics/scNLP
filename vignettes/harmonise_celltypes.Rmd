@@ -1,0 +1,325 @@
+---
+title: "Harmonise Cell-type labels"
+author: "<h5>Author: <i>Brian M. Schilder</i></h5>" 
+date: "<h5>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h5>"
+output:
+  BiocStyle::html_document:
+    self_contained: yes
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    df_print: paged
+vignette: >
+    %\VignetteIndexEntry{GWAS_Atlas} 
+    %\usepackage[utf8]{inputenc}
+    %\VignetteEngine{knitr::rmarkdown} 
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+ 
+
+```{r setup, include=TRUE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = T, fig.width = 7, fig.height = 5, root.dir=here::here())
+knitr::opts_knit$set(root.dir=here::here())
+print(here::here())
+
+library(scNLP)
+library(dplyr)
+
+set.seed(2020)
+
+library(future)
+plan(strategy = "multicore", workers = future::availableCores()-1)
+options(future.globals.maxSize = 8000 * 1024^2)
+
+### Set conda env
+python_path <- file.path(reticulate::miniconda_path(),"envs/onclass/bin/python")
+reticulate::use_python(python_path, required = TRUE)
+# reticulate::use_condaenv( file.path(reticulate::miniconda_path(),"envs/onclass"))
+```
+
+# Intro 
+
+Cell-type labels are often provided by authors, but these labels are usually not harmonised across datasets. Rather than re-identified all each cell's identity based on its marker genes all over again, some NLP methods have been developed to align each existing cell-type label to a controlled ontology, such as the Cell Ontology. 
+
+This makes it so you can compare multiple datasets without having to manually map cell-type labels. scNLP provides easy-to-use wrappers for several of these kinds of tools. 
+
+
+# Import data
+
+## Pseudo-bulk data
+
+Here we use datasets with >100 pseudo-bulk "cells". 
+
+```{r} 
+library(scNLP) # remotes::install_github('neurogenomics/scNLP')
+obj <- scNLP::pseudo_seurat
+obj$Celltypes <- obj$celltype
+obj <- subset(obj, batch %in% c("LaManno2020","Raj2020","Aerts2020"))
+seurat_list <- Seurat::SplitObject(obj, split.by = "batch") 
+
+dplyr::group_by(obj@meta.data, batch) %>% dplyr::count()
+# remove(obj)
+```
+
+
+## Raw data 
+
+```{r} 
+# obj <- SeuratObject::RenameAssays(obj, RNA="integrated")
+
+# adat_files <- c("/Desktop/Aerts2018.orth.h5ad",
+#                 "/Desktop/Aerts2021.orth.h5ad")
+# library(scKirby)
+# 
+# seurat_list <- lapply(adat_files, function(x){
+#   message(x)
+#   seurat <- scKirby::ingest_data(x, output_type = "seurat") 
+#   seurat$batch <- gsub(".orth.h5ad","",basename(x))
+#   return(seurat)
+# })
+```
+
+## Human Primary cell Atlas 
+
+```{r}
+library(SingleCellExperiment)
+library(celldex) # BiocManager::install("celldex")
+hpca_se = celldex::HumanPrimaryCellAtlasData() 
+SummarizedExperiment:::assay(hpca_se,"counts") <-  exp(SummarizedExperiment:::assay(hpca_se))
+
+hpca_seurat <- scKirby::ingest_data(obj = as(hpca_se,"SingleCellExperiment"),
+                                              output_type = "seurat", 
+                                              save_output = FALSE)
+hpca_seurat$Celltypes <- hpca_seurat$label.fine
+hpca_seurat$batch <- "HPCA"
+hpca_seurat$dataset <- "HPCA"
+hpca_seurat$species <- "human"
+#### Subset to only genes in seurat_list
+hpca_seurat <- hpca_seurat[rownames(seurat_list[[1]]),]
+hpca_seurat <- SeuratObject::RenameAssays(object = hpca_seurat, originalexp="RNA") 
+
+seurat_list[["HPCA"]] <- hpca_seurat
+# remove(hpca_se, hpca_seurat)
+```
+
+
+
+## [ELeFHAnt](https://github.com/praneet1988/ELeFHAnt)  
+
+
+### Integrate  
+
+```{r}  
+library(ELeFHAnt) # remotes::install_github('praneet1988/ELeFHAnt') 
+
+seurat_integrated <- ELeFHAnt::LabelHarmonization(seurat.objects = seurat_list, 
+                                                  classification.method = "Ensemble", 
+                                                  downsample = TRUE)
+saveRDS(seurat_integrated, "/Desktop/pseudo_bulk_ELeFHAnt.rds")
+```
+
+Visualise harmonised results 
+
+```{r}
+gp <- Seurat::DimPlot(seurat_integrated, 
+                      group.by = c("batch","species",
+                                   "HarmonizedLabels_UsingRF",
+                                   "HarmonizedLabels_UsingSVM",
+                                   "HarmonizedLabels_UsingEnsemble",
+                                   "Celltypes")) +
+  Seurat::NoLegend()
+
+
+
+plotly::ggplotly(gp)
+```
+
+### CelltypeAnnotation 
+
+
+```{r}
+library(SeuratObject)
+out = ELeFHAnt::CelltypeAnnotation(reference = hpca_seurat,
+                                   query = seurat_integrated,
+                                   downsample = T,
+                                   classification.method = "Ensemble")
+gp <- Seurat::DimPlot(out, 
+                      group.by = c("batch","species",
+                                   "PredictedCelltype_UsingRF",
+                                   "PredictedCelltype_UsingSVM",
+                                   "PredictedCelltype_UsingEnsemble",
+                                   "Celltypes")) +
+  Seurat::NoLegend()
+
+```
+
+### DeduceRelationship 
+
+```{r}  
+reference2 <- subset(obj, batch!="HPCA")
+reference2$Celltypes <- rownames(reference2@meta.data)
+
+relate <- ELeFHAnt::DeduceRelationship(reference1 = hpca_seurat,
+                                       reference2 = reference2,
+                                       classification.method ="Ensemble")
+
+print(relate)
+sig_res <- data.table::data.table(relate$data[relate$data$Cells==1,])
+
+saveRDS(relate, "/Desktop/pseudo_bulk_ELeFHAnt_relate.rds")
+
+mat <- data.table::data.table(relate$data) %>%
+  data.table::dcast.data.table(formula = reference1~ reference2, 
+                               fun.aggregate = mean, 
+                               value.var = "Cells", 
+                               fill = 0, 
+                               na.rm=TRUE) %>% 
+  tibble::column_to_rownames("reference1") %>%
+  as.matrix() 
+rowmax <- DelayedArray::rowMaxs(mat, na.rm = T)
+
+heatmap(mat[rowmax>0,])
+
+```
+
+
+# [OnClass](https://onclass.readthedocs.io/en/latest/introduction.html)  
+
+Sometimes `pip install OnClass` gets killed midway through installation. [To get past this](https://askubuntu.com/questions/1271858/killed-during-installation-of-torch), run : 
+
+`pip install OnClass --no-cache-dir` 
+
+
+- OnClass uses [BERT](https://www.sbert.net/) to map ucontrolled celltype annotations to controlled celltype annotations. 
+
+- Check mappings using [OLS Ontology Search](https://www.ebi.ac.uk/ols/index). 
+
+
+```{r}
+library(anndata)
+tmp_file <- file.path(tempdir(),"pseudo_seurat.h5ad")
+adat <- sceasy::convertFormat(obj = scNLP::pseudo_seurat, 
+                              from = "seurat", to="anndata")
+adat$write_h5ad(filename = tmp_file)
+```
+
+
+```{python}
+from os import chdir, getcwd
+getcwd() # Must be in main scNLP dir to be able to import inst code
+
+import anndata as ad
+from scipy import stats, sparse
+import pandas as pd
+pd.set_option('display.max_columns', None)
+import numpy as np
+import sys
+from collections import Counter
+from OnClass.OnClassModel import OnClassModel 
+from OnClass.OnClass_utils import read_cell_type_nlp_network, read_h5ad,fine_nearest_co_using_nlp
+from inst.OnClass_code.utils import read_ontology_file, read_data
+from inst.OnClass_code.config import ontology_data_dir, scrna_data_dir, model_dir, Run_scanorama_batch_correction, NHIDDEN, MAX_ITER
+ 
+ 
+train_file = r.tmp_file 
+# root_dir = "/Desktop/" 
+# train_file = root_dir+"DescartesHuman.orth.h5ad"
+# train_file = root_dir+"Aerts2021.orth.h5ad"
+adat1 = read_h5ad(train_file)
+# adat2  = read_h5ad(test_file)
+train_label = "celltype"
+# train_label = 'level2'
+# test_label = 'level1'
+
+cell_type_nlp_emb_file, cell_type_network_file, cl_obo_file = read_ontology_file('cell ontology', "/Desktop/scNLP/inst/OnClass_code/Ontology_data/")
+
+OnClass_train_obj = OnClassModel(cell_type_nlp_emb_file = cell_type_nlp_emb_file, cell_type_network_file = cell_type_network_file)
+ 
+ 
+train_features, train_genes, train_labels, tissues, adat_sub  = read_data(feature_file=train_file, cell_ontology_ids = OnClass_train_obj.cell_ontology_ids,
+        exclude_non_leaf_ontology = False,
+        tissue_key = 'species', 
+        AnnData_label_key = train_label, 
+        filter_key = {},
+        nlp_mapping = True, 
+        cl_obo_file = cl_obo_file, 
+        cell_ontology_file = cell_type_network_file, 
+        co2emb = OnClass_train_obj.co2vec_nlp)
+        
+id_dict = dict(zip(train_labels, [x[0] for x in adat1.obs[[train_label]].values]))        
+id_dict_rev = dict(zip([x[0] for x in adat1.obs[[train_label]].values], train_labels))
+adat_sub.obs["cell_ontology_id"] = train_labels        
+         
+
+adat_sub.write("/Desktop/pseudo_bulk_OnClass.h5ad")
+
+
+# train_label="cell_ontology_id"
+# embed = OnClass_train_obj.EmbedCellTypes(train_Y_str=["Astrocyte-like","astrocyte","neuron"])
+# 
+# embed = pd.read_csv(cell_type_nlp_emb_file, sep="\t", index_col=0, header=None)
+# 
+# import umap 
+# reducer = umap.UMAP()
+# embedding = reducer.fit_transform(embed)
+# embedding = pd.DataFrame(embedding, index=embed.index, columns=["UMAP1","UMAP2"])
+
+ 
+
+```
+
+### Map back onto celltype names 
+
+Map Cell Ontology IDs back onto interpretable celltype names. 
+
+```{r}
+library(ontoProc)
+adat = anndata::read_h5ad("/Desktop/pseudo_bulk_OnClass.h5ad")
+# cl = ontoProc::getCellOnto()
+# cl = ontoProc::getHCAOnto() ### This seems to work way better than cellOnto
+
+cl <- ontologyIndex::get_OBO("inst/OnClass_code/Ontology_data/cl.obo")
+adat$obs[["cell_ontology_name"]] = cl$name[adat$obs$cell_ontology_id] 
+
+adat$write_h5ad("/Desktop/pseudo_bulk_OnClass.h5ad")
+```
+
+
+[ontologyIndex](https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html) 
+
+```{r}
+library(reticulate)
+umap_df = py$embedding
+
+obo <- ontologyIndex::get_OBO("inst/OnClass_code/Ontology_data/cl.obo")
+
+umap_df$celltype <- obo$name[rownames(umap_df)]
+ancest1 <- lapply(rownames(umap_df), function(x){ontologyIndex::get_term_property(ontology=obo, property="ancestors", term=x, as_names=TRUE)[1]}) %>%
+         rownames(umap_df)
+
+library(ggplot2)
+
+u
+
+gp <- ggplot(data = umap_df, aes(x=UMAP1, y=UMAP2, label=celltype)) +
+  geom_point()
+
+plotly::ggplotly(gp)
+```
+
+
+
+# Session Info 
+
+<details> 
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details>  
+
+
