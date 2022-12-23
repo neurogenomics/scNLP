@@ -1,7 +1,7 @@
 Package: scNLP
 Type: Package
 Title: Tools for applying natural language processing (NLP) techniques to single-cell (sc) omics data.
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(person(given = "Brian",
                     family = "Schilder",
                     role = c("cre"),
@@ -35,8 +35,10 @@ Imports:
     SingleCellExperiment,
     SummarizedExperiment,
     pals 
-VignetteBuilder: knitr
-RoxygenNote: 7.2.3
-Suggests: 
+Suggests:
     rmarkdown,
     knitr 
+    rworkflows
+VignetteBuilder: knitr
+RoxygenNote: 7.2.3
+   
