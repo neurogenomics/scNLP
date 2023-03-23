@@ -5,26 +5,35 @@
 \title{Run standardized \pkg{Seurat} pipeline}
 \usage{
 seurat_pipeline(
-  seurat_obj = NULL,
-  counts = NULL,
+  obj = NULL,
   meta.data = NULL,
   nfeatures = 2000,
   vars.to.regress = NULL,
-  dims = 1:50,
-  add_specificity = F,
+  dims = seq_len(50),
+  add_specificity = FALSE,
   assay_name = "RNA",
   default_assay = NULL,
   n.components = 2L,
-  log_norm = F,
-  parallelize = T,
+  log_norm = FALSE,
+  cluster_reduction = "umap",
+  workers = 1,
+  max_mem = 8000 * 1024^2,
   seed = 2020
 )
 }
+\arguments{
+\item{cluster_reduction}{Recompute neighbors graph based on UMAP 
+to get clusters that best reflect UMAP space.
+For this same reason, only cluster in two dimensions, 
+because this is the view we most often use.
+That said, this may reduce the generalisability of these clusters/graph.}
+}
+\value{
+A preprocessed \link[Seurat]{Seurat} object.
+}
 \description{
 Run \pkg{Seurat} pipeline on \pkg{Seurat} object 
-or raw \code{counts} and \code{meta.data}.
-}
-\details{
+or raw \code{counts} and \code{meta.data}.\cr
 Automatically performs 
 \describe{
 \item{\code{FindVariableFeatures}}{Variable feature selection}
@@ -34,4 +43,8 @@ Automatically performs
 \item{\code{FindNeighbors}}{K-nearest neighbors}
 \item{\code{FindClusters}}{Clustering}
 }
+}
+\examples{
+X <- scNLP::pseudo_sce@assays@data$raw@seed[,seq_len(100)]
+obj <- seurat_pipeline(obj = X)
 }
