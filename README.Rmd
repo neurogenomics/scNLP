@@ -1,6 +1,6 @@
 ---
 title: "scNLP"
-author: "`r rworkflows::use_badges()`" 
+author: "`r rworkflows::use_badges(branch='main',add_hex = 'inst/hex/hex.gif')`" 
 date: "<h5>README updated: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h5>"
 output:
   github_document  

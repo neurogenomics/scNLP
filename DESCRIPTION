@@ -10,8 +10,8 @@ Authors@R: c(person(given = "Brian",
 Description: Tools for applying natural language processing (NLP)
   techniques to single-cell (sc) omics data.
 License: MIT + file LICENSE
-URL: https://github.com/bschilder/scNLP
-BugReports: https://github.com/bschilder/scNLP/issues
+URL: https://github.com/neurogenomics/scNLP
+BugReports: https://github.com/neurogenomics/scNLP/issues
 Encoding: UTF-8
 LazyData: true 
 Depends: R (>= 4.1.0)

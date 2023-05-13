@@ -1,15 +1,21 @@
 scNLP
 ================
-[![](https://img.shields.io/badge/devel%20version-0.1.1-black.svg)](https://github.com/bschilder/scNLP)<br><br>
-[![R build
-status](https://github.com/bschilder/scNLP/workflows/rworkflows/badge.svg)](https://github.com/bschilder/scNLP/actions)
-[![](https://img.shields.io/github/last-commit/bschilder/scNLP.svg)](https://github.com/bschilder/scNLP/commits/master)
-[![](https://img.shields.io/github/languages/code-size/bschilder/scNLP.svg)](https://github.com/bschilder/scNLP)
-[![](https://app.codecov.io/gh/bschilder/scNLP/branch/master/graph/badge.svg)](https://app.codecov.io/gh/bschilder/scNLP)
-[![License:
-MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
-¶ <h4> ¶ Authors: <i>Brian Schilder</i> ¶ </h4>
-<h5> ¶ README updated: <i>Dec-22-2022</i> ¶ </h5>
+NULL [![License: MIT + file
+LICENSE](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-blue.svg)](https://cran.r-project.org/web/licenses/MIT%20+%20file%20LICENSE)
+[![](https://img.shields.io/badge/devel%20version-0.1.2-black.svg)](https://github.com/neurogenomics/scNLP)
+[![](https://img.shields.io/github/languages/code-size/neurogenomics/scNLP.svg)](https://github.com/neurogenomics/scNLP)
+[![](https://img.shields.io/github/last-commit/neurogenomics/scNLP.svg)](https://github.com/neurogenomics/scNLP/commits/main)
+<br> [![R build
+status](https://github.com/neurogenomics/scNLP/workflows/rworkflows/badge.svg)](https://github.com/neurogenomics/scNLP/actions)
+[![](https://codecov.io/gh/neurogenomics/scNLP/branch/main/graph/badge.svg)](https://codecov.io/gh/neurogenomics/scNLP)
+<br>
+<a href='https://app.codecov.io/gh/neurogenomics/scNLP/tree/main' target='_blank'><img src='https://codecov.io/gh/neurogenomics/scNLP/branch/main/graphs/icicle.svg' title='Codecov icicle graph' width='200' height='50' style='vertical-align: top;'></a>  
+<h4>  
+Authors: <i>Brian Schilder</i>  
+</h4>
+<h5>  
+README updated: <i>May-13-2023</i>  
+</h5>
 
 ## Tools for applying natural language processing (NLP) techniques to single-cell (sc) omics data.
 
@@ -57,24 +63,19 @@ data("pseudo_seurat")
 in the **enriched_words** and **tf_idf** cols of the `meta.data`.
 
 ``` r
-pseudo_seurat <- run_tfidf(object = pseudo_seurat,
+pseudo_seurat <- run_tfidf(obj = pseudo_seurat,
                            reduction = "UMAP",
                            cluster_var = "cluster",
                            label_var = "celltype") 
 ```
 
-    ## Loading required package: SeuratObject
+    ## Extracting obsm from Seurat.
 
-    ## Loading required package: sp
+    ## + Dropping 2 conflicting obs variables: UMAP.1, UMAP.2
 
-    ## [1] "+ Extracting data from Seurat object."
-    ## [1] "+ Using reduction: umap"
-    ## [1] "+ Dropping 2 conflicting metadata variables: UMAP.1, UMAP.2"
+    ## Loading required namespace: tidytext
 
-    ## Joining, by = "word"
-
-    ## Joining, by = "cluster"
-    ## Joining, by = "cluster"
+    ## Setting cell metadata (obs) in obj.
 
 ``` r
 head(pseudo_seurat@meta.data)
@@ -121,27 +122,20 @@ You can also plot the results in reduced dimensional space (e.g. UMAP).
 ### `Seurat` input
 
 ``` r
-res <- plot_tfidf(object = pseudo_seurat, 
+res <- plot_tfidf(obj = pseudo_seurat, 
                   label_var = "celltype", 
                   cluster_var = "cluster", 
                   show_plot = TRUE)
 ```
 
-    ## [1] "+ Extracting data from Seurat object."
-    ## [1] "+ Using reduction: umap"
-    ## [1] "+ Dropping 2 conflicting metadata variables: UMAP_1, UMAP_2"
+    ## Extracting obsm from Seurat.
 
-    ## Joining, by = "word"
-    ## Joining, by = "cluster"
-    ## Joining, by = "cluster"
+    ## + Dropping 2 conflicting obs variables: UMAP_1, UMAP_2
 
-    ## Warning in geom_point(aes_string(color = color_var, size = size_var, label =
-    ## label_var, : Ignoring unknown aesthetics: label
+    ## Setting cell metadata (obs) in obj.
 
-    ## Warning: The dot-dot notation (`..level..`) was deprecated in ggplot2 3.4.0.
-    ## ℹ Please use `after_stat(level)` instead.
-    ## ℹ The deprecated feature was likely used in the scNLP package.
-    ##   Please report the issue at <]8;;https://github.com/bschilder/scNLP/issueshttps://github.com/bschilder/scNLP/issues]8;;>.
+    ## Warning in ggplot2::geom_point(ggplot2::aes_string(color = color_var, size =
+    ## size_var, : Ignoring unknown aesthetics: label
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
@@ -168,38 +162,120 @@ utils::sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ## [1] ggplot2_3.4.0      tidytext_0.4.0     SeuratObject_4.1.3 sp_1.5-1          
-    ## [5] scNLP_0.1.0       
+    ## [1] scNLP_0.1.2
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] httr_1.4.4          maps_3.4.1          jsonlite_1.8.4     
-    ##  [4] here_1.0.1          assertthat_0.2.1    expm_0.999-6       
-    ##  [7] highr_0.10          BiocManager_1.30.19 rvcheck_0.2.1      
-    ## [10] gld_2.6.6           lmom_2.9            yulab.utils_0.0.6  
-    ## [13] cellranger_1.1.0    ggrepel_0.9.2       yaml_2.3.6         
-    ## [16] globals_0.16.2      pillar_1.8.1        lattice_0.20-45    
-    ## [19] glue_1.6.2          digest_0.6.31       RColorBrewer_1.1-3 
-    ## [22] colorspace_2.0-3    htmltools_0.5.4     Matrix_1.5-3       
-    ## [25] rworkflows_0.99.3   pkgconfig_2.0.3     listenv_0.9.0      
-    ## [28] mvtnorm_1.1-3       scales_1.2.1        rootSolve_1.8.2.3  
-    ## [31] tibble_3.1.8        proxy_0.4-27        generics_0.1.3     
-    ## [34] farver_2.1.1        withr_2.5.0         cli_3.5.0          
-    ## [37] magrittr_2.0.3      readxl_1.4.1        evaluate_0.19      
-    ## [40] tokenizers_0.2.3    janeaustenr_1.0.0   badger_0.2.2       
-    ## [43] future_1.30.0       fansi_1.0.3         parallelly_1.33.0  
-    ## [46] MASS_7.3-58.1       SnowballC_0.7.0     class_7.3-20       
-    ## [49] progressr_0.12.0    tools_4.2.1         data.table_1.14.6  
-    ## [52] lifecycle_1.0.3     stringr_1.5.0       Exact_3.2          
-    ## [55] munsell_0.5.0       isoband_0.2.7       compiler_4.2.1     
-    ## [58] e1071_1.7-12        rlang_1.0.6         grid_4.2.1         
-    ## [61] dichromat_2.0-0.1   rstudioapi_0.14     labeling_0.4.2     
-    ## [64] rmarkdown_2.19      boot_1.3-28.1       DescTools_0.99.47  
-    ## [67] gtable_0.3.1        codetools_0.2-18    DBI_1.1.3          
-    ## [70] R6_2.5.1            knitr_1.41          dplyr_1.0.10       
-    ## [73] fastmap_1.1.0       future.apply_1.10.0 utf8_1.2.2         
-    ## [76] rprojroot_2.0.3     pals_1.7            dlstats_0.1.6      
-    ## [79] desc_1.4.2          stringi_1.7.8       parallel_4.2.1     
-    ## [82] Rcpp_1.0.9          mapproj_1.2.9       vctrs_0.5.1        
-    ## [85] tidyselect_1.2.0    xfun_0.36
+    ##   [1] rappdirs_0.3.3                SnowballC_0.7.1              
+    ##   [3] scattermore_1.0               R.methodsS3_1.8.2            
+    ##   [5] SeuratObject_4.1.3            tidyr_1.3.0                  
+    ##   [7] ggplot2_3.4.2                 bit64_4.0.5                  
+    ##   [9] knitr_1.42                    irlba_2.3.5.1                
+    ##  [11] DelayedArray_0.24.0           R.utils_2.12.2               
+    ##  [13] data.table_1.14.8             KEGGREST_1.38.0              
+    ##  [15] RCurl_1.98-1.12               generics_0.1.3               
+    ##  [17] BiocGenerics_0.44.0           cowplot_1.1.1                
+    ##  [19] RSQLite_2.3.1                 RANN_2.6.1                   
+    ##  [21] future_1.32.0                 tokenizers_0.3.0             
+    ##  [23] bit_4.0.5                     tzdb_0.3.0                   
+    ##  [25] spatstat.data_3.0-1           xml2_1.3.4                   
+    ##  [27] httpuv_1.6.9                  isoband_0.2.7                
+    ##  [29] SummarizedExperiment_1.28.0   orthogene_1.5.3              
+    ##  [31] xfun_0.39                     hms_1.1.3                    
+    ##  [33] babelgene_22.9                evaluate_0.20                
+    ##  [35] promises_1.2.0.1              fansi_1.0.4                  
+    ##  [37] dbplyr_2.3.2                  igraph_1.4.2                 
+    ##  [39] DBI_1.1.3                     htmlwidgets_1.6.2            
+    ##  [41] spatstat.geom_3.1-0           stats4_4.2.1                 
+    ##  [43] purrr_1.0.1                   ellipsis_0.3.2               
+    ##  [45] dplyr_1.1.2                   ggpubr_0.6.0                 
+    ##  [47] backports_1.4.1               gprofiler2_0.2.1             
+    ##  [49] deldir_1.0-6                  MatrixGenerics_1.10.0        
+    ##  [51] vctrs_0.6.2                   SingleCellExperiment_1.20.1  
+    ##  [53] Biobase_2.58.0                here_1.0.1                   
+    ##  [55] ROCR_1.0-11                   abind_1.4-5                  
+    ##  [57] withr_2.5.0                   cachem_1.0.8                 
+    ##  [59] grr_0.9.5                     progressr_0.13.0             
+    ##  [61] sctransform_0.3.5             treeio_1.23.1                
+    ##  [63] goftest_1.2-3                 cluster_2.1.4                
+    ##  [65] ExperimentHub_2.6.0           ape_5.7-1                    
+    ##  [67] dir.expiry_1.6.0              lazyeval_0.2.2               
+    ##  [69] crayon_1.5.2                  basilisk.utils_1.10.0        
+    ##  [71] crul_1.3                      spatstat.explore_3.1-0       
+    ##  [73] labeling_0.4.2                pkgconfig_2.0.3              
+    ##  [75] GenomeInfoDb_1.34.9           nlme_3.1-162                 
+    ##  [77] pals_1.7                      badger_0.2.3                 
+    ##  [79] ewceData_1.7.1                rlang_1.1.1                  
+    ##  [81] globals_0.16.2                lifecycle_1.0.3              
+    ##  [83] miniUI_0.1.1.1                filelock_1.0.2               
+    ##  [85] httpcode_0.3.0                BiocFileCache_2.6.1          
+    ##  [87] dichromat_2.0-0.1             tidytext_0.4.1               
+    ##  [89] AnnotationHub_3.6.0           rprojroot_2.0.3              
+    ##  [91] polyclip_1.10-4               matrixStats_0.63.0           
+    ##  [93] lmtest_0.9-40                 graph_1.76.0                 
+    ##  [95] Matrix_1.5-4                  aplot_0.1.10                 
+    ##  [97] carData_3.0-5                 zoo_1.8-12                   
+    ##  [99] whisker_0.4.1                 ggridges_0.5.4               
+    ## [101] png_0.1-8                     viridisLite_0.4.2            
+    ## [103] bitops_1.0-7                  R.oo_1.25.0                  
+    ## [105] KernSmooth_2.23-21            Biostrings_2.66.0            
+    ## [107] blob_1.2.4                    stringr_1.5.0                
+    ## [109] scKirby_0.1.2                 parallelly_1.35.0            
+    ## [111] spatstat.random_3.1-4         readr_2.1.4                  
+    ## [113] rstatix_0.7.2                 gridGraphics_0.5-1           
+    ## [115] S4Vectors_0.36.2              echodata_0.99.16             
+    ## [117] ggsignif_0.6.4                scales_1.2.1                 
+    ## [119] memoise_2.0.1                 magrittr_2.0.3               
+    ## [121] plyr_1.8.8                    ica_1.0-3                    
+    ## [123] zlibbioc_1.44.0               compiler_4.2.1               
+    ## [125] echoconda_0.99.9              RColorBrewer_1.1-3           
+    ## [127] fitdistrplus_1.1-11           homologene_1.4.68.19.3.27    
+    ## [129] cli_3.6.1                     XVector_0.38.0               
+    ## [131] listenv_0.9.0                 janeaustenr_1.0.0            
+    ## [133] patchwork_1.1.2               pbapply_1.7-0                
+    ## [135] MASS_7.3-60                   tidyselect_1.2.0             
+    ## [137] stringi_1.7.12                highr_0.10                   
+    ## [139] yaml_2.3.7                    ggrepel_0.9.3                
+    ## [141] biocViews_1.66.3              grid_4.2.1                   
+    ## [143] tools_4.2.1                   future.apply_1.10.0          
+    ## [145] parallel_4.2.1                rworkflows_0.99.9            
+    ## [147] rstudioapi_0.14               RNOmni_1.0.1                 
+    ## [149] piggyback_0.1.4               gridExtra_2.3                
+    ## [151] farver_2.1.1                  Rtsne_0.16                   
+    ## [153] HGNChelper_0.8.1              digest_0.6.31                
+    ## [155] rvcheck_0.2.1                 BiocManager_1.30.20          
+    ## [157] shiny_1.7.4                   Rcpp_1.0.10                  
+    ## [159] GenomicRanges_1.50.2          car_3.1-2                    
+    ## [161] broom_1.0.4                   BiocVersion_3.16.0           
+    ## [163] later_1.3.1                   BiocPkgTools_1.16.1          
+    ## [165] RcppAnnoy_0.0.20              AnnotationDbi_1.60.2         
+    ## [167] httr_1.4.5                    fauxpas_0.5.2                
+    ## [169] colorspace_2.1-0              rvest_1.0.3                  
+    ## [171] XML_3.99-0.14                 tensor_1.5                   
+    ## [173] reticulate_1.28               rorcid_0.7.0                 
+    ## [175] IRanges_2.32.0                splines_4.2.1                
+    ## [177] uwot_0.1.14                   yulab.utils_0.0.6            
+    ## [179] RBGL_1.74.0                   tidytree_0.4.2               
+    ## [181] spatstat.utils_3.0-2          gh_1.4.0                     
+    ## [183] sp_1.6-0                      basilisk_1.10.2              
+    ## [185] mapproj_1.2.11                renv_0.17.3                  
+    ## [187] ggplotify_0.1.0               plotly_4.10.1                
+    ## [189] xtable_1.8-4                  jsonlite_1.8.4               
+    ## [191] ggtree_3.6.2                  sceasy_0.0.7                 
+    ## [193] ggfun_0.0.9                   R6_2.5.1                     
+    ## [195] RUnit_0.4.32                  EWCE_1.9.0                   
+    ## [197] pillar_1.9.0                  htmltools_0.5.5              
+    ## [199] mime_0.12                     glue_1.6.2                   
+    ## [201] fastmap_1.1.1                 DT_0.27                      
+    ## [203] interactiveDisplayBase_1.36.0 codetools_0.2-19             
+    ## [205] maps_3.4.1                    utf8_1.2.3                   
+    ## [207] lattice_0.21-8                spatstat.sparse_3.0-1        
+    ## [209] tibble_3.2.1                  dlstats_0.1.6                
+    ## [211] curl_5.0.0                    leiden_0.4.3                 
+    ## [213] zip_2.3.0                     openxlsx_4.2.5.2             
+    ## [215] limma_3.54.2                  survival_3.5-5               
+    ## [217] rmarkdown_2.21                desc_1.4.2                   
+    ## [219] munsell_0.5.0                 GenomeInfoDbData_1.2.9       
+    ## [221] reshape2_1.4.4                gtable_0.3.3                 
+    ## [223] Seurat_4.3.0
 
 </details>
