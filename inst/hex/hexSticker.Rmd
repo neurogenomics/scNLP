@@ -1,0 +1,221 @@
+---
+title: "hexSticker"
+date: "<h4>Updated: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
+output:
+  BiocStyle::html_document
+vignette: >
+  %\VignetteIndexEntry{hexSticker}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo=FALSE, include=TRUE}
+#### Install deps ####
+for(p in c("hexSticker","dplyr","here")){
+    if(!require(p,character.only = TRUE)) install.packages(p)     
+}
+#### Get package metadata deps ####
+pkg <- read.dcf(here::here("DESCRIPTION"), fields = "Package")[1]
+description <- read.dcf(here::here("DESCRIPTION"), fields = "Description")[1]
+```
+
+# Create hex sticker
+
+Hex stickers are a great way to give your R package its very own logo. 
+See [here for some examples](http://hexb.in/) from other packages. 
+
+Here are some R packages that you may find helpful for making hex stickers:
+
+## [`hexSticker`](https://github.com/GuangchuangYu/hexSticker)  
+Helper functions for creating reproducible hexagon sticker purely in R.
+
+## [`ggimage`](https://github.com/GuangchuangYu/ggimage) 
+Supports image files and graphic objects to be visualized in `ggplot2` graphic system.
+
+## [`ggpattern`](https://coolbutuseless.github.io/package/ggpattern/)
+Custom `ggplot2` geoms which support filled areas with geometric and image-based patterns.
+
+## [`magick`](https://cran.r-project.org/web/packages/magick/vignettes/intro.html)
+Advanced Image-Processing in R.
+
+## [`aRtsy`](https://github.com/koenderks/aRtsy)
+R package for making generative art using `ggplot2`.
+
+## [`threed`](https://github.com/coolbutuseless/threed)
+Three-Dimensional Object Transformations.
+
+## Create file path
+
+Create file path to save hex sticker to.
+
+```{r}
+filename <- here::here("inst","hex","hex.png")
+dir.create(dirname(filename), showWarnings = FALSE, recursive = TRUE)
+```
+
+
+## Create cube hex
+
+```{r}
+#### Install dep ####
+if(!require("threed")){
+    remotes::install_github("coolbutuseless/threed")
+}
+#### Change view perspective ####
+camera_to_world <- threed::look_at_matrix(eye = c(4, 4, 4), 
+                                          at = c(0, 0, 0)) 
+obj <- threed::mesh3dobj$cube |>
+    threed::rotate_by(angle = 0, v = c(0, 1, 0)) |>
+    threed::transform_by(threed::invert_matrix(camera_to_world)) |>
+    threed::orthographic_projection()
+cube_df <- as.data.frame(obj) |>
+  dplyr::mutate(x=scales::rescale(x,c(-20,120)),
+                y=scales::rescale(y,c(-20,120)))  
+
+```
+
+## Get coordinates
+
+### Hexagon
+
+```{r}
+polygon_df <- dplyr::tibble(
+  angle = seq(0, 2*pi, length.out = 7) + pi/6,
+  x = cos(angle),
+  y = sin(angle)
+) |>
+  dplyr::mutate(x=scales::rescale(x,c(-25,125)),
+                y=scales::rescale(y,c(-25,125))) 
+```
+
+
+### UMAP
+
+```{r}
+obj1 <- TabulaMurisData::TabulaMurisSmartSeq2()
+obj2 <- scKirby::se_to_seurat(obj1)
+obj2 <- scKirby::process_seurat(obj2)
+umap <- scKirby::get_obsm(obj2,keys = "umap")[[1]] |>
+  data.frame(row.names=NULL) |>
+              `colnames<-`(c("x","y")) |>
+  dplyr::mutate_all(.funs = scales::rescale,c(0,100))
+
+```
+
+### Text 
+
+```{r}
+textPlot <- function(title,
+                     subtitle=NULL,
+                     plotname=tempfile(),
+                     cex=22){
+  tmp <- paste0(plotname, ".pdf")
+  graphics::par(mar=c(0,0,0,0))
+  grDevices::pdf(tmp,width = 12, height = 12)
+  plot(c(0, 1), c(0, 1), ann = FALSE, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+  graphics::text(x = 0.5, y = 0.5, paste(title), 
+                 cex = cex, col = "black",
+                 family="serif", font=2, adj=0.5)
+  if(!is.null(subtitle)){
+      graphics::text(x = 0.5, y = 0.25, paste(subtitle), 
+                     cex = cex/5, col = "black",
+                     family="serif", font=2, adj=0.5) 
+  }
+  grDevices::dev.off()
+  return(tmp)
+}
+tmp <- textPlot(plotname = here::here("inst/hex/scNLP_text"),
+                title = "scNLP",
+                subtitle="Natural Language Processing\nfor Single-cell Omics") 
+
+
+img <- magick::image_read(tmp) |>
+  magick::image_quantize(max=2, colorspace = 'gray', dither=TRUE) |>
+  magick::image_scale(geometry = magick::geometry_size_pixels(width=300, 
+                                                              height=300, 
+                                                              preserve_aspect=TRUE)) |> magick::image_rotate(degrees = 90)
+# Image manipulation
+mat <- t(1L - 1L * (img[[1]][1,,] > 180))
+img_df <- data.frame(which(mat>0,arr.ind = TRUE)) |>
+  `colnames<-`(c("x","y")) |>
+  dplyr::mutate(x = scales::rescale(x,c(-10,110)),
+                y = scales::rescale(y,c(10,90))
+                )
+
+df <- rbind(
+  cbind(id=seq_len(nrow(img_df)),
+        umap[seq_len(nrow(img_df)),],
+        state="text"),
+  cbind(id=seq_len(nrow(img_df)),
+        img_df,
+        state="umap")
+  )
+```
+
+## Plot
+
+```{r}    
+gp <- ggplot2::ggplot(df,aes(x,y, group=id, color=y)) +
+  geom_polygon(data = polygon_df,
+               aes(x,y),
+               color="white", 
+               fill=ggplot2::alpha("black",.85),
+               inherit.aes = FALSE) +
+  geom_point(show.legend = FALSE, size=.5) +
+  scale_color_viridis_c(alpha = .9,option = "plasma", direction = -1) +
+  ggplot2::geom_polygon(
+      data = cube_df,
+      ggplot2::aes(x = x, y = y, 
+                   group = zorder, 
+                   linetype = hidden,  size = hidden,
+                   fill = 0.5 * fnx + fny), 
+      color = ggplot2::alpha("white",.25),
+      size = .25, inherit.aes = FALSE,
+      # alpha=1,
+      show.legend = FALSE) +
+    ggplot2::scale_linetype_manual(values = c('TRUE' = "FF", 'FALSE' = 'solid')) +
+    
+    ggplot2::scale_fill_gradientn(
+        colors = ggplot2::alpha(rev(RColorBrewer::brewer.pal(9, "Greys")), 
+                                alpha = .04)) +  
+    ggplot2::coord_equal() +  
+  theme_void() +
+  scale_x_continuous(limits = c(-25,125)) +
+  scale_y_continuous(limits = c(-25,125)) +
+  gganimate::transition_states(state,
+                               transition_length = 3, 
+                               state_length = c(2,5)) +
+  gganimate::ease_aes('linear') 
+
+gganimate::anim_save(filename = here::here("inst/hex/scNLP.gif"),
+                     gp)
+```
+
+
+## Using `hexSticker::geom_hexagon`
+
+```{r} 
+gghex <- 
+    hexSticker::ggplot() +
+    hexSticker::geom_hexagon(fill = ggplot2::alpha("black",.75), 
+                             color = ggplot2::alpha("white",.5)) +
+    hexSticker::geom_pkgname(package = pkg, 
+                             size=20, 
+                             color = ggplot2::alpha("white",.5)) +
+    hexSticker::theme_sticker()  
+
+hexSticker::save_sticker(filename = filename,
+                         sticker = gghex)
+print(gghex)
+```
+
+
+# Session Info 
+
+<details> 
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details>  
