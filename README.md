@@ -1,6 +1,7 @@
 scNLP
 ================
-NULL [![License: MIT + file
+<img src='https://github.com/neurogenomics/scNLP/raw/main/inst/hex/hex.gif' title='Hex sticker for scNLP' height='300'><br>
+[![License: MIT + file
 LICENSE](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-blue.svg)](https://cran.r-project.org/web/licenses/MIT%20+%20file%20LICENSE)
 [![](https://img.shields.io/badge/devel%20version-0.1.2-black.svg)](https://github.com/neurogenomics/scNLP)
 [![](https://img.shields.io/github/languages/code-size/neurogenomics/scNLP.svg)](https://github.com/neurogenomics/scNLP)
