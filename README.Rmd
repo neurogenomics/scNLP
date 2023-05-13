@@ -38,7 +38,7 @@ data("pseudo_seurat")
 `seurat_tfidf` will run **tf-idf** on each cluster and put the results in the **enriched_words** and **tf_idf** cols of the `meta.data`. 
 
 ```{r} 
-pseudo_seurat <- run_tfidf(object = pseudo_seurat,
+pseudo_seurat <- run_tfidf(obj = pseudo_seurat,
                            reduction = "UMAP",
                            cluster_var = "cluster",
                            label_var = "celltype") 
@@ -57,7 +57,7 @@ You can also plot the results in reduced dimensional space (e.g. UMAP).
 ### `Seurat` input
 
 ```{r}
-res <- plot_tfidf(object = pseudo_seurat, 
+res <- plot_tfidf(obj = pseudo_seurat, 
                   label_var = "celltype", 
                   cluster_var = "cluster", 
                   show_plot = TRUE)

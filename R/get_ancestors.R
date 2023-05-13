@@ -1,22 +1,27 @@
 #' Get ancestors to Cell Ontology IDs
 #' 
-#' 
 #' @return The original \code{meta} object with the new \code{ancestor_col}.  
 #' 
 #' @param meta Metadata
 #' @param id_col Name of the column in \code{meta} with the ontology IDs.
 #' @param ontology A controlled ontology object of class \code{ontology_index}. 
-#' @param levels_up How many levels up the ontology hierarchy should ancestors be retrieved from.
+#' @param levels_up How many levels up the ontology hierarchy
+#'  should ancestors be retrieved from.
 #' @param ancestor_col The name of the column where the ancestor IDs will be stored. 
-#' @examples 
-#' hpca_sce = celldex::HumanPrimaryCellAtlasData() 
-#' meta_ancest <- get_ancestors(meta=hpca_sce@colData , id_col="label.ont")
+#' @examples
+#' \dontrun{
+#'   hpca_sce = celldex::HumanPrimaryCellAtlasData()
+#'   meta_ancest <- get_ancestors(meta=hpca_sce@colData , id_col="label.ont")
+#' }
 get_ancestors <- function(meta,
                           id_col="cell_ontology_id",
-                          ontology= ontoProc::getCellOnto(),
+                          ontology = ontoProc::getCellOnto(),
                           levels_up=1,
                           ancestor_col=paste0("ancestor",levels_up)
                           ){   
+  
+  requireNamespace("ontoProc")
+  requireNamespace("ontologyIndex")
   get_anc <- function(cl, id_list, 
                       levels_up=1, 
                       levels_down=NULL,

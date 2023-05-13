@@ -15,7 +15,6 @@
 #' @param background_color Plot background color.
 #' @param text_color Cluster label text color.
 #' @param interact Whether to make the plot interactive with \pkg{plotly}. 
-#' @param verbose Whether to print messages. 
 #' @param ... Additional arguments to be passed to \code{ggplot2::geom_point(aes_string(...))}. 
 #' 
 #' @export

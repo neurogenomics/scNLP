@@ -1,19 +1,19 @@
-
-#' Get marker genes for each cluster 
-tfidf_label_markers <- function(seurat,
+#' TF-IDF label markers
+#' 
+#' Get marker genes for each cluster,
+#' @inheritDotParams run_tfidf
+#' 
+#' @keywords internal
+tfidf_label_markers <- function(obj,
                                 markers,
-                                label_var=NULL){
-    if(!all(c("seurat_clusters","enriched_words") %in% colnames(seurat@meta.data))){ 
-        if(is.null(label_var)) stop("Provide `label_var`")
-        seurat <- seurat_tfidf(seurat,
-                               label_var=label_var,
-                               cluster_var="seurat_clusters", 
-                               terms_per_cluster=3,
-                               force_new = T)
-    }
+                                ...){ 
+  
+  obj <- run_tfidf(obj,
+                   ...)
     #### Merge markers df with cluster annotations from TF-IDF step ####
-    markers_lab <- merge(markers |> dplyr::mutate(cluster=as.factor(cluster)),
-                         unique(seurat@meta.data[,c("seurat_clusters","enriched_words")]), 
-                         all = T, by.x = "cluster", by.y = "seurat_clusters")
+    markers_lab <- merge(
+      x = markers |> dplyr::mutate(cluster=as.factor(cluster)),
+      y = unique(obj@meta.data[,c("seurat_clusters","enriched_words")]), 
+      all = TRUE, by.x = "cluster", by.y = "seurat_clusters")
     return(markers_lab)
 }

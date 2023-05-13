@@ -6,7 +6,8 @@
 #' @param seurat \pkg{Seurat} object. 
 #' @param graph_name Name of the graph to use. 
 #' If none provided, will use the last graph available.
-#' If no graphs are available, new ones will be computed using \code{Seurat::FindNeighbors}. 
+#' If no graphs are available, new ones will be computed using
+#'  \code{Seurat::FindNeighbors}. 
 #' @param var1_search Substring search term to filter var1 by. 
 #' If a vector is supplied instead, this will be interpreted as an "or" query. 
 #' @param label_col \code{meta.data} column used to name the rows/columns of the graph.
@@ -20,10 +21,10 @@
 #' This can be useful when var1 names are forced to be unique internally. 
 #' @param verbose Whether to print messages. 
 #'      
-#' @examples 
-#' library(scNLP)
-#' data("pseudo_seurat")
-#' 
+#' @export           
+#' @importFrom stats setNames
+#' @examples  
+#' data("pseudo_seurat") 
 #' ### No group filter
 #' top_neighbors <- search_neighbors(seurat = pseudo_seurat, 
 #'                                   var1_search = "purkinje", 
@@ -34,7 +35,6 @@
 #'                                   var2_group = "human",
 #'                                   group_col = "species",
 #'                                   max_neighbors=5)
-#' @export                    
 search_neighbors <- function(seurat,
                              graph_name=NULL,
                              var1_search=NULL,  
@@ -42,8 +42,10 @@ search_neighbors <- function(seurat,
                              var2_group=NULL,
                              group_col=NULL, 
                              max_neighbors=Inf, 
-                             add_original_names=T,
-                             verbose=T){ 
+                             add_original_names=TRUE,
+                             verbose=TRUE){ 
+  requireNamespace("Seurat")
+  
   if(is.null(names(seurat@graphs))){ 
     if(!"pca" %in% names(seurat@reductions)){
       if(length(Seurat::VariableFeatures(seurat))==0){
@@ -72,7 +74,7 @@ search_neighbors <- function(seurat,
     sample_names <- make.unique(seurat@meta.data[[label_col]])
   }  
   seurat@meta.data$sample_names <- sample_names   
-  names_dict <- setNames(rownames(fgraph), sample_names) 
+  names_dict <- stats::setNames(rownames(fgraph), sample_names) 
   
   fgraph <- fgraph |> 
     `row.names<-`(sample_names) |>
@@ -80,21 +82,32 @@ search_neighbors <- function(seurat,
   
   if(!is.null(var1_search)){
     messager("+ Filtering results by `var1_search`:",var1_search,v=verbose)
-    targets1 <- grep(var1_search,sample_names, ignore.case = T, value = T)
+    targets1 <- grep(var1_search,sample_names,
+                     ignore.case = TRUE, value = TRUE)
     if(length(targets1)>0){
-      messager("+",length(targets1),"entries matching `var1_search` identified.",v=verbose)
+      messager("+",length(targets1),
+               "entries matching `var1_search` identified.",v=verbose)
       fgraph <- fgraph[targets1,]
-    } else {stop("0 entries in `label_col` match the substring search for `var1_search`")} 
+    } else {
+      stopper("0 entries in `label_col` match the",
+              "substring search for `var1_search`")
+      } 
   }
   
   if(!is.null(group_col)){
     messager("+ Filtering results by `var2_group`:",var2_group,v=verbose)  
-    targets2 <- seurat@meta.data[grepl(var2_group, seurat@meta.data[[group_col]], ignore.case = T),
+    targets2 <- seurat@meta.data[grepl(var2_group,
+                                       seurat@meta.data[[group_col]], 
+                                       ignore.case = TRUE),
                                  "sample_names"]
     if(length(targets2)>0){
-      messager("+",length(targets2),"entries matching `var2_group` identified.",v=verbose)
+      messager("+",length(targets2),
+               "entries matching `var2_group` identified.",v=verbose)
       fgraph <- fgraph[,targets2]
-    } else {stop("0 entries in `group_col` match the substring search for `var2_group`")} 
+    } else {
+      stopper("0 entries in `group_col`",
+              "match the substring search for `var2_group`")
+      } 
   }
   
   top_candidates <-  fgraph |>
@@ -111,7 +124,8 @@ search_neighbors <- function(seurat,
   
   if(!is.null(group_col)){
     messager("+ Adding `group_col` to results")
-    keys <- setNames(seurat@meta.data[[group_col]], seurat@meta.data$sample_names) 
+    keys <- stats::setNames(seurat@meta.data[[group_col]], 
+                            seurat@meta.data$sample_names) 
     top_candidates$Var2_group <- keys[top_candidates$Var2]
   } 
   if(add_original_names){
@@ -119,7 +133,7 @@ search_neighbors <- function(seurat,
     top_candidates$Var1_id <- names_dict[top_candidates$Var1]
     top_candidates$Var2_id <- names_dict[top_candidates$Var2]
   }
- 
-  messager("+ Returning",nrow(top_candidates),"pair-wise similarities.",v=verbose)
+  messager("+ Returning",nrow(top_candidates),
+           "pair-wise similarities.",v=verbose)
   return(top_candidates)
 }

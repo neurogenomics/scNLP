@@ -19,7 +19,8 @@ get_ancestors(
 
 \item{ontology}{A controlled ontology object of class \code{ontology_index}.}
 
-\item{levels_up}{How many levels up the ontology hierarchy should ancestors be retrieved from.}
+\item{levels_up}{How many levels up the ontology hierarchy
+should ancestors be retrieved from.}
 
 \item{ancestor_col}{The name of the column where the ancestor IDs will be stored.}
 }
@@ -30,6 +31,8 @@ The original \code{meta} object with the new \code{ancestor_col}.
 Get ancestors to Cell Ontology IDs
 }
 \examples{
-hpca_sce = celldex::HumanPrimaryCellAtlasData() 
-meta_ancest <- get_ancestors(meta=hpca_sce@colData , id_col="label.ont")
+\dontrun{
+  hpca_sce = celldex::HumanPrimaryCellAtlasData()
+  meta_ancest <- get_ancestors(meta=hpca_sce@colData , id_col="label.ont")
+}
 }

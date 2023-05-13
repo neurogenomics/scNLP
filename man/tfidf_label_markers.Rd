@@ -2,10 +2,31 @@
 % Please edit documentation in R/tfidf_label_markers.R
 \name{tfidf_label_markers}
 \alias{tfidf_label_markers}
-\title{Get marker genes for each cluster}
+\title{TF-IDF label markers}
 \usage{
-tfidf_label_markers(seurat, markers, label_var = NULL)
+tfidf_label_markers(obj, markers, ...)
+}
+\arguments{
+\item{...}{
+  Arguments passed on to \code{\link[=run_tfidf]{run_tfidf}}
+  \describe{
+    \item{\code{obj}}{Single-cell data object.}
+    \item{\code{reduction}}{Name of the reduction to use (\emph{case insensitive}).}
+    \item{\code{label_var}}{Which cell metadata column to input to NLP analysis.}
+    \item{\code{cluster_var}}{Which cell metadata column to use to identify which 
+cluster each cell is assigned to.}
+    \item{\code{replace_regex}}{Characters by which to split \code{label_var} into terms
+(i.e. tokens) for NLP enrichment analysis.}
+    \item{\code{terms_per_cluster}}{The maximum number of words to return per cluster.}
+    \item{\code{force_new}}{If NLP results are already detected the metadata, 
+set \code{force_new=TRUE} to replace them with new results.}
+    \item{\code{return_all_results}}{Whether to return just the \code{obj} 
+with updated metadata (\code{TRUE}), 
+or all intermediate results (\code{FALSE}).}
+    \item{\code{verbose}}{Whether to print messages.}
+  }}
 }
 \description{
-Get marker genes for each cluster
+Get marker genes for each cluster,
 }
+\keyword{internal}

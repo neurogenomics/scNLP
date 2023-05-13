@@ -12,8 +12,8 @@ search_neighbors(
   var2_group = NULL,
   group_col = NULL,
   max_neighbors = Inf,
-  add_original_names = T,
-  verbose = T
+  add_original_names = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -21,7 +21,8 @@ search_neighbors(
 
 \item{graph_name}{Name of the graph to use. 
 If none provided, will use the last graph available.
-If no graphs are available, new ones will be computed using \code{Seurat::FindNeighbors}.}
+If no graphs are available, new ones will be computed using
+ \code{Seurat::FindNeighbors}.}
 
 \item{var1_search}{Substring search term to filter var1 by. 
 If a vector is supplied instead, this will be interpreted as an "or" query.}
@@ -47,9 +48,8 @@ Search [shared] K-nearest neighbor graph to find the
  samples that are most similar to those matching a substring search.
 }
 \examples{
-library(scNLP)
-data("pseudo_seurat")
-
+ 
+data("pseudo_seurat") 
 ### No group filter
 top_neighbors <- search_neighbors(seurat = pseudo_seurat, 
                                   var1_search = "purkinje", 

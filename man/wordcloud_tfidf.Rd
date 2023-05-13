@@ -5,21 +5,25 @@
 \title{Wordcloud from tf-idf results}
 \usage{
 wordcloud_tfidf(
-  object,
+  obj,
   label_var = "celltype",
   cluster_var = "cluster",
   terms_per_cluster = 10,
-  show_plot = T,
+  show_plot = TRUE,
   ...
 )
 }
 \arguments{
+\item{obj}{Single-cell data object.}
+
 \item{label_var}{Which cell metadata column to input to NLP analysis.}
 
 \item{cluster_var}{Which cell metadata column to use to identify which 
 cluster each cell is assigned to.}
 
 \item{terms_per_cluster}{The maximum number of words to return per cluster.}
+
+\item{show_plot}{Whether to print the plot.}
 
 \item{...}{Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}.}
 }

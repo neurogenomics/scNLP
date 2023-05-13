@@ -10,7 +10,8 @@ FindVariableFeatures_split(
   nfeatures = 4000,
   count_overall = FALSE,
   return_nested = FALSE,
-  nfeatures_max = 2000
+  nfeatures_max = 2000,
+  batches = 10
 )
 }
 \arguments{
@@ -26,7 +27,9 @@ as the number of variable genes overall (\code{TRUE}) or per subset (\code{FALSE
 \item{return_nested}{Return a named list of variable genes per subset (\code{TRUE}) 
 or a flattened list (\code{FALSE}).}
 
-\item{nfeatures_max}{The max number of features to return. 
+\item{nfeatures_max}{The max number of features to return.}
+
+\item{batches}{Number of batches.
 Features are prioritised according to how many variable gene subsets they appear in.}
 }
 \description{

@@ -36,7 +36,10 @@ Suggests:
   rmarkdown,
   knitr,
   remotes,
-  gptstudio
+  gptstudio,
+  ontologyIndex,
+  ontoProc,
+  ggwordcloud
 Remotes:
   github::neurogenomics/scKirby
 VignetteBuilder: knitr
