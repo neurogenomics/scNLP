@@ -47,22 +47,22 @@ search_neighbors <- function(seurat,
   if(is.null(names(seurat@graphs))){ 
     if(!"pca" %in% names(seurat@reductions)){
       if(length(Seurat::VariableFeatures(seurat))==0){
-        printer("No variable features detected. Computing",v=verbose)
+        messager("No variable features detected. Computing",v=verbose)
         seurat <- Seurat::FindVariableFeatures(seurat)
       }
-      printer("No PCA detected. Computing",v=verbose)
+      messager("No PCA detected. Computing",v=verbose)
       seurat <- Seurat::NormalizeData(seurat)
       seurat <- Seurat::ScaleData(seurat)
       seurat <- Seurat::RunPCA(seurat)
     }
-    printer("No graphs detected. Computing.",v=verbose)
+    messager("No graphs detected. Computing.",v=verbose)
     seurat <- Seurat::FindNeighbors(seurat)
   }
   
   if(length(var1_search)>1) var1_search <- paste(var1_search,collapse = "|")
   if(is.null(graph_name)) graph_name <- rev(names(seurat@graphs))[1] 
   if(any(graph_name %in% names(seurat@graphs))){
-    printer("Using graph:",graph_name,v=verbose)
+    messager("Using graph:",graph_name,v=verbose)
   }
   fgraph <- seurat@graphs[[graph_name]]
   
@@ -74,52 +74,52 @@ search_neighbors <- function(seurat,
   seurat@meta.data$sample_names <- sample_names   
   names_dict <- setNames(rownames(fgraph), sample_names) 
   
-  fgraph <- fgraph %>% 
-    `row.names<-`(sample_names) %>%
+  fgraph <- fgraph |> 
+    `row.names<-`(sample_names) |>
     `colnames<-`(sample_names)
   
   if(!is.null(var1_search)){
-    printer("+ Filtering results by `var1_search`:",var1_search,v=verbose)
+    messager("+ Filtering results by `var1_search`:",var1_search,v=verbose)
     targets1 <- grep(var1_search,sample_names, ignore.case = T, value = T)
     if(length(targets1)>0){
-      printer("+",length(targets1),"entries matching `var1_search` identified.",v=verbose)
+      messager("+",length(targets1),"entries matching `var1_search` identified.",v=verbose)
       fgraph <- fgraph[targets1,]
     } else {stop("0 entries in `label_col` match the substring search for `var1_search`")} 
   }
   
   if(!is.null(group_col)){
-    printer("+ Filtering results by `var2_group`:",var2_group,v=verbose)  
+    messager("+ Filtering results by `var2_group`:",var2_group,v=verbose)  
     targets2 <- seurat@meta.data[grepl(var2_group, seurat@meta.data[[group_col]], ignore.case = T),
                                  "sample_names"]
     if(length(targets2)>0){
-      printer("+",length(targets2),"entries matching `var2_group` identified.",v=verbose)
+      messager("+",length(targets2),"entries matching `var2_group` identified.",v=verbose)
       fgraph <- fgraph[,targets2]
     } else {stop("0 entries in `group_col` match the substring search for `var2_group`")} 
   }
   
-  top_candidates <-  fgraph %>%
-    Matrix::as.matrix() %>%
-    reshape2::melt(value.name = "similarity") %>%
-    data.table::data.table() %>%
-    dplyr::mutate_at(c("Var1","Var2"), as.character) %>%
-    subset(Var1!=Var2) %>%  
-    subset(similarity>0) %>%
-    dplyr::group_by(Var1) %>% 
-    dplyr::slice_max(order_by = similarity, n = max_neighbors) %>% 
-    dplyr::arrange(desc(similarity)) %>% 
+  top_candidates <-  fgraph |>
+    Matrix::as.matrix() |>
+    reshape2::melt(value.name = "similarity") |>
+    data.table::data.table() |>
+    dplyr::mutate_at(c("Var1","Var2"), as.character) |>
+    subset(Var1!=Var2) |>  
+    subset(similarity>0) |>
+    dplyr::group_by(Var1) |> 
+    dplyr::slice_max(order_by = similarity, n = max_neighbors) |> 
+    dplyr::arrange(desc(similarity)) |> 
     data.table::data.table()    
   
   if(!is.null(group_col)){
-    printer("+ Adding `group_col` to results")
+    messager("+ Adding `group_col` to results")
     keys <- setNames(seurat@meta.data[[group_col]], seurat@meta.data$sample_names) 
     top_candidates$Var2_group <- keys[top_candidates$Var2]
   } 
   if(add_original_names){
-    printer("+ Adding original names to results")
+    messager("+ Adding original names to results")
     top_candidates$Var1_id <- names_dict[top_candidates$Var1]
     top_candidates$Var2_id <- names_dict[top_candidates$Var2]
   }
  
-  printer("+ Returning",nrow(top_candidates),"pair-wise similarities.",v=verbose)
+  messager("+ Returning",nrow(top_candidates),"pair-wise similarities.",v=verbose)
   return(top_candidates)
 }

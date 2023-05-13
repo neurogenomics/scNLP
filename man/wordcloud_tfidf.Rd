@@ -14,13 +14,12 @@ wordcloud_tfidf(
 )
 }
 \arguments{
-\item{object}{Single-cell data object. Can be in \code{SingleCellExperiment} or {Seurat} format.}
+\item{label_var}{Which cell metadata column to input to NLP analysis.}
 
-\item{label_var}{Which cell metadata column to input to tf-idf enrichment analysis.}
+\item{cluster_var}{Which cell metadata column to use to identify which 
+cluster each cell is assigned to.}
 
-\item{cluster_var}{Which cell metadata column to use to identify which cluster each cell is assigned to.}
-
-\item{terms_per_cluster}{The number of top significantly enriched terms to include per cluster.}
+\item{terms_per_cluster}{The maximum number of words to return per cluster.}
 
 \item{...}{Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}.}
 }

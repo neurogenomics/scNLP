@@ -12,7 +12,7 @@ tfidf_label_markers <- function(seurat,
                                force_new = T)
     }
     #### Merge markers df with cluster annotations from TF-IDF step ####
-    markers_lab <- merge(markers %>% dplyr::mutate(cluster=as.factor(cluster)),
+    markers_lab <- merge(markers |> dplyr::mutate(cluster=as.factor(cluster)),
                          unique(seurat@meta.data[,c("seurat_clusters","enriched_words")]), 
                          all = T, by.x = "cluster", by.y = "seurat_clusters")
     return(markers_lab)

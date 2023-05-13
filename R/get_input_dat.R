@@ -1,63 +1,33 @@
-get_input_dat <- function(object=NULL,  
+get_input_dat <- function(obj=NULL,  
                           cluster_var=NULL,
-                          reduction="UMAP",
-                          verbose=T){
-  # object=scNLP::pseudo_seurat; verbose=T; reduction="UMAP"; cluster_var=NULL;  
+                          reduction="umap",
+                          verbose=TRUE){
+  # obj <- scNLP::pseudo_seurat
   
   #### Extract necessary info ####
-  # object = list(metadata=scNLP::pseudo_seurat@meta.data, embeddings=scNLP::pseudo_seurat@reductions$umap@cell.embeddings); reduction="UMAP";
-  if(is.list(object) & all(c("metadata","embeddings") %in% names(object)) ){
-    printer("+ Using data from list.",v=verbose)
-    metadata <- object$metadata
-    embeddings <- object$embeddings
-    object_type <- "list"
-  } 
-  # object <- scNLP::pseudo_seurat
-  if(class(object) %in% c("Seurat","SeuratObject")){ 
-    printer("+ Extracting data from Seurat object.",v=verbose)
-    metadata <- object@meta.data 
-    reduction_names <- names(object@reductions)
-    reduction <- grep(reduction, reduction_names, ignore.case = T, value = T)[1]
-    if(length(reduction)>0 & !is.na(reduction)){
-      printer("+ Using reduction:",reduction,v=verbose) 
-    } else stop("+ No matching reductions found.")
-    embeddings <- object@reductions[[reduction]]@cell.embeddings 
-    object_type <- "Seurat"
-  }
-  # object <- scNLP::pseudo_sce
-  if(class(object) %in% c("SingleCellExperiment","SummarizedExperiment")){
-    printer("+ Extracting data from SingleCellExperiment object.",v=verbose)
-    metadata <- SummarizedExperiment::colData(object) 
-    reduction_names <- SingleCellExperiment::reducedDimNames(object)
-    reduction <- grep(reduction, reduction_names, ignore.case = T, value = T)[1]
-    if(length(reduction)>0 & !is.na(reduction)){
-      printer("+ Using reduction:",reduction,v=verbose) 
-    } else stop("+ No matching reductions found.")
-    embeddings <- SingleCellExperiment::reducedDim(object, reduction)
-    object_type <- "SingleCellExperiment"
-  } 
-   
-  metadata <- drop_reduction_vars(metadata = metadata, reduction = reduction, verbose = verbose)
-  input_dat  <- cbind(metadata, embeddings)
+  obs <- scKirby::get_obs(obj = obj,
+                          verbose = verbose)
+  obsm <- scKirby::get_obsm(obj = obj,
+                            keys = reduction,
+                            verbose = verbose)[[1]]  
+  obs <- drop_reduction_vars(obs = obs, 
+                             reduction = reduction,
+                             verbose = verbose)
+  clusts  <- cbind(obs, obsm)
   
   #### Infer cluster var #### 
-  cluster_var <- if(!is.null(cluster_var)){
-    if(!cluster_var %in% colnames(input_dat)){
-      messager("+ cluster_var='",cluster_var,"' not found in meta.data.",v=verbose)
-      infer_cluster_var(df = input_dat,v=verbose)
-    }else {cluster_var}
-  } else {infer_cluster_var(df = input_dat)}
-  input_dat$cluster <-  input_dat[[cluster_var]]
-  
-  #### Create key ####
-  dim_key <- setNames(colnames(embeddings),c("x","y"))
-  
-  ### Drop TF-IDF vars ####
-  if(any(c("enriched_words","tf_idf") %in% colnames(input_dat))){
-    input_dat <- input_dat %>% dplyr::select(-c(enriched_words,tf_idf))
+  if(is.null(cluster_var) ||
+     !cluster_var %in% colnames(clusts)){
+    cluster_var <- infer_cluster_var(df = clusts)
   }
-  return(list(input_dat=data.frame(input_dat),
+  clusts$cluster <- clusts[[cluster_var]]
+  #### Create key ####
+  dim_key <- setNames(colnames(obsm),c("x","y"))
+  ### Drop TF-IDF vars ####
+  clusts <- drop_cols(df = clusts,
+                         cols = c("enriched_words","tf_idf"))
+  #### Return ####
+  return(list(clusts=data.frame(clusts),
               cluster_var=cluster_var,
-              dim_key=dim_key,
-              object_type=object_type))
+              dim_key=dim_key))
 }

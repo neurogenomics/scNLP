@@ -13,13 +13,13 @@ wordcloud_heatmap <- function(mnn_list){
                 row_km = mnn_list$metadata$cluster,
                 column_km = mnn_list$metadata$cluster)
   
-  input_dat <- cbind(mnn_list$metadata, mnn_list$reduction_coords)
-  tfidf.celltype <- tf_idf(input_dat, "celltype", terms_per_cluster = 2)
+  clusts <- cbind(mnn_list$metadata, mnn_list$reduction_coords)
+  tfidf.celltype <- tf_idf(clusts, "celltype", terms_per_cluster = 2)
   keywords <- lapply(unique(tfidf.celltype$cluster), function(x){
     dat <- data.frame(tfidf.celltype[tfidf.celltype$cluster==x,])
     row.names(dat) <- dat$word
     return(dat)
-  }) %>% `names<-`(unique(tfidf.celltype$cluster))
+  }) |> `names<-`(unique(tfidf.celltype$cluster))
   
   align_to = split(seq_len(nrow(mat)), mnn_list$metadata$cluster)
   # align_to = align_to[names(align_to) != "0"]

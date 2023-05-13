@@ -1,10 +1,10 @@
-
-#' tfidf 
+#' TF-IDF 
 #' 
-#' Run tf-idf on a metadata table.
-#' 
-#' @param clusts \code{data.frame}/\code{data.table} with the per-cell meteadata and cluster assignments. 
+#' Run tf-idf on a metadata table. 
+#' @param clusts \code{data.frame}/\code{data.table} with the 
+#' per-cell metadata and cluster assignments. 
 #' @inheritParams run_tfidf 
+#' @inheritParams dplyr::slice_max
 #' 
 #' @export
 tfidf <- function(clusts,
@@ -12,34 +12,42 @@ tfidf <- function(clusts,
                   cluster_var="seurat_clusters",
                   terms_per_cluster=1,
                   replace_regex="[.]|[_]|[-]",
-                  force_new=F){
-  clusts <- data.frame(clusts)
-  if(!label_var %in% colnames(clusts)) stop(label_var," not found in metadata.")
+                  force_new=FALSE,
+                  with_ties=FALSE){
   
-  library(tidytext)
-  data(stop_words)
-  if(any(c("enriched_words","tf_idf") %in% colnames(clusts))){
-      clusts <- clusts %>% dplyr::select(-c(enriched_words,tf_idf))
+  requireNamespace("tidytext")
+  stop_words <- tidytext::stop_words
+  
+  clusts <- data.frame(clusts)
+  #### Check label_var ####
+  if(!label_var %in% colnames(clusts)) {
+    stop(label_var," not found in metadata.")
   }
+  #### Drop cols ####
+  clusts <- drop_cols(df = clusts,
+                      cols = c("enriched_words","tf_idf"))
   # From here: https://www.tidytextmining.com/tfidf.html
   clusts$cluster <- clusts[[cluster_var]]
   clusts$var <- gsub(replace_regex," ",clusts[[label_var]])
-  clust_words <- clusts %>%
-    unnest_tokens(word, var, drop = F) %>%
-    anti_join(stop_words, keep=T) %>%
+  clust_words <- clusts |>
+    tidytext::unnest_tokens(word, var, drop = FALSE) |>
+    dplyr::anti_join(stop_words,by = "word") |>
     dplyr::count(cluster, word, sort = TRUE)
-  total_words <- clust_words %>%
-    dplyr::group_by(cluster, .drop = F) %>%
-    dplyr::summarize(total = sum(n, na.rm = T))
-  total_samples <- clusts %>%
-    dplyr::group_by(cluster, .drop = F) %>%
+  total_words <- clust_words |>
+    dplyr::group_by(cluster, .drop = FALSE) |>
+    dplyr::summarize(total = sum(n, na.rm = TRUE))
+  total_samples <- clusts |>
+    dplyr::group_by(cluster, .drop = FALSE) |>
     dplyr::count(name = "samples")
-  clust_words <- left_join(clust_words, total_words) %>%
-    left_join(total_samples)
-  clust_words <- clust_words %>%
-    bind_tf_idf(word, cluster, n) %>%
-    dplyr::group_by(cluster, .drop = F) %>%
-    dplyr::slice_max(order_by = tf_idf, n=terms_per_cluster, with_ties = F) %>%
+  clust_words <- 
+    dplyr::left_join(clust_words, total_words, by="cluster") |>
+    dplyr::left_join(total_samples,by="cluster")
+  clust_words <- clust_words |>
+    tidytext::bind_tf_idf(word, cluster, n) |>
+    dplyr::group_by(cluster, .drop = FALSE) |>
+    dplyr::slice_max(order_by = tf_idf,
+                     n = terms_per_cluster, 
+                     with_ties = with_ties) |>
     subset(!word %in% c("cell","cells", stop_words))
   return(clust_words)
 }

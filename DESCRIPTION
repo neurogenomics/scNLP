@@ -1,7 +1,7 @@
 Package: scNLP
 Type: Package
 Title: NLP for Single-cell Omics.
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(person(given = "Brian",
                     family = "Schilder",
                     role = c("cre"),
@@ -18,10 +18,6 @@ Depends: R (>= 4.1.0)
 SystemRequirements: Python (>= 3.7.0)
 biocViews:
 Imports: 
-  remotes,  
-  magrittr, 
-  DescTools, 
-  BiocManager, 
   dplyr, 
   tibble,
   data.table,
@@ -32,13 +28,16 @@ Imports:
   ggrepel,
   scales,
   Seurat,
-  future, 
-  SingleCellExperiment,
-  SummarizedExperiment,
-  pals 
+  future,
+  pals,
+  scKirby
 Suggests:
+  rworkflows,
   rmarkdown,
   knitr,
-  rworkflows
+  remotes,
+  gptstudio
+Remotes:
+  github::neurogenomics/scKirby
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3

@@ -38,14 +38,14 @@ FindVariableFeatures_split <- function(seurat,
     obj <- Seurat::FindVariableFeatures(seurat_split[[x]], 
                                         nfeatures=nfeatures_per_split) 
     Seurat::VariableFeatures(obj)
-  }) %>% `names<-`(splits) 
+  }) |> `names<-`(splits) 
   
   #### Prioritize variable genes shared across datasets
   feature_counts <- sort(table(unlist(var_features)), decreasing = TRUE) 
   top_features <- head(names(feature_counts), nfeatures_max) 
   
   if(return_nested){
-    var_features <- lapply(var_features, function(x)x[x %in% top_features]) %>% `names<-`(splits)
+    var_features <- lapply(var_features, function(x)x[x %in% top_features]) |> `names<-`(splits)
     return(var_features)
   } else {
     return(top_features)

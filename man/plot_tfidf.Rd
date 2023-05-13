@@ -5,9 +5,9 @@
 \title{Plot tf-idf results in reduced dimensions}
 \usage{
 plot_tfidf(
-  object = NULL,
+  obj,
   reduction = "UMAP",
-  label_var = "label",
+  label_var = NULL,
   cluster_var = "seurat_clusters",
   replace_regex = "[.]|[_]|[-]",
   terms_per_cluster = 3,
@@ -17,32 +17,34 @@ plot_tfidf(
   point_palette = c(unname(pals::alphabet()), rev(unname(pals::alphabet2()))),
   density_palette = "Purples",
   density_adjust = 0.2,
-  label_fill = alpha(c("white"), 0.7),
-  show_plot = T,
+  label_fill = ggplot2::alpha(c("white"), 0.7),
+  show_plot = TRUE,
   background_color = "white",
   text_color = "black",
-  interact = F,
-  force_new = F,
-  verbose = T,
+  interact = FALSE,
+  force_new = FALSE,
+  verbose = TRUE,
   ...
 )
 }
 \arguments{
-\item{object}{Single-cell data object. Can be in \code{SingleCellExperiment} or {Seurat} format.}
+\item{obj}{Single-cell data object.}
 
 \item{reduction}{Name of the reduction to use (\emph{case insensitive}).}
 
-\item{label_var}{Which cell metadata column to input to tf-idf enrichment analysis.}
+\item{label_var}{Which cell metadata column to input to NLP analysis.}
 
-\item{cluster_var}{Which cell metadata column to use to identify which cluster each cell is assigned to.}
+\item{cluster_var}{Which cell metadata column to use to identify which 
+cluster each cell is assigned to.}
 
-\item{replace_regex}{Characters by which to split \code{label_var} into terms (i.e. tokens) for tf-idf enrichment analysis.}
+\item{replace_regex}{Characters by which to split \code{label_var} into terms
+(i.e. tokens) for NLP enrichment analysis.}
 
-\item{terms_per_cluster}{The number of top significantly enriched terms to include per cluster.}
+\item{terms_per_cluster}{The maximum number of words to return per cluster.}
 
-\item{size_var}{Point size variable in \code{object} metadata.}
+\item{size_var}{Point size variable in \code{obj} metadata.}
 
-\item{color_var}{Point color variable in \code{object} metadata.}
+\item{color_var}{Point color variable in \code{obj} metadata.}
 
 \item{point_alpha}{Point opacity.}
 
@@ -62,7 +64,8 @@ plot_tfidf(
 
 \item{interact}{Whether to make the plot interactive with \pkg{plotly}.}
 
-\item{force_new}{If tf-idf results are already detected the metadata, set \code{force_new=T} to replace them with new results.}
+\item{force_new}{If NLP results are already detected the metadata, 
+set \code{force_new=TRUE} to replace them with new results.}
 
 \item{verbose}{Whether to print messages.}
 
@@ -73,11 +76,8 @@ Plot tf-idf enrichment results in reduced dimensional space (e.g. PCA/tSNe/UMAP)
 Reduced dimensions can be computed based on single-cell data (e.g. RNA expression). .
 }
 \examples{
-library(scNLP)
 data("pseudo_seurat")
-
-res <- plot_tfidf(object = pseudo_seurat, 
+res <- plot_tfidf(obj = pseudo_seurat, 
                   label_var = "celltype", 
-                  cluster_var = "cluster", 
-                  show_plot = T)
+                  cluster_var = "cluster")
 }

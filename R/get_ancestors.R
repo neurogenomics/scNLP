@@ -68,7 +68,7 @@ get_ancestors <- function(meta,
 #         return(terms[2]) 
 #       }, 
 #       error = function(e)return(NULL))
-#     }) %>% `names<-`(unique(HPO$HPOid))
+#     }) |> `names<-`(unique(HPO$HPOid))
 #     ancest_2 <- lapply(unique(HPO$HPOid), function(x){
 #       # print(x)
 #       tryCatch(expr = {
@@ -76,17 +76,17 @@ get_ancestors <- function(meta,
 #         return(terms[3]) 
 #       }, 
 #       error = function(e)return(NULL))
-#     }) %>% `names<-`(unique(HPO$HPOid))
+#     }) |> `names<-`(unique(HPO$HPOid))
 #     
 #     
 #     ancest_df <- rbind(data.frame(ancestor_label=unlist(ancest_1), ancestor_lvl=1), 
-#                        data.frame(ancestor_label=unlist(ancest_2),  ancestor_lvl=2)) %>% 
-#       tibble::rownames_to_column(var = "id") %>%
-#       tidyr::separate(col = "id", sep = "[.]", into=c("HPOid", "ancestor_id"))  %>%
-#       data.table::data.table() %>%
+#                        data.frame(ancestor_label=unlist(ancest_2),  ancestor_lvl=2)) |> 
+#       tibble::rownames_to_column(var = "id") |>
+#       tidyr::separate(col = "id", sep = "[.]", into=c("HPOid", "ancestor_id"))  |>
+#       data.table::data.table() |>
 #       data.table::melt.data.table(id.vars = c("HPOid","ancestor_lvl"), 
-#                                   measure.vars = c("ancestor_id","ancestor_label")) %>%
-#       dplyr::mutate(variable=paste0(variable,ancestor_lvl)) %>%
+#                                   measure.vars = c("ancestor_id","ancestor_label")) |>
+#       dplyr::mutate(variable=paste0(variable,ancestor_lvl)) |>
 #       data.table::dcast.data.table(formula = HPOid ~ variable, value.var = "value")
 #     ancest_df
 #     

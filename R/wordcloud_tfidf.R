@@ -20,7 +20,7 @@ wordcloud_tfidf <- function(object,
                     terms_per_cluster=terms_per_cluster,
                     show_plot = F) 
   dat <- res$tfidf_df
-  # dat <- data.frame(res$tfidf_df, row.names = res$tfidf_df$word) %>% dplyr::select(word,freq=n)
+  # dat <- data.frame(res$tfidf_df, row.names = res$tfidf_df$word) |> dplyr::select(word,freq=n)
   # plt <- wordcloud2::wordcloud2(data =  dat,
   #                               color = "random-light",
   #                               backgroundColor = "grey",

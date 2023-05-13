@@ -4,29 +4,18 @@
 \alias{seurat_pipeline}
 \title{Run standardized \pkg{Seurat} pipeline}
 \usage{
-seurat_pipeline(
-  obj = NULL,
-  meta.data = NULL,
-  nfeatures = 2000,
-  vars.to.regress = NULL,
-  dims = seq_len(50),
-  add_specificity = FALSE,
-  assay_name = "RNA",
-  default_assay = NULL,
-  n.components = 2L,
-  log_norm = FALSE,
-  cluster_reduction = "umap",
-  workers = 1,
-  max_mem = 8000 * 1024^2,
-  seed = 2020
-)
+seurat_pipeline(...)
 }
 \arguments{
-\item{cluster_reduction}{Recompute neighbors graph based on UMAP 
+\item{...}{
+  Arguments passed on to \code{\link[scKirby:process_seurat]{scKirby::process_seurat}}
+  \describe{
+    \item{\code{cluster_reduction}}{Recompute neighbors graph based on UMAP
 to get clusters that best reflect UMAP space.
-For this same reason, only cluster in two dimensions, 
+For this same reason, only cluster in two dimensions,
 because this is the view we most often use.
 That said, this may reduce the generalisability of these clusters/graph.}
+  }}
 }
 \value{
 A preprocessed \link[Seurat]{Seurat} object.
