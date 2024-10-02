@@ -21,6 +21,9 @@ plot_tfidf(
   show_plot = TRUE,
   background_color = "white",
   text_color = "black",
+  force = c(0, 1),
+  max.overlaps = c(100, 100),
+  legend.position = NULL,
   interact = FALSE,
   force_new = FALSE,
   verbose = TRUE,
@@ -62,6 +65,17 @@ cluster each cell is assigned to.}
 
 \item{text_color}{Cluster label text color.}
 
+\item{force}{Force of repulsion between overlapping text labels. Defaults
+to 1.}
+
+\item{max.overlaps}{Exclude text labels when they overlap too many other
+things. For each text label, we count how many other text labels or other
+data points it overlaps, and exclude the text label if it has too many overlaps.
+Defaults to 10.}
+
+\item{legend.position}{the default position of legends ("none", "left",
+"right", "bottom", "top", "inside")}
+
 \item{interact}{Whether to make the plot interactive with \pkg{plotly}.}
 
 \item{force_new}{If NLP results are already detected the metadata, 
@@ -77,7 +91,8 @@ Reduced dimensions can be computed based on single-cell data (e.g. RNA expressio
 }
 \examples{
 data("pseudo_seurat")
-res <- plot_tfidf(obj = pseudo_seurat, 
+obj <- pseudo_seurat
+res <- plot_tfidf(obj = obj, 
                   label_var = "celltype", 
                   cluster_var = "cluster")
 }

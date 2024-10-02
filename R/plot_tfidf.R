@@ -1,27 +1,33 @@
 #' Plot tf-idf results in reduced dimensions 
 #' 
-#' Plot tf-idf enrichment results in reduced dimensional space (e.g. PCA/tSNe/UMAP), 
-#' Reduced dimensions can be computed based on single-cell data (e.g. RNA expression). . 
+#' Plot tf-idf enrichment results in reduced dimensional space 
+#' (e.g. PCA/tSNE/UMAP), 
+#' Reduced dimensions can be computed based on single-cell data 
+#' (e.g. RNA expression).
 #' 
 #' @inheritParams run_tfidf
+#' @inheritParams ggrepel::geom_label_repel
+#' @inheritParams ggplot2::theme
 #' @param size_var Point size variable in \code{obj} metadata. 
-#' @param color_var Point color variable in \code{obj} metadata. 
+#' @param color_var Point colour variable in \code{obj} metadata. 
 #' @param point_alpha Point opacity.
 #' @param point_palette Point palette.
 #' @param density_palette Density palette.
 #' @param density_adjust Density adjust (controls granularity of density plot). 
-#' @param label_fill Cluster label background color.
+#' @param label_fill Cluster label background colour.
 #' @param show_plot Whether to print the plot.
-#' @param background_color Plot background color.
-#' @param text_color Cluster label text color.
+#' @param background_color Plot background colour.
+#' @param text_color Cluster label text colour.
 #' @param interact Whether to make the plot interactive with \pkg{plotly}. 
-#' @param ... Additional arguments to be passed to \code{ggplot2::geom_point(aes_string(...))}. 
+#' @param ... Additional arguments to be passed to 
+#' \code{ggplot2::geom_point(aes_string(...))}. 
 #' 
 #' @export
 #' @import ggplot2
 #' @examples 
 #' data("pseudo_seurat")
-#' res <- plot_tfidf(obj = pseudo_seurat, 
+#' obj <- pseudo_seurat
+#' res <- plot_tfidf(obj = obj, 
 #'                   label_var = "celltype", 
 #'                   cluster_var = "cluster")
 plot_tfidf <- function(obj, 
@@ -41,6 +47,9 @@ plot_tfidf <- function(obj,
                        show_plot=TRUE,
                        background_color="white",
                        text_color="black",
+                       force=c(0,1),
+                       max.overlaps=c(100,100),
+                       legend.position=NULL,
                        interact=FALSE,
                        force_new=FALSE,
                        verbose=TRUE,
@@ -90,10 +99,8 @@ plot_tfidf <- function(obj,
     ggplot2::scale_fill_distiller(palette=density_palette, 
                                   direction=-1) +
     ggplot2::geom_point(ggplot2::aes_string(color=color_var,
-                          # shape=Type,
                           size=size_var,
-                          label=label_var,),
-                          # ...),
+                          label=label_var),
                alpha=point_alpha,
                show.legend = FALSE) +
     ggplot2::scale_color_manual(values = point_palette) +
@@ -109,6 +116,7 @@ plot_tfidf <- function(obj,
   if(!is.null(label_var)){ 
     plt <- plt + 
       ggrepel::geom_label_repel(
+        force = force[1],
         data = cluster_number_centers,
         ggplot2::aes(x=x.mean, y=y.mean,
                      label=cluster,
@@ -119,7 +127,8 @@ plot_tfidf <- function(obj,
         ## conflict with geom_point (even when inherit.aes=F)
         size=5,
         min.segment.length = 0.1, box.padding = 3,
-        inherit.aes = FALSE, max.overlaps = 30,
+        inherit.aes = FALSE, 
+        max.overlaps = max.overlaps[1],
         show.legend = FALSE) +
       ggrepel::geom_label_repel(
         data = cluster_centers,
@@ -128,15 +137,20 @@ plot_tfidf <- function(obj,
                      size=size, 
                      color=cluster),
         fill = label_fill,
+        force=force[2],
         ## Must set this outside of aes() due to bug that causes
         ## conflict with geom_point (even when inherit.aes=F)
         # Also, log and rescale size so that all labels are still legible
         size=scales::rescale(log10(cluster_centers$size), c(2,6)),
-        min.segment.length = 0.1, box.padding = .1,
-        inherit.aes = FALSE, max.overlaps = 30,
+        min.segment.length = 0.1, 
+        box.padding = .1,
+        inherit.aes = FALSE,
+        max.overlaps = max.overlaps[2],
         show.legend = FALSE) 
   }
-  
+  if(!is.null(legend.position)) {
+    plt <- plt + ggplot2::theme(legend.position = legend.position) 
+  } 
   if(isTRUE(interact)) {
     plt <- plotly::ggplotly(plt)
   }

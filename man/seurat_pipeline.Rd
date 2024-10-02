@@ -10,11 +10,34 @@ seurat_pipeline(...)
 \item{...}{
   Arguments passed on to \code{\link[scKirby:process_seurat]{scKirby::process_seurat}}
   \describe{
+    \item{\code{obj}}{A single-cell object supported by \pkg{scKirby}.
+See \link[scKirby]{converters} for a table of all supported conversions.}
+    \item{\code{meta.data}}{Additional cell-level metadata to add to the Seurat object.
+Should be a \code{\link[base]{data.frame}} where the rows are cell names and
+the columns are additional metadata fields. Row names in the metadata need
+to match the column names of the counts matrix.}
+    \item{\code{nfeatures}}{Number of features to select as top variable features;
+only used when \code{selection.method} is set to \code{'dispersion'} or
+\code{'vst'}}
+    \item{\code{vars.to.regress}}{Variables to regress out (previously latent.vars in
+RegressOut). For example, nUMI, or percent.mito.}
+    \item{\code{dims}}{Which dimensions to use as input features, used only if
+\code{features} is NULL}
+    \item{\code{add_specificity}}{Add a new assay called "specificity" by deriving
+specificity scores from the input data.}
+    \item{\code{default_assay}}{Default assay to set with \link[Seurat]{DefaultAssay}.}
+    \item{\code{n.components}}{The dimension of the space to embed into.}
     \item{\code{cluster_reduction}}{Recompute neighbors graph based on UMAP
 to get clusters that best reflect UMAP space.
 For this same reason, only cluster in two dimensions,
 because this is the view we most often use.
 That said, this may reduce the generalisability of these clusters/graph.}
+    \item{\code{workers}}{Number of workers (threads) to parallelise processes across
+using \pkg{future}.}
+    \item{\code{max_mem}}{Max limit on memory usage, to be passed to environmental
+variable \code{future.globals.maxSize}.}
+    \item{\code{seed}}{Random seed to set.}
+    \item{\code{verbose}}{Print messages.}
   }}
 }
 \value{
