@@ -111,7 +111,7 @@ res <- plot_tfidf(obj = pseudo_sce,
 
 Lastly, if your data doesn't fit the above example data types, you can simply supply a named `list` with **metadata** and **embeddings**. 
 
-```{r} 
+```{r, eval=FALSE}
 data_list <- list(metadata = SingleCellExperiment::colData(pseudo_sce),
                   embeddings = SingleCellExperiment::colData(pseudo_sce)[,c("UMAP.1","UMAP.2")])
 
