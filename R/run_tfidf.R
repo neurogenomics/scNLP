@@ -18,11 +18,13 @@
 #' @param verbose Whether to print messages. 
 #' 
 #' @export
-#' @examples  
+#' @examples
+#' \donttest{
 #' data("pseudo_seurat")
-#' obj2 <- run_tfidf(obj = pseudo_seurat, 
+#' obj2 <- run_tfidf(obj = pseudo_seurat,
 #'                   cluster_var = "cluster",
-#'                   label_var = "celltype")  
+#'                   label_var = "celltype")
+#' }  
 run_tfidf <- function(obj=NULL, 
                       reduction="UMAP",
                       label_var="label",

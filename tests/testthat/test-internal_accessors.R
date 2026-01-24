@@ -1,7 +1,5 @@
 test_that("get_obs_internal works", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     obs <- scNLP:::get_obs_internal(pseudo_seurat, verbose = FALSE)
 
@@ -16,9 +14,7 @@ test_that("get_obs_internal works", {
 })
 
 test_that("get_obsm_internal works", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Check UMAP exists
     testthat::skip_if_not("umap" %in% tolower(SeuratObject::Reductions(pseudo_seurat)))
@@ -36,9 +32,7 @@ test_that("get_obsm_internal works", {
 })
 
 test_that("set_obs_internal works", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Get original metadata
     obs <- pseudo_seurat@meta.data

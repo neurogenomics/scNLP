@@ -1,7 +1,5 @@
 test_that("FindVariableFeatures_split works", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Check that 'batch' column exists
     testthat::skip_if_not("batch" %in% colnames(pseudo_seurat@meta.data),
@@ -25,9 +23,7 @@ test_that("FindVariableFeatures_split works", {
 })
 
 test_that("FindVariableFeatures_split returns nested list when requested", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
     testthat::skip_if_not("batch" %in% colnames(pseudo_seurat@meta.data))
 
     var_features <- FindVariableFeatures_split(

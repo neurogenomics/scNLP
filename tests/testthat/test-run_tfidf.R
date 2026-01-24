@@ -1,8 +1,5 @@
 test_that("run_tfidf works with Seurat object", {
-    testthat::skip_if_not_installed("Seurat")
-
-    # Load example data
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Run TF-IDF
     result <- run_tfidf(
@@ -21,9 +18,7 @@ test_that("run_tfidf works with Seurat object", {
 })
 
 test_that("run_tfidf respects force_new parameter", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Run once
     result1 <- run_tfidf(

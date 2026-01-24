@@ -1,8 +1,7 @@
 test_that("plot_tfidf returns expected structure", {
-    testthat::skip_if_not_installed("Seurat")
     testthat::skip_if_not_installed("ggplot2")
 
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     result <- plot_tfidf(
         obj = pseudo_seurat,
@@ -25,9 +24,7 @@ test_that("plot_tfidf returns expected structure", {
 })
 
 test_that("plot_tfidf handles custom parameters", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     result <- plot_tfidf(
         obj = pseudo_seurat,

@@ -1,7 +1,5 @@
 test_that("seurat_pipeline works with Seurat object", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Get raw counts to create a fresh object
     counts <- Seurat::GetAssayData(pseudo_seurat, layer = "counts")
@@ -29,9 +27,7 @@ test_that("seurat_pipeline works with Seurat object", {
 })
 
 test_that("seurat_pipeline works with matrix input", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Get raw counts matrix
     counts <- Seurat::GetAssayData(pseudo_seurat, layer = "counts")

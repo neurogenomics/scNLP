@@ -1,7 +1,5 @@
 test_that("search_neighbors returns expected structure", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     result <- search_neighbors(
         seurat = pseudo_seurat,
@@ -20,9 +18,7 @@ test_that("search_neighbors returns expected structure", {
 })
 
 test_that("search_neighbors respects max_neighbors", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     result <- search_neighbors(
         seurat = pseudo_seurat,
@@ -39,9 +35,7 @@ test_that("search_neighbors respects max_neighbors", {
 })
 
 test_that("search_neighbors filters by var2_group", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Skip if species column doesn't exist
     testthat::skip_if_not("species" %in% colnames(pseudo_seurat@meta.data))
@@ -64,9 +58,7 @@ test_that("search_neighbors filters by var2_group", {
 })
 
 test_that("search_neighbors adds original names when requested", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     result <- search_neighbors(
         seurat = pseudo_seurat,
@@ -84,9 +76,7 @@ test_that("search_neighbors adds original names when requested", {
 })
 
 test_that("search_neighbors errors on no matches", {
-    testthat::skip_if_not_installed("Seurat")
-
-    data("pseudo_seurat", package = "scNLP")
+    pseudo_seurat <- load_pseudo_seurat()
 
     # Search for something that definitely doesn't exist
     testthat::expect_error(

@@ -4,11 +4,13 @@
 #' @inheritParams run_tfidf
 #' 
 #' @export
-#' @examples  
+#' @examples
+#' \donttest{
 #' data("pseudo_seurat")
-#' obj2 <- run_gpt(obj = pseudo_seurat, 
+#' obj2 <- run_gpt(obj = pseudo_seurat,
 #'                 cluster_var = "cluster",
-#'                 label_var = "celltype")  
+#'                 label_var = "celltype")
+#' }  
 run_gpt <- function(obj=NULL, 
                     reduction="UMAP",
                     label_var="label",
