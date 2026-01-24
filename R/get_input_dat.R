@@ -1,13 +1,13 @@
-get_input_dat <- function(obj=NULL,  
+get_input_dat <- function(obj=NULL,
                           cluster_var=NULL,
                           reduction="umap",
                           verbose=TRUE){
   # obj <- scNLP::pseudo_seurat
-  
+
   #### Extract necessary info ####
-  obs <- scKirby::get_obs(obj = obj,
+  obs <- get_obs_internal(obj = obj,
                           verbose = verbose)
-  obsm <- scKirby::get_obsm(obj = obj,
+  obsm <- get_obsm_internal(obj = obj,
                             keys = reduction,
                             verbose = verbose)[[1]]  
   obs <- drop_reduction_vars(obs = obs, 

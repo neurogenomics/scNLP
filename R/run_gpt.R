@@ -56,7 +56,7 @@ run_gpt <- function(obj=NULL,
     stop("Seurat sample names and GPT sample names are not aligned!")
   }
   obs2 <- data.frame(obs2, row.names = row.names(clusts))    
-  obj2 <- scKirby::set_obs(obj = obj, 
+  obj2 <- set_obs_internal(obj = obj, 
                            obs = obs2,
                            verbose = verbose)
   #### Return ####
