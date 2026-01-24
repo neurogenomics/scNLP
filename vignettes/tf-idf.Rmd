@@ -42,12 +42,14 @@ data("pseudo_seurat")
 If you don't already have a `Seurat` object with reduced dimensions and cluster assignments, you can generate a new one with the following support function.
 
 ```{r}
-## Create some mock raw data 
-counts <- Seurat::GetAssayData(pseudo_seurat)
+## Create a fresh Seurat object from raw data
+counts <- Seurat::GetAssayData(pseudo_seurat, layer = "counts")
 meta.data <- pseudo_seurat@meta.data
 
-processed_seurat <- seurat_pipeline(counts = counts, 
-                                    meta.data = meta.data)
+## Create Seurat object with metadata, then run pipeline
+obj <- SeuratObject::CreateSeuratObject(counts = counts,
+                                        meta.data = meta.data)
+processed_seurat <- seurat_pipeline(obj = obj)
 ```
 
 
