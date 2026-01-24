@@ -11,7 +11,7 @@ output:
     code_folding: show
     df_print: paged
 vignette: >
-    %\VignetteIndexEntry{GWAS_Atlas} 
+    %\VignetteIndexEntry{tf-idf}
     %\usepackage[utf8]{inputenc}
     %\VignetteEngine{knitr::rmarkdown} 
 editor_options: 
@@ -58,7 +58,7 @@ processed_seurat <- seurat_pipeline(obj = obj)
 `seurat_tfidf` will run **tf-idf** on each cluster and put the results in the **enriched_words** and **tf_idf** cols of the `meta.data`. 
 
 ```{r} 
-pseudo_seurat_tfidf <- run_tfidf(object = pseudo_seurat,
+pseudo_seurat_tfidf <- run_tfidf(obj = pseudo_seurat,
                                  reduction = "UMAP",
                                  cluster_var = "cluster",
                                  label_var = "celltype") 
@@ -76,7 +76,7 @@ You can also plot the results in reduced dimensional space (e.g. UMAP).
 ### `Seurat` input
 
 ```{r}
-res <- plot_tfidf(object = pseudo_seurat, 
+res <- plot_tfidf(obj = pseudo_seurat, 
                   label_var = "celltype", 
                   cluster_var = "cluster", 
                   show_plot = T)
@@ -85,7 +85,7 @@ res <- plot_tfidf(object = pseudo_seurat,
 You can color the point by other metadata attributes instead.
 
 ```{r}
-res <- plot_tfidf(object = pseudo_seurat, 
+res <- plot_tfidf(obj = pseudo_seurat, 
                   label_var = "celltype", 
                   cluster_var = "cluster", 
                   color_var = "batch",
@@ -100,7 +100,7 @@ res <- plot_tfidf(object = pseudo_seurat,
 ```{r not knitting for some reason, eval=F}  
 data("pseudo_sce")
 
-res <- plot_tfidf(object = pseudo_sce, 
+res <- plot_tfidf(obj = pseudo_sce, 
                   label_var = "celltype", 
                   cluster_var = "cluster", 
                   show_plot = T)
@@ -115,7 +115,7 @@ Lastly, if your data doesn't fit the above example data types, you can simply su
 data_list <- list(metadata = SingleCellExperiment::colData(pseudo_sce),
                   embeddings = SingleCellExperiment::colData(pseudo_sce)[,c("UMAP.1","UMAP.2")])
 
-res <- plot_tfidf(object = data_list,
+res <- plot_tfidf(obj = data_list,
                   label_var = "celltype", 
                   cluster_var = "cluster", 
                   show_plot = T)
@@ -126,7 +126,7 @@ res <- plot_tfidf(object = data_list,
 You can also create an interactive version of this plot. 
 
 ```{r, warning=F}
-res <- plot_tfidf(object = pseudo_seurat_tfidf,
+res <- plot_tfidf(obj = pseudo_seurat_tfidf,
                   label_var = "celltype", 
                   cluster_var = "cluster", 
                   interact = T,
@@ -143,7 +143,7 @@ res <- plot_tfidf(object = pseudo_seurat_tfidf,
 You can also show the per-cluster **tf-idk** results as a wordcloud. 
 
 ```{r}
-wordcloud_res <- wordcloud_tfidf(object=pseudo_seurat,
+wordcloud_res <- wordcloud_tfidf(obj = pseudo_seurat,
                                  label_var = "celltype", 
                                  cluster_var = "cluster", 
                                  terms_per_cluster=10)
