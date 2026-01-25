@@ -66,7 +66,7 @@ get_ancestors <- function(meta,
   
   ids <- meta[[id_col]]
   CL_dict <- ontology$name[ids]  
-  CL_df = data.frame(CL_id=ids,
+  CL_df <- data.frame(CL_id = ids,
                      CL_id2=names(CL_dict),
                      name=unname(CL_dict))  
   message("Identifying ancestors for ",length(CL_dict)," terms.")

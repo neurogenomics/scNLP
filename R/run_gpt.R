@@ -2,15 +2,14 @@
 #' 
 #' Ask chatGPT to summarise each cluster based on the samples metadata.
 #' @inheritParams run_tfidf
-#' 
+#'
+#' @returns The input object with GPT summary added to metadata, or if
+#' \code{return_all_results=TRUE}, a list with the object and intermediate results.
 #' @export
 #' @examples
-#' \dontrun{
+#' # Show expected input (API call not executed)
 #' data("pseudo_seurat")
-#' obj2 <- run_gpt(obj = pseudo_seurat,
-#'                 cluster_var = "cluster",
-#'                 label_var = "celltype")
-#' }  
+#' print(class(pseudo_seurat))  
 run_gpt <- function(obj=NULL, 
                     reduction="UMAP",
                     label_var="label",

@@ -43,6 +43,11 @@ or all intermediate results (\code{FALSE}).}
 
 \item{verbose}{Whether to print messages.}
 }
+\value{
+The input object with TF-IDF results added to metadata
+(\code{enriched_words} and \code{tf_idf} columns), or if
+\code{return_all_results=TRUE}, a list with the object and intermediate results.
+}
 \description{
 Run TF-IDF on single-cell data
  
@@ -50,10 +55,8 @@ Run Term Frequency - Inverse Document Frequency (TF-IDF) analysis on
 samples metadata to characterise each cluster.
 }
 \examples{
-\dontrun{
 data("pseudo_seurat")
 obj2 <- run_tfidf(obj = pseudo_seurat,
                   cluster_var = "cluster",
-                  label_var = "celltype")
-}  
+                  label_var = "celltype")  
 }

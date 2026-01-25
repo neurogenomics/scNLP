@@ -2,9 +2,21 @@
 #' 
 #' @inheritParams run_tfidf 
 #' @inheritParams plot_tfidf 
-#' @param ... Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}. 
-#' 
+#' @param ... Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}.
+#'
+#' @returns A list containing:
+#' \describe{
+#'   \item{plot}{The wordcloud ggplot object.}
+#'   \item{tfidf_df}{The TF-IDF results data.frame.}
+#' }
 #' @export
+#' @examples
+#' data("pseudo_seurat")
+#' if (requireNamespace("ggwordcloud", quietly = TRUE)) {
+#'     wordcloud_res <- wordcloud_tfidf(obj = pseudo_seurat,
+#'                                      label_var = "celltype",
+#'                                      cluster_var = "cluster")
+#' }
 wordcloud_tfidf <- function(obj,
                             label_var = "celltype", 
                             cluster_var = "cluster", 
@@ -39,7 +51,7 @@ wordcloud_tfidf <- function(obj,
     ggplot2::theme_minimal() +
     ggplot2::facet_wrap(~paste("cluster",cluster))
   
-  if(show_plot) print(plt)
+  if (show_plot) methods::show(plt)
   return(list(plot=plt, 
               tfidf_df=dat))
 }

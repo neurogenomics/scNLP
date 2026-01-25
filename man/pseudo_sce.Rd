@@ -3,27 +3,16 @@
 \docType{data}
 \name{pseudo_sce}
 \alias{pseudo_sce}
-\title{Example \code{SingleCellExperiment}}
+\title{Example SingleCellExperiment object}
 \format{
-An object of class \code{SingleCellExperiment} with 2000 rows and 801 columns.
-}
-\usage{
-pseudo_sce
+A SingleCellExperiment object with pseudobulk expression data.
 }
 \description{
-Contains pseudobulk data (mean expression per cell-type) from 11 different datasets. 
-Mean expression matrices have been downsampled to 1,000/21,000 genes.
+Contains pseudobulk data (mean expression per cell-type) from 11 different
+datasets. Mean expression matrices have been downsampled to 1,000/21,000
+genes.
 }
 \examples{
-\dontrun{
-set.seed(2021)
-pseudo_sce <- scKirby::ingest_data(scNLP::pseudo_seurat)
-umap_cols <- c("UMAP.1", "UMAP.2")
-umap_df <- data.frame(
-    SummarizedExperiment::colData(pseudo_sce)[, umap_cols]
-)
-SingleCellExperiment::reducedDim(pseudo_sce, "UMAP") <- umap_df
-usethis::use_data(pseudo_sce, overwrite = TRUE)
-}
+data("pseudo_sce", package = "scNLP")
 }
 \keyword{datasets}

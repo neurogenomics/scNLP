@@ -29,6 +29,15 @@ set \code{force_new=TRUE} to replace them with new results.}
 
 \item{verbose}{Whether to print messages.}
 }
+\value{
+A \code{data.table} with GPT summaries per cluster.
+}
 \description{
 Run GPT on a metadata table.
+}
+\examples{
+# Show expected input format (API call not executed)
+data("pseudo_seurat")
+clusts <- pseudo_seurat@meta.data
+head(clusts[, c("celltype", "cluster")])
 }

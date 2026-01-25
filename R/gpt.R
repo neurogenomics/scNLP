@@ -5,9 +5,15 @@
 #' per-cell metadata and cluster assignments. 
 #' @inheritParams run_tfidf 
 #' @inheritParams dplyr::slice_max
-#' 
+#'
+#' @returns A \code{data.table} with GPT summaries per cluster.
 #' @export
 #' @import data.table
+#' @examples
+#' # Show expected input format (API call not executed)
+#' data("pseudo_seurat")
+#' clusts <- pseudo_seurat@meta.data
+#' head(clusts[, c("celltype", "cluster")])
 gpt <- function(clusts,
                 label_var="dataset",
                 cluster_var="seurat_clusters",

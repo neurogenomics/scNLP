@@ -36,14 +36,15 @@ or all intermediate results (\code{FALSE}).}
 
 \item{verbose}{Whether to print messages.}
 }
+\value{
+The input object with GPT summary added to metadata, or if
+\code{return_all_results=TRUE}, a list with the object and intermediate results.
+}
 \description{
 Ask chatGPT to summarise each cluster based on the samples metadata.
 }
 \examples{
-\dontrun{
+# Show expected input (API call not executed)
 data("pseudo_seurat")
-obj2 <- run_gpt(obj = pseudo_seurat,
-                cluster_var = "cluster",
-                label_var = "celltype")
-}  
+print(class(pseudo_seurat))  
 }

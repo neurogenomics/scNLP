@@ -19,24 +19,17 @@
 #' @param max_neighbors The max number of neighbors (var2) per term (var1).   
 #' @param add_original_names Add original names into the results. 
 #' This can be useful when var1 names are forced to be unique internally. 
-#' @param verbose Whether to print messages. 
-#'      
-#' @export           
+#' @param verbose Whether to print messages.
+#'
+#' @returns A \code{data.table} of pairwise similarities between query samples
+#' and their nearest neighbors.
+#' @export
 #' @importFrom stats setNames
 #' @examples
-#' \dontrun{
 #' data("pseudo_seurat")
-#' ### No group filter
 #' top_neighbors <- search_neighbors(seurat = pseudo_seurat,
 #'                                   var1_search = "purkinje",
-#'                                   max_neighbors=5)
-#' ### With group filter
-#' top_neighbors2 <- search_neighbors(seurat = pseudo_seurat,
-#'                                   var1_search = "purkinje",
-#'                                   var2_group = "human",
-#'                                   group_col = "species",
-#'                                   max_neighbors=5)
-#' }
+#'                                   max_neighbors = 5)
 search_neighbors <- function(seurat,
                              graph_name=NULL,
                              var1_search=NULL,  

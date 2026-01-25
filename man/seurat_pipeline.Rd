@@ -4,12 +4,12 @@
 \alias{seurat_pipeline}
 \title{Run standardized Seurat pipeline}
 \usage{
-seurat_pipeline(obj, dims = 1:30, resolution = 0.8, verbose = TRUE, ...)
+seurat_pipeline(obj, dims = seq_len(30), resolution = 0.8, verbose = TRUE, ...)
 }
 \arguments{
 \item{obj}{A Seurat object or a counts matrix.}
 
-\item{dims}{Dimensions to use for UMAP and neighbors (default: 1:30).}
+\item{dims}{Dimensions to use for UMAP and neighbors (default: seq_len(30)).}
 
 \item{resolution}{Clustering resolution (default: 0.8).}
 
@@ -18,7 +18,8 @@ seurat_pipeline(obj, dims = 1:30, resolution = 0.8, verbose = TRUE, ...)
 \item{...}{Additional arguments passed to Seurat functions.}
 }
 \value{
-A preprocessed \link[SeuratObject]{Seurat} object.
+A preprocessed \link[SeuratObject]{Seurat} object with PCA, UMAP,
+neighbors, and cluster assignments.
 }
 \description{
 Run a standard Seurat preprocessing pipeline on a Seurat object
@@ -35,8 +36,7 @@ Automatically performs:
 }
 }
 \examples{
-\dontrun{
-data("pseudo_seurat", package = "scNLP")
+data("pseudo_seurat")
+# Re-run pipeline on existing object
 obj <- seurat_pipeline(obj = pseudo_seurat)
-}
 }

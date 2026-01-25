@@ -4,6 +4,7 @@
 ^README_files$
 ^CLAUDE\.md$
 ^\.claude$
+^.*\.BiocCheck$
 
 ^\.github$
 ^README.Rmd

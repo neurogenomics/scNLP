@@ -3,28 +3,16 @@
 \docType{data}
 \name{pseudo_seurat}
 \alias{pseudo_seurat}
-\title{Example \code{Seurat}}
+\title{Example Seurat object}
 \format{
-An object of class \code{Seurat} with 2000 rows and 801 columns.
-}
-\usage{
-pseudo_seurat
+A Seurat object with pseudobulk expression data.
 }
 \description{
-Contains pseudobulk data (mean expression per cell-type) from 11 different datasets. 
-Mean expression matrices have been downsampled to 1,000/21,000 genes.
+Contains pseudobulk data (mean expression per cell-type) from 11 different
+datasets. Mean expression matrices have been downsampled to 1,000/21,000
+genes.
 }
 \examples{
-\dontrun{
-set.seed(2021)
-path <- "merged.11datasets.h5ad"
-pseudo_seurat <- scKirby::ingest_data(path, output_type = "Seurat")
-var_features <- FindVariableFeatures_split(
-    pseudo_seurat, split.by = "batch",
-    nfeatures = 4000, nfeatures_max = 2000
-)
-pseudo_seurat <- pseudo_seurat[var_features, ]
-usethis::use_data(pseudo_seurat, overwrite = TRUE)
-}
+data("pseudo_seurat", package = "scNLP")
 }
 \keyword{datasets}

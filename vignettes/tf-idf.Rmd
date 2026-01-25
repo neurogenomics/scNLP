@@ -19,8 +19,8 @@ editor_options:
     wrap: 72
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(echo = T, fig.width = 7, fig.height = 5)
+```{r setup-options, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
 ```
 
 # Intro 
@@ -32,7 +32,7 @@ In our case, our words are within the non-standardized cell labels and our "docu
 
 # Examples 
 
-```{r setup, include=T}
+```{r load-library, include=TRUE}
 library(scNLP) 
 data("pseudo_seurat")
 ```
@@ -79,17 +79,17 @@ You can also plot the results in reduced dimensional space (e.g. UMAP).
 res <- plot_tfidf(obj = pseudo_seurat, 
                   label_var = "celltype", 
                   cluster_var = "cluster", 
-                  show_plot = T)
+                  show_plot = TRUE)
 ```
 
 You can color the point by other metadata attributes instead.
 
-```{r}
-res <- plot_tfidf(obj = pseudo_seurat, 
-                  label_var = "celltype", 
-                  cluster_var = "cluster", 
+```{r plot-by-batch}
+res <- plot_tfidf(obj = pseudo_seurat,
+                  label_var = "celltype",
+                  cluster_var = "cluster",
                   color_var = "batch",
-                  show_plot = T)
+                  show_plot = TRUE)
 ```
 
 
@@ -97,13 +97,13 @@ res <- plot_tfidf(obj = pseudo_seurat,
 
 `plot_tfidf()` can also take in an object of class `SingleCellExperiment`.
 
-```{r not knitting for some reason, eval=F}  
+```{r sce-input, eval=FALSE}
 data("pseudo_sce")
 
-res <- plot_tfidf(obj = pseudo_sce, 
-                  label_var = "celltype", 
-                  cluster_var = "cluster", 
-                  show_plot = T)
+res <- plot_tfidf(obj = pseudo_sce,
+                  label_var = "celltype",
+                  cluster_var = "cluster",
+                  show_plot = TRUE)
 ```
 
 
@@ -111,31 +111,32 @@ res <- plot_tfidf(obj = pseudo_sce,
 
 Lastly, if your data doesn't fit the above example data types, you can simply supply a named `list` with **metadata** and **embeddings**. 
 
-```{r, eval=FALSE}
-data_list <- list(metadata = SingleCellExperiment::colData(pseudo_sce),
-                  embeddings = SingleCellExperiment::colData(pseudo_sce)[,c("UMAP.1","UMAP.2")])
+```{r list-input, eval=FALSE}
+data_list <- list(
+    metadata = SingleCellExperiment::colData(pseudo_sce),
+    embeddings = SingleCellExperiment::colData(pseudo_sce)[, c("UMAP.1", "UMAP.2")]
+)
 
 res <- plot_tfidf(obj = data_list,
-                  label_var = "celltype", 
-                  cluster_var = "cluster", 
-                  show_plot = T)
+                  label_var = "celltype",
+                  cluster_var = "cluster",
+                  show_plot = TRUE)
 ```
 
 ### Interactive mode 
 
 You can also create an interactive version of this plot. 
 
-```{r, warning=F}
+```{r interactive-plot, warning=FALSE}
 res <- plot_tfidf(obj = pseudo_seurat_tfidf,
-                  label_var = "celltype", 
-                  cluster_var = "cluster", 
-                  interact = T,
-                  show_plot = T,
-                  ### Add other metadata vars you want in the hover label like so:
-                  species="species",
-                  dataset="dataset", 
-                  enriched_words="enriched_words",
-                  tf_idf="tf_idf") 
+                  label_var = "celltype",
+                  cluster_var = "cluster",
+                  interact = TRUE,
+                  show_plot = TRUE,
+                  species = "species",
+                  dataset = "dataset",
+                  enriched_words = "enriched_words",
+                  tf_idf = "tf_idf")
 ```
 
 # tf-idf wordcloud 

@@ -32,12 +32,22 @@ or a flattened list (\code{FALSE}).}
 \item{batches}{Number of batches.
 Features are prioritised according to how many variable gene subsets they appear in.}
 }
+\value{
+A character vector of variable feature names, or if
+\code{return_nested=TRUE}, a named list of variable features per subset.
+}
 \description{
 Extension of \code{Seurat::FindVariableFeatures} that 
 finds variable features within each subset of the data.
 }
 \examples{
-\dontrun{
-var_features <- FindVariableFeatures_split(seurat=scNLP::pseudo_seurat, split.by = 'batch')
+\donttest{
+data("pseudo_seurat")
+var_features <- FindVariableFeatures_split(
+    seurat = pseudo_seurat,
+    split.by = "batch",
+    nfeatures = 100,
+    nfeatures_max = 50
+)
 }
 }

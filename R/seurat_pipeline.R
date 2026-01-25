@@ -14,21 +14,21 @@
 #' }
 #'
 #' @param obj A Seurat object or a counts matrix.
-#' @param dims Dimensions to use for UMAP and neighbors (default: 1:30).
+#' @param dims Dimensions to use for UMAP and neighbors (default: seq_len(30)).
 #' @param resolution Clustering resolution (default: 0.8).
 #' @param verbose Print progress messages.
 #' @param ... Additional arguments passed to Seurat functions.
-#' @returns A preprocessed \link[SeuratObject]{Seurat} object.
 #'
+#' @returns A preprocessed \link[SeuratObject]{Seurat} object with PCA, UMAP,
+#' neighbors, and cluster assignments.
 #' @export
 #' @import Seurat
 #' @examples
-#' \dontrun{
-#' data("pseudo_seurat", package = "scNLP")
+#' data("pseudo_seurat")
+#' # Re-run pipeline on existing object
 #' obj <- seurat_pipeline(obj = pseudo_seurat)
-#' }
 seurat_pipeline <- function(obj,
-                            dims = 1:30,
+                            dims = seq_len(30),
                             resolution = 0.8,
                             verbose = TRUE,
                             ...) {

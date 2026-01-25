@@ -83,8 +83,16 @@ set \code{force_new=TRUE} to replace them with new results.}
 
 \item{verbose}{Whether to print messages.}
 
-\item{...}{Additional arguments to be passed to 
+\item{...}{Additional arguments to be passed to
 \code{ggplot2::geom_point(aes_string(...))}.}
+}
+\value{
+A list containing:
+\describe{
+  \item{obs2}{The processed data with TF-IDF results.}
+  \item{tfidf_df}{The full per-cluster TF-IDF enrichment results.}
+  \item{plot}{The ggplot object.}
+}
 }
 \description{
 Plot tf-idf enrichment results in reduced dimensional space 
@@ -93,11 +101,8 @@ Reduced dimensions can be computed based on single-cell data
 (e.g. RNA expression).
 }
 \examples{
-\dontrun{
 data("pseudo_seurat")
-obj <- pseudo_seurat
-res <- plot_tfidf(obj = obj,
+res <- plot_tfidf(obj = pseudo_seurat,
                   label_var = "celltype",
                   cluster_var = "cluster")
-}
 }

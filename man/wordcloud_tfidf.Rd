@@ -27,6 +27,21 @@ cluster each cell is assigned to.}
 
 \item{...}{Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}.}
 }
+\value{
+A list containing:
+\describe{
+  \item{plot}{The wordcloud ggplot object.}
+  \item{tfidf_df}{The TF-IDF results data.frame.}
+}
+}
 \description{
 Wordcloud from tf-idf results
+}
+\examples{
+data("pseudo_seurat")
+if (requireNamespace("ggwordcloud", quietly = TRUE)) {
+    wordcloud_res <- wordcloud_tfidf(obj = pseudo_seurat,
+                                     label_var = "celltype",
+                                     cluster_var = "cluster")
+}
 }

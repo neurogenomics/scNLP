@@ -5,8 +5,17 @@
 #' per-cell metadata and cluster assignments. 
 #' @inheritParams run_tfidf 
 #' @inheritParams dplyr::slice_max
-#' 
+#'
+#' @returns A \code{data.frame} with TF-IDF enrichment results per cluster,
+#' including columns: cluster, word, n, total, samples, tf, idf, tf_idf.
 #' @export
+#' @examples
+#' data("pseudo_seurat")
+#' clusts <- pseudo_seurat@meta.data
+#' clusts$cluster <- clusts$seurat_clusters
+#' tfidf_results <- tfidf(clusts = clusts,
+#'                        label_var = "celltype",
+#'                        cluster_var = "cluster")
 tfidf <- function(clusts,
                   label_var="dataset",
                   cluster_var="seurat_clusters",

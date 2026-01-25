@@ -149,7 +149,7 @@ plotly::ggplotly(gp)
 library(SeuratObject)
 out = ELeFHAnt::CelltypeAnnotation(reference = hpca_seurat,
                                    query = seurat_integrated,
-                                   downsample = T,
+                                   downsample = TRUE,
                                    classification.method = "Ensemble")
 gp <- Seurat::DimPlot(out, 
                       group.by = c("batch","species",
@@ -184,7 +184,7 @@ mat <- data.table::data.table(relate$data) %>%
                                na.rm=TRUE) %>% 
   tibble::column_to_rownames("reference1") %>%
   as.matrix() 
-rowmax <- DelayedArray::rowMaxs(mat, na.rm = T)
+rowmax <- DelayedArray::rowMaxs(mat, na.rm = TRUE)
 
 heatmap(mat[rowmax>0,])
 

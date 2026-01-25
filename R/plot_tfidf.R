@@ -19,19 +19,22 @@
 #' @param background_color Plot background colour.
 #' @param text_color Cluster label text colour.
 #' @param interact Whether to make the plot interactive with \pkg{plotly}. 
-#' @param ... Additional arguments to be passed to 
-#' \code{ggplot2::geom_point(aes_string(...))}. 
-#' 
+#' @param ... Additional arguments to be passed to
+#' \code{ggplot2::geom_point(aes_string(...))}.
+#'
+#' @returns A list containing:
+#' \describe{
+#'   \item{obs2}{The processed data with TF-IDF results.}
+#'   \item{tfidf_df}{The full per-cluster TF-IDF enrichment results.}
+#'   \item{plot}{The ggplot object.}
+#' }
 #' @export
 #' @import ggplot2
 #' @examples
-#' \dontrun{
 #' data("pseudo_seurat")
-#' obj <- pseudo_seurat
-#' res <- plot_tfidf(obj = obj,
+#' res <- plot_tfidf(obj = pseudo_seurat,
 #'                   label_var = "celltype",
 #'                   cluster_var = "cluster")
-#' }
 plot_tfidf <- function(obj, 
                        reduction="UMAP",
                        label_var=NULL,

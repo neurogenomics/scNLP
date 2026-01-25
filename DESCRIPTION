@@ -23,8 +23,7 @@ License: MIT + file LICENSE
 URL: https://github.com/neurogenomics/scNLP
 BugReports: https://github.com/neurogenomics/scNLP/issues
 Encoding: UTF-8
-LazyData: true
-Depends: R (>= 4.1.0)
+Depends: R (>= 4.5.0)
 biocViews:
     Software,
     SingleCell,
@@ -58,7 +57,8 @@ Suggests:
     ggwordcloud,
     testthat (>= 3.0.0),
     BiocStyle,
-    SingleCellExperiment
+    SingleCellExperiment,
+    SummarizedExperiment
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3

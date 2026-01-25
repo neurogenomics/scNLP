@@ -13,11 +13,19 @@
 #' @param nfeatures_max The max number of features to return. 
 #' @param batches Number of batches.
 #' Features are prioritised according to how many variable gene subsets they appear in.
-#' 
+#'
+#' @returns A character vector of variable feature names, or if
+#' \code{return_nested=TRUE}, a named list of variable features per subset.
 #' @export
 #' @examples
-#' \dontrun{
-#' var_features <- FindVariableFeatures_split(seurat=scNLP::pseudo_seurat, split.by = 'batch')
+#' \donttest{
+#' data("pseudo_seurat")
+#' var_features <- FindVariableFeatures_split(
+#'     seurat = pseudo_seurat,
+#'     split.by = "batch",
+#'     nfeatures = 100,
+#'     nfeatures_max = 50
+#' )
 #' }
 FindVariableFeatures_split <- function(seurat,
                                        split.by,

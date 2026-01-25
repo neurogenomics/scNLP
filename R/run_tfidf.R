@@ -15,16 +15,17 @@
 #' @param return_all_results Whether to return just the \code{obj} 
 #' with updated metadata (\code{TRUE}), 
 #' or all intermediate results (\code{FALSE}).
-#' @param verbose Whether to print messages. 
-#' 
+#' @param verbose Whether to print messages.
+#'
+#' @returns The input object with TF-IDF results added to metadata
+#' (\code{enriched_words} and \code{tf_idf} columns), or if
+#' \code{return_all_results=TRUE}, a list with the object and intermediate results.
 #' @export
 #' @examples
-#' \dontrun{
 #' data("pseudo_seurat")
 #' obj2 <- run_tfidf(obj = pseudo_seurat,
 #'                   cluster_var = "cluster",
-#'                   label_var = "celltype")
-#' }  
+#'                   label_var = "celltype")  
 run_tfidf <- function(obj=NULL, 
                       reduction="UMAP",
                       label_var="label",

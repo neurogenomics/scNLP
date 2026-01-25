@@ -35,6 +35,18 @@ set \code{force_new=TRUE} to replace them with new results.}
 may return more rows than you request. Use \code{FALSE} to ignore ties,
 and return the first \code{n} rows.}
 }
+\value{
+A \code{data.frame} with TF-IDF enrichment results per cluster,
+including columns: cluster, word, n, total, samples, tf, idf, tf_idf.
+}
 \description{
 Run tf-idf on a metadata table.
+}
+\examples{
+data("pseudo_seurat")
+clusts <- pseudo_seurat@meta.data
+clusts$cluster <- clusts$seurat_clusters
+tfidf_results <- tfidf(clusts = clusts,
+                       label_var = "celltype",
+                       cluster_var = "cluster")
 }
