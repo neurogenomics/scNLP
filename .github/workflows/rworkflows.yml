@@ -45,5 +45,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run_docker: ${{ false }}
         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         runner_os: ${{ runner.os }}
         cache_version: cache-v1
