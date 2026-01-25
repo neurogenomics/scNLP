@@ -1,0 +1,27 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/articles/harmonise_celltypes.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/tf-idf.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/FindVariableFeatures_split.html</loc></url>
+<url><loc>/reference/get_ancestors.html</loc></url>
+<url><loc>/reference/gpt.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/messager.html</loc></url>
+<url><loc>/reference/plot_tfidf.html</loc></url>
+<url><loc>/reference/pseudo_sce.html</loc></url>
+<url><loc>/reference/pseudo_seurat.html</loc></url>
+<url><loc>/reference/run_gpt.html</loc></url>
+<url><loc>/reference/run_tfidf.html</loc></url>
+<url><loc>/reference/search_neighbors.html</loc></url>
+<url><loc>/reference/seurat_pipeline.html</loc></url>
+<url><loc>/reference/stopper.html</loc></url>
+<url><loc>/reference/tfidf.html</loc></url>
+<url><loc>/reference/tfidf_label_markers.html</loc></url>
+<url><loc>/reference/wordcloud_tfidf.html</loc></url>
+</urlset>
+
