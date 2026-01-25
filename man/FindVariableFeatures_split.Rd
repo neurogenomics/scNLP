@@ -22,26 +22,27 @@ FindVariableFeatures_split(
 \item{nfeatures}{The number of variable genes to select.}
 
 \item{count_overall}{Whether \code{nfeatures} should be interpreted
-as the number of variable genes overall (\code{TRUE}) or per subset (\code{FALSE}).}
+as the number of variable genes overall (\code{TRUE}) or per subset
+(\code{FALSE}).}
 
-\item{return_nested}{Return a named list of variable genes per subset (\code{TRUE}) 
-or a flattened list (\code{FALSE}).}
+\item{return_nested}{Return a named list of variable genes per subset
+(\code{TRUE}) or a flattened list (\code{FALSE}).}
 
 \item{nfeatures_max}{The max number of features to return.}
 
 \item{batches}{Number of batches.
-Features are prioritised according to how many variable gene subsets they appear in.}
+Features are prioritised according to how many variable gene subsets
+they appear in.}
 }
 \value{
 A character vector of variable feature names, or if
 \code{return_nested=TRUE}, a named list of variable features per subset.
 }
 \description{
-Extension of \code{Seurat::FindVariableFeatures} that 
+Extension of \code{Seurat::FindVariableFeatures} that
 finds variable features within each subset of the data.
 }
 \examples{
-\donttest{
 data("pseudo_seurat")
 var_features <- FindVariableFeatures_split(
     seurat = pseudo_seurat,
@@ -49,5 +50,4 @@ var_features <- FindVariableFeatures_split(
     nfeatures = 100,
     nfeatures_max = 50
 )
-}
 }

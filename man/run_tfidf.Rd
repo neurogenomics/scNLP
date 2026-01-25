@@ -2,10 +2,7 @@
 % Please edit documentation in R/run_tfidf.R
 \name{run_tfidf}
 \alias{run_tfidf}
-\title{Run TF-IDF on single-cell data
- 
-Run Term Frequency - Inverse Document Frequency (TF-IDF) analysis on
-samples metadata to characterise each cluster.}
+\title{Run TF-IDF on single-cell data}
 \usage{
 run_tfidf(
   obj = NULL,
@@ -26,19 +23,19 @@ run_tfidf(
 
 \item{label_var}{Which cell metadata column to input to NLP analysis.}
 
-\item{cluster_var}{Which cell metadata column to use to identify which 
+\item{cluster_var}{Which cell metadata column to use to identify which
 cluster each cell is assigned to.}
 
-\item{replace_regex}{Characters by which to split \code{label_var} into terms
+\item{replace_regex}{Characters used to split \code{label_var} into terms
 (i.e. tokens) for NLP enrichment analysis.}
 
 \item{terms_per_cluster}{The maximum number of words to return per cluster.}
 
-\item{force_new}{If NLP results are already detected the metadata, 
+\item{force_new}{If NLP results are already detected the metadata,
 set \code{force_new=TRUE} to replace them with new results.}
 
-\item{return_all_results}{Whether to return just the \code{obj} 
-with updated metadata (\code{TRUE}), 
+\item{return_all_results}{Whether to return just the \code{obj}
+with updated metadata (\code{TRUE}),
 or all intermediate results (\code{FALSE}).}
 
 \item{verbose}{Whether to print messages.}
@@ -46,11 +43,10 @@ or all intermediate results (\code{FALSE}).}
 \value{
 The input object with TF-IDF results added to metadata
 (\code{enriched_words} and \code{tf_idf} columns), or if
-\code{return_all_results=TRUE}, a list with the object and intermediate results.
+\code{return_all_results=TRUE}, a list with the object and intermediate
+results.
 }
 \description{
-Run TF-IDF on single-cell data
- 
 Run Term Frequency - Inverse Document Frequency (TF-IDF) analysis on
 samples metadata to characterise each cluster.
 }
@@ -58,5 +54,5 @@ samples metadata to characterise each cluster.
 data("pseudo_seurat")
 obj2 <- run_tfidf(obj = pseudo_seurat,
                   cluster_var = "cluster",
-                  label_var = "celltype")  
+                  label_var = "celltype")
 }

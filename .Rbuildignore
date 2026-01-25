@@ -5,6 +5,8 @@
 ^CLAUDE\.md$
 ^\.claude$
 ^.*\.BiocCheck$
+^inst/OnClass_code$
+^inst/hex$
 
 ^\.github$
 ^README.Rmd

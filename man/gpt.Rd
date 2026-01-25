@@ -14,17 +14,17 @@ gpt(
 )
 }
 \arguments{
-\item{clusts}{\code{data.frame}/\code{data.table} with the 
+\item{clusts}{\code{data.frame}/\code{data.table} with the
 per-cell metadata and cluster assignments.}
 
 \item{label_var}{Which cell metadata column to input to NLP analysis.}
 
-\item{cluster_var}{Which cell metadata column to use to identify which 
+\item{cluster_var}{Which cell metadata column to use to identify which
 cluster each cell is assigned to.}
 
 \item{terms_per_cluster}{The maximum number of words to return per cluster.}
 
-\item{force_new}{If NLP results are already detected the metadata, 
+\item{force_new}{If NLP results are already detected the metadata,
 set \code{force_new=TRUE} to replace them with new results.}
 
 \item{verbose}{Whether to print messages.}
@@ -38,6 +38,6 @@ Run GPT on a metadata table.
 \examples{
 # Show expected input format (API call not executed)
 data("pseudo_seurat")
-clusts <- pseudo_seurat@meta.data
+clusts <- pseudo_seurat[[]]
 head(clusts[, c("celltype", "cluster")])
 }

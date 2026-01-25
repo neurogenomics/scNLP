@@ -13,15 +13,15 @@ tfidf_label_markers(obj, markers, ...)
     \item{\code{obj}}{Single-cell data object.}
     \item{\code{reduction}}{Name of the reduction to use (\emph{case insensitive}).}
     \item{\code{label_var}}{Which cell metadata column to input to NLP analysis.}
-    \item{\code{cluster_var}}{Which cell metadata column to use to identify which 
+    \item{\code{cluster_var}}{Which cell metadata column to use to identify which
 cluster each cell is assigned to.}
-    \item{\code{replace_regex}}{Characters by which to split \code{label_var} into terms
+    \item{\code{replace_regex}}{Characters used to split \code{label_var} into terms
 (i.e. tokens) for NLP enrichment analysis.}
     \item{\code{terms_per_cluster}}{The maximum number of words to return per cluster.}
-    \item{\code{force_new}}{If NLP results are already detected the metadata, 
+    \item{\code{force_new}}{If NLP results are already detected the metadata,
 set \code{force_new=TRUE} to replace them with new results.}
-    \item{\code{return_all_results}}{Whether to return just the \code{obj} 
-with updated metadata (\code{TRUE}), 
+    \item{\code{return_all_results}}{Whether to return just the \code{obj}
+with updated metadata (\code{TRUE}),
 or all intermediate results (\code{FALSE}).}
     \item{\code{verbose}}{Whether to print messages.}
   }}

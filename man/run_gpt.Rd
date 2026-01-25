@@ -22,23 +22,24 @@ run_gpt(
 
 \item{label_var}{Which cell metadata column to input to NLP analysis.}
 
-\item{cluster_var}{Which cell metadata column to use to identify which 
+\item{cluster_var}{Which cell metadata column to use to identify which
 cluster each cell is assigned to.}
 
 \item{terms_per_cluster}{The maximum number of words to return per cluster.}
 
-\item{force_new}{If NLP results are already detected the metadata, 
+\item{force_new}{If NLP results are already detected the metadata,
 set \code{force_new=TRUE} to replace them with new results.}
 
-\item{return_all_results}{Whether to return just the \code{obj} 
-with updated metadata (\code{TRUE}), 
+\item{return_all_results}{Whether to return just the \code{obj}
+with updated metadata (\code{TRUE}),
 or all intermediate results (\code{FALSE}).}
 
 \item{verbose}{Whether to print messages.}
 }
 \value{
 The input object with GPT summary added to metadata, or if
-\code{return_all_results=TRUE}, a list with the object and intermediate results.
+\code{return_all_results=TRUE}, a list with the object and intermediate
+results.
 }
 \description{
 Ask chatGPT to summarise each cluster based on the samples metadata.
@@ -46,5 +47,5 @@ Ask chatGPT to summarise each cluster based on the samples metadata.
 \examples{
 # Show expected input (API call not executed)
 data("pseudo_seurat")
-print(class(pseudo_seurat))  
+print(class(pseudo_seurat))
 }

@@ -9,7 +9,7 @@ messager(..., v = TRUE, parallel = FALSE)
 \arguments{
 \item{v}{Whether to print messages or not.}
 
-\item{parallel}{Whether to enable message print when wrapped 
+\item{parallel}{Whether to enable message print when wrapped
 in parallelised functions.}
 }
 \value{
@@ -17,8 +17,8 @@ Null
 }
 \description{
 Conditionally print messages.
- Allows developers to easily control verbosity of functions, 
- and meet Bioconductor requirements that dictate the message 
+ Allows developers to easily control verbosity of functions,
+ and meet Bioconductor requirements that dictate the message
  must first be stored to a variable before passing to \link[base]{message}.
 }
 \keyword{internal}

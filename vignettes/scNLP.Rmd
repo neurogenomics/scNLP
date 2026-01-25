@@ -1,0 +1,245 @@
+---
+title: "scNLP: Introduction"
+author: "<h5>Author: <i>Brian M. Schilder</i></h5>"
+date: "<h5>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h5>"
+output:
+    BiocStyle::html_document:
+vignette: >
+    %\VignetteIndexEntry{scNLP}
+    %\usepackage[utf8]{inputenc}
+    %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
+```
+
+# Introduction
+
+`scNLP` is an R package for applying Natural Language Processing (NLP)
+techniques to single-cell omics data. The primary use case is
+harmonizing non-standardized cell-type labels across datasets.
+
+When integrating single-cell datasets from multiple sources, cell-type
+annotations are often inconsistent. Different labs may use different
+naming conventions for the same cell types (e.g., "Purkinje neurons" vs
+"Purkinje cells" vs "PCs"). `scNLP` provides tools to identify
+semantically similar labels and find enriched terms that characterize
+each cluster.
+
+## Key Features
+
+-   **TF-IDF Analysis**: Identify enriched terms in cell-type labels
+    using Term Frequency-Inverse Document Frequency
+-
+-   **Visualization**: Generate scatter plots and word clouds showing
+    enriched terms per cluster
+-   **Neighbor Search**: Find cells with similar labels using graph-based
+    methods
+-   **Seurat Integration**: Seamless integration with the Seurat
+    ecosystem
+
+## Installation
+
+```{r install, eval=FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("scNLP")
+```
+
+# Quick Start
+
+```{r load-package}
+library(scNLP)
+```
+## Example Data
+
+`scNLP` includes a pseudo-bulk Seurat object containing mean expression
+per cell-type from 11 different datasets.
+
+```{r load-data}
+data("pseudo_seurat")
+pseudo_seurat
+```
+
+The metadata contains cell-type labels, batch information, and cluster
+assignments:
+
+```{r show-metadata}
+head(pseudo_seurat[[]][, c("celltype", "batch", "cluster")])
+```
+
+# Core Workflow: TF-IDF Analysis
+
+The core functionality of `scNLP` centers on TF-IDF (Term
+Frequency-Inverse Document Frequency) analysis. This NLP technique
+identifies words or phrases enriched in one "document" (cluster)
+relative to others.
+
+## Understanding TF-IDF
+
+In the context of single-cell data:
+
+-   **Terms**: Words within cell-type labels (e.g., "neuron",
+    "astrocyte", "inhibitory")
+-   **Documents**: Clusters of cells
+-   **Goal**: Find terms that best characterize each cluster
+
+This is analogous to finding marker genes, but for text labels instead
+of gene expression.
+
+## Running TF-IDF
+
+The `run_tfidf()` function computes TF-IDF scores and adds results to
+the Seurat object metadata:
+
+```{r run-tfidf}
+result <- run_tfidf(
+    obj = pseudo_seurat,
+    reduction = "umap",
+    cluster_var = "cluster",
+    label_var = "celltype"
+)
+
+# View enriched words per cluster
+head(result[[]][, c("cluster", "celltype", "enriched_words", "tf_idf")])
+```
+
+## Visualizing Results
+
+### Scatter Plot
+
+`plot_tfidf()` creates a dimensional reduction plot with enriched terms
+labeled at cluster centers:
+```{r plot-tfidf, fig.height=6}
+res <- plot_tfidf(
+    obj = pseudo_seurat,
+    label_var = "celltype",
+    cluster_var = "cluster",
+    show_plot = TRUE
+)
+```
+
+The returned object contains:
+
+-   `data`: Processed data used for plotting
+-   `tfidf_df`: Full per-cluster TF-IDF results
+-   `plot`: The ggplot object
+
+### Word Cloud
+
+For an alternative visualization, `wordcloud_tfidf()` displays enriched
+terms as a word cloud:
+
+```{r wordcloud, fig.height=6}
+wc_res <- wordcloud_tfidf(
+    obj = pseudo_seurat,
+    label_var = "celltype",
+    cluster_var = "cluster",
+    terms_per_cluster = 5
+)
+```
+
+# Additional Functions
+
+## Preprocessing Pipeline
+
+If starting from raw counts, `seurat_pipeline()` provides a standard
+preprocessing workflow:
+
+```{r seurat-pipeline, eval=FALSE}
+# Create Seurat object from counts
+counts <- Seurat::GetAssayData(pseudo_seurat, layer = "counts")
+obj <- SeuratObject::CreateSeuratObject(counts = counts)
+
+# Run standard pipeline
+processed <- seurat_pipeline(obj)
+```
+
+## Neighbor Search
+
+`search_neighbors()` finds cells with similar labels using the
+nearest-neighbor graph:
+
+```{r search-neighbors}
+neighbors <- search_neighbors(
+    seurat = pseudo_seurat,
+    var1_search = "purkinje",
+    max_neighbors = 5
+)
+head(neighbors)
+```
+
+## Variable Feature Selection
+
+`FindVariableFeatures_split()` identifies variable features within data
+subsets, useful for batch-aware feature selection:
+
+```{r var-features, eval=FALSE}
+var_features <- FindVariableFeatures_split(
+    seurat = pseudo_seurat,
+    split.by = "batch",
+    nfeatures = 100,
+    nfeatures_max = 50
+)
+```
+
+# Working with Different Input Types
+
+`scNLP` functions accept multiple input types:
+## Seurat Objects
+
+```{r seurat-input, eval=FALSE}
+res <- plot_tfidf(
+    obj = pseudo_seurat,
+    label_var = "celltype",
+    cluster_var = "cluster"
+)
+```
+
+## SingleCellExperiment Objects
+
+```{r sce-input, eval=FALSE}
+data("pseudo_sce")
+res <- plot_tfidf(
+    obj = pseudo_sce,
+    label_var = "celltype",
+    cluster_var = "cluster"
+)
+```
+
+## Named Lists
+
+For custom data structures, provide a list with metadata and embeddings:
+
+```{r list-input, eval=FALSE}
+data_list <- list(
+    metadata = pseudo_seurat[[]],
+    embeddings = Seurat::Embeddings(pseudo_seurat, "umap")
+)
+res <- plot_tfidf(
+    obj = data_list,
+    label_var = "celltype",
+    cluster_var = "cluster"
+)
+```
+
+# Further Reading
+
+For more detailed examples, see the additional vignettes:
+
+-   `vignette("tf-idf", package = "scNLP")`: Comprehensive TF-IDF
+    tutorial
+-   `vignette("harmonise_celltypes", package = "scNLP")`: Advanced
+    cell-type harmonization workflows
+
+# Session Info
+
+<details>
+
+```{r session-info}
+utils::sessionInfo()
+```
+
+</details>

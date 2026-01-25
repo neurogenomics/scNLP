@@ -18,14 +18,14 @@ wordcloud_tfidf(
 
 \item{label_var}{Which cell metadata column to input to NLP analysis.}
 
-\item{cluster_var}{Which cell metadata column to use to identify which 
+\item{cluster_var}{Which cell metadata column to use to identify which
 cluster each cell is assigned to.}
 
 \item{terms_per_cluster}{The maximum number of words to return per cluster.}
 
 \item{show_plot}{Whether to print the plot.}
 
-\item{...}{Additional parameters to pass to \code{ggplot2::ggplot(aes_string(...))}.}
+\item{...}{Additional parameters passed to \code{ggplot2::ggplot(aes(...))}.}
 }
 \value{
 A list containing:

@@ -42,8 +42,8 @@ get_obsm_internal <- function(obj, keys = NULL, verbose = TRUE) {
         matched <- all_keys[match(keys_lower, all_keys_lower)]
         matched <- matched[!is.na(matched)]
         if (length(matched) == 0) {
-            stop("No matching reductions found. Available: ",
-                 paste(all_keys, collapse = ", "))
+            avail <- paste(all_keys, collapse = ", ")
+            stop("No matching reductions found. Available: ", avail)
         }
         keys <- matched
     }

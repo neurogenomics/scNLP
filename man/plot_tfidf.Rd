@@ -37,10 +37,10 @@ plot_tfidf(
 
 \item{label_var}{Which cell metadata column to input to NLP analysis.}
 
-\item{cluster_var}{Which cell metadata column to use to identify which 
+\item{cluster_var}{Which cell metadata column to use to identify which
 cluster each cell is assigned to.}
 
-\item{replace_regex}{Characters by which to split \code{label_var} into terms
+\item{replace_regex}{Characters used to split \code{label_var} into terms
 (i.e. tokens) for NLP enrichment analysis.}
 
 \item{terms_per_cluster}{The maximum number of words to return per cluster.}
@@ -78,7 +78,7 @@ Defaults to 10.}
 
 \item{interact}{Whether to make the plot interactive with \pkg{plotly}.}
 
-\item{force_new}{If NLP results are already detected the metadata, 
+\item{force_new}{If NLP results are already detected the metadata,
 set \code{force_new=TRUE} to replace them with new results.}
 
 \item{verbose}{Whether to print messages.}
@@ -95,9 +95,9 @@ A list containing:
 }
 }
 \description{
-Plot tf-idf enrichment results in reduced dimensional space 
-(e.g. PCA/tSNE/UMAP), 
-Reduced dimensions can be computed based on single-cell data 
+Plot tf-idf enrichment results in reduced dimensional space
+(e.g. PCA/tSNE/UMAP),
+Reduced dimensions can be computed based on single-cell data
 (e.g. RNA expression).
 }
 \examples{
