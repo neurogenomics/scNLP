@@ -2,54 +2,32 @@
 % Please edit documentation in R/seurat_pipeline.R
 \name{seurat_pipeline}
 \alias{seurat_pipeline}
-\title{Run standardized \pkg{Seurat} pipeline}
+\title{Run standardized Seurat pipeline}
 \usage{
-seurat_pipeline(...)
+seurat_pipeline(obj, dims = 1:30, resolution = 0.8, verbose = TRUE, ...)
 }
 \arguments{
-\item{...}{
-  Arguments passed on to \code{\link[scKirby:process_seurat]{scKirby::process_seurat}}
-  \describe{
-    \item{\code{obj}}{A single-cell object supported by \pkg{scKirby}.
-See \link[scKirby]{converters} for a table of all supported conversions.}
-    \item{\code{meta.data}}{Additional cell-level metadata to add to the Seurat object.
-Should be a \code{\link[base]{data.frame}} where the rows are cell names and
-the columns are additional metadata fields. Row names in the metadata need
-to match the column names of the counts matrix.}
-    \item{\code{nfeatures}}{Number of features to select as top variable features;
-only used when \code{selection.method} is set to \code{'dispersion'} or
-\code{'vst'}}
-    \item{\code{vars.to.regress}}{Variables to regress out (previously latent.vars in
-RegressOut). For example, nUMI, or percent.mito.}
-    \item{\code{dims}}{Which dimensions to use as input features, used only if
-\code{features} is NULL}
-    \item{\code{add_specificity}}{Add a new assay called "specificity" by deriving
-specificity scores from the input data.}
-    \item{\code{default_assay}}{Default assay to set with \link[Seurat]{DefaultAssay}.}
-    \item{\code{n.components}}{The dimension of the space to embed into.}
-    \item{\code{cluster_reduction}}{Recompute neighbors graph based on UMAP
-to get clusters that best reflect UMAP space.
-For this same reason, only cluster in two dimensions,
-because this is the view we most often use.
-That said, this may reduce the generalisability of these clusters/graph.}
-    \item{\code{workers}}{Number of workers (threads) to parallelise processes across
-using \pkg{future}.}
-    \item{\code{max_mem}}{Max limit on memory usage, to be passed to environmental
-variable \code{future.globals.maxSize}.}
-    \item{\code{seed}}{Random seed to set.}
-    \item{\code{verbose}}{Print messages.}
-  }}
+\item{obj}{A Seurat object or a counts matrix.}
+
+\item{dims}{Dimensions to use for UMAP and neighbors (default: 1:30).}
+
+\item{resolution}{Clustering resolution (default: 0.8).}
+
+\item{verbose}{Print progress messages.}
+
+\item{...}{Additional arguments passed to Seurat functions.}
 }
 \value{
-A preprocessed \link[Seurat]{Seurat} object.
+A preprocessed \link[SeuratObject]{Seurat} object.
 }
 \description{
-Run \pkg{Seurat} pipeline on \pkg{Seurat} object 
-or raw \code{counts} and \code{meta.data}.\cr
-Automatically performs 
+Run a standard Seurat preprocessing pipeline on a Seurat object
+or raw counts matrix.
+Automatically performs:
 \describe{
-\item{\code{FindVariableFeatures}}{Variable feature selection}
 \item{\code{NormalizeData}}{Data normalization}
+\item{\code{FindVariableFeatures}}{Variable feature selection}
+\item{\code{ScaleData}}{Data scaling}
 \item{\code{RunPCA}}{PCA}
 \item{\code{RunUMAP}}{UMAP}
 \item{\code{FindNeighbors}}{K-nearest neighbors}
@@ -57,6 +35,8 @@ Automatically performs
 }
 }
 \examples{
-X <- scNLP::pseudo_sce@assays@data$raw@seed[,seq_len(100)]
-obj <- seurat_pipeline(obj = X)
+\dontrun{
+data("pseudo_seurat", package = "scNLP")
+obj <- seurat_pipeline(obj = pseudo_seurat)
+}
 }

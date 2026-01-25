@@ -47,7 +47,7 @@ cluster each cell is assigned to.}
 
 \item{size_var}{Point size variable in \code{obj} metadata.}
 
-\item{color_var}{Point color variable in \code{obj} metadata.}
+\item{color_var}{Point colour variable in \code{obj} metadata.}
 
 \item{point_alpha}{Point opacity.}
 
@@ -57,13 +57,13 @@ cluster each cell is assigned to.}
 
 \item{density_adjust}{Density adjust (controls granularity of density plot).}
 
-\item{label_fill}{Cluster label background color.}
+\item{label_fill}{Cluster label background colour.}
 
 \item{show_plot}{Whether to print the plot.}
 
-\item{background_color}{Plot background color.}
+\item{background_color}{Plot background colour.}
 
-\item{text_color}{Cluster label text color.}
+\item{text_color}{Cluster label text colour.}
 
 \item{force}{Force of repulsion between overlapping text labels. Defaults
 to 1.}
@@ -83,16 +83,21 @@ set \code{force_new=TRUE} to replace them with new results.}
 
 \item{verbose}{Whether to print messages.}
 
-\item{...}{Additional arguments to be passed to \code{ggplot2::geom_point(aes_string(...))}.}
+\item{...}{Additional arguments to be passed to 
+\code{ggplot2::geom_point(aes_string(...))}.}
 }
 \description{
-Plot tf-idf enrichment results in reduced dimensional space (e.g. PCA/tSNe/UMAP), 
-Reduced dimensions can be computed based on single-cell data (e.g. RNA expression). .
+Plot tf-idf enrichment results in reduced dimensional space 
+(e.g. PCA/tSNE/UMAP), 
+Reduced dimensions can be computed based on single-cell data 
+(e.g. RNA expression).
 }
 \examples{
+\dontrun{
 data("pseudo_seurat")
 obj <- pseudo_seurat
-res <- plot_tfidf(obj = obj, 
-                  label_var = "celltype", 
+res <- plot_tfidf(obj = obj,
+                  label_var = "celltype",
                   cluster_var = "cluster")
+}
 }

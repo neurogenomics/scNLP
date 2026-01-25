@@ -24,12 +24,14 @@
 #' 
 #' @export
 #' @import ggplot2
-#' @examples 
+#' @examples
+#' \dontrun{
 #' data("pseudo_seurat")
 #' obj <- pseudo_seurat
-#' res <- plot_tfidf(obj = obj, 
-#'                   label_var = "celltype", 
+#' res <- plot_tfidf(obj = obj,
+#'                   label_var = "celltype",
 #'                   cluster_var = "cluster")
+#' }
 plot_tfidf <- function(obj, 
                        reduction="UMAP",
                        label_var=NULL,

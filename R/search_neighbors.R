@@ -23,11 +23,12 @@
 #'      
 #' @export           
 #' @importFrom stats setNames
-#' @examples  
-#' data("pseudo_seurat") 
+#' @examples
+#' \dontrun{
+#' data("pseudo_seurat")
 #' ### No group filter
-#' top_neighbors <- search_neighbors(seurat = pseudo_seurat, 
-#'                                   var1_search = "purkinje", 
+#' top_neighbors <- search_neighbors(seurat = pseudo_seurat,
+#'                                   var1_search = "purkinje",
 #'                                   max_neighbors=5)
 #' ### With group filter
 #' top_neighbors2 <- search_neighbors(seurat = pseudo_seurat,
@@ -35,6 +36,7 @@
 #'                                   var2_group = "human",
 #'                                   group_col = "species",
 #'                                   max_neighbors=5)
+#' }
 search_neighbors <- function(seurat,
                              graph_name=NULL,
                              var1_search=NULL,  

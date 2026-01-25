@@ -40,9 +40,10 @@ or all intermediate results (\code{FALSE}).}
 Ask chatGPT to summarise each cluster based on the samples metadata.
 }
 \examples{
- 
+\dontrun{
 data("pseudo_seurat")
-obj2 <- run_gpt(obj = pseudo_seurat, 
+obj2 <- run_gpt(obj = pseudo_seurat,
                 cluster_var = "cluster",
-                label_var = "celltype")  
+                label_var = "celltype")
+}  
 }

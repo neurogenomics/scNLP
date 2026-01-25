@@ -18,11 +18,13 @@
 #' @param verbose Whether to print messages. 
 #' 
 #' @export
-#' @examples  
+#' @examples
+#' \dontrun{
 #' data("pseudo_seurat")
-#' obj2 <- run_tfidf(obj = pseudo_seurat, 
+#' obj2 <- run_tfidf(obj = pseudo_seurat,
 #'                   cluster_var = "cluster",
-#'                   label_var = "celltype")  
+#'                   label_var = "celltype")
+#' }  
 run_tfidf <- function(obj=NULL, 
                       reduction="UMAP",
                       label_var="label",
@@ -74,7 +76,7 @@ run_tfidf <- function(obj=NULL,
     stop("Seurat sample names and tfidf samples names are not aligned!")
   }
   obs2 <- data.frame(obs2, row.names = row.names(clusts))    
-  obj2 <- scKirby::set_obs(obj = obj, 
+  obj2 <- set_obs_internal(obj = obj, 
                            obs = obs2,
                            verbose = verbose)
   #### Return ####

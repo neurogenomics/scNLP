@@ -11,8 +11,6 @@
 ^docs$
 ^pkgdown$
 ^Dockerfile$
-^LICENSE
-
 node_modules$
 package-lock\.json$
 package\.json$

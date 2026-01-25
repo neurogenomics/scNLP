@@ -1,46 +1,64 @@
 Package: scNLP
 Type: Package
-Title: NLP for Single-cell Omics.
-Version: 0.1.2
-Authors@R: c(person(given = "Brian",
-                    family = "Schilder",
-                    role = c("cre"),
-                    email = "brian_schilder@alumni.brown.edu",
-                    comment = c(ORCID = "0000-0001-5949-2191")) )
+Title: NLP for Single-cell Omics
+Version: 0.99.0
+Authors@R: c(
+    person(given = "Brian",
+           family = "Schilder",
+           role = c("aut"),
+           email = "brian_schilder@alumni.brown.edu",
+           comment = c(ORCID = "0000-0001-5949-2191")),
+    person(given = "Nathan",
+           family = "Skene",
+           role = c("aut", "cre"),
+           email = "nathan.skene@imperial.ac.uk",
+           comment = c(ORCID = "0000-0002-6807-3180"))
+    )
 Description: Tools for applying natural language processing (NLP)
-  techniques to single-cell (sc) omics data.
+    techniques to single-cell (sc) omics data. Uses term frequency-inverse
+    document frequency (TF-IDF) to identify enriched terms in cell clusters,
+    enabling harmonization of non-standardized cell-type labels across datasets
+    and identification of metadata attributes over-represented in specific clusters.
 License: MIT + file LICENSE
 URL: https://github.com/neurogenomics/scNLP
 BugReports: https://github.com/neurogenomics/scNLP/issues
 Encoding: UTF-8
-LazyData: true 
+LazyData: true
 Depends: R (>= 4.1.0)
-SystemRequirements: Python (>= 3.7.0)
 biocViews:
-Imports: 
-  dplyr, 
-  tibble,
-  data.table,
-  tidytext,
-  ggplot2,
-  plotly,
-  Matrix,
-  ggrepel,
-  scales,
-  Seurat,
-  future,
-  pals,
-  scKirby
+    Software,
+    SingleCell,
+    Transcriptomics,
+    Clustering,
+    GeneExpression,
+    RNASeq
+Imports:
+    dplyr,
+    data.table,
+    tidytext,
+    ggplot2,
+    plotly,
+    Matrix,
+    ggrepel,
+    scales,
+    reshape2,
+    Seurat,
+    SeuratObject,
+    pals,
+    methods,
+    stats
 Suggests:
-  rworkflows,
-  rmarkdown,
-  knitr,
-  remotes,
-  gptstudio,
-  ontologyIndex,
-  ontoProc,
-  ggwordcloud
-Remotes:
-  github::neurogenomics/scKirby
+    rworkflows,
+    rmarkdown,
+    knitr,
+    remotes,
+    gptstudio,
+    ontologyIndex,
+    ontoProc,
+    ggwordcloud,
+    testthat (>= 3.0.0),
+    BiocStyle,
+    SingleCellExperiment
 VignetteBuilder: knitr
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
