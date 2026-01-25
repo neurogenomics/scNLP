@@ -58,7 +58,7 @@ Suggests:
     testthat (>= 3.0.0),
     BiocStyle,
     SingleCellExperiment,
-    cellldex
+    celldex
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3

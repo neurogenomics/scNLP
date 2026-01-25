@@ -30,3 +30,12 @@ The original \code{meta} object with the new \code{ancestor_col}.
 \description{
 Get ancestors to Cell Ontology IDs
 }
+\examples{
+\dontrun{
+    hpca_sce <- celldex::HumanPrimaryCellAtlasData()
+    meta_ancest <- get_ancestors(
+        meta = SummarizedExperiment::colData(hpca_sce),
+        id_col = "label.ont"
+    )
+}
+}

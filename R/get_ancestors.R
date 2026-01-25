@@ -9,7 +9,7 @@
 #'  should ancestors be retrieved from.
 #' @param ancestor_col Name of the column where ancestor IDs will be stored.
 #' @examples
-#' if(require("celldex", quietly=TRUE))
+#' \donttest{
 #'     hpca_sce <- celldex::HumanPrimaryCellAtlasData()
 #'     meta_ancest <- get_ancestors(
 #'         meta = SummarizedExperiment::colData(hpca_sce),
