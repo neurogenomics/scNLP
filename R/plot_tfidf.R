@@ -25,7 +25,7 @@
 #' @export
 #' @import ggplot2
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data("pseudo_seurat")
 #' obj <- pseudo_seurat
 #' res <- plot_tfidf(obj = obj,

@@ -16,7 +16,7 @@
 #' 
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' var_features <- FindVariableFeatures_split(seurat=scNLP::pseudo_seurat, split.by = 'batch')
 #' }
 FindVariableFeatures_split <- function(seurat,

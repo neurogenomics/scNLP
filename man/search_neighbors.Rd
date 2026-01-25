@@ -48,7 +48,7 @@ Search [shared] K-nearest neighbor graph to find the
  samples that are most similar to those matching a substring search.
 }
 \examples{
-\donttest{
+\dontrun{
 data("pseudo_seurat")
 ### No group filter
 top_neighbors <- search_neighbors(seurat = pseudo_seurat,

@@ -37,7 +37,7 @@ Extension of \code{Seurat::FindVariableFeatures} that
 finds variable features within each subset of the data.
 }
 \examples{
-\donttest{
+\dontrun{
 var_features <- FindVariableFeatures_split(seurat=scNLP::pseudo_seurat, split.by = 'batch')
 }
 }

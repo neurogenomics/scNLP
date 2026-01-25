@@ -93,7 +93,7 @@ Reduced dimensions can be computed based on single-cell data
 (e.g. RNA expression).
 }
 \examples{
-\donttest{
+\dontrun{
 data("pseudo_seurat")
 obj <- pseudo_seurat
 res <- plot_tfidf(obj = obj,

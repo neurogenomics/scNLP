@@ -24,7 +24,7 @@
 #' @export           
 #' @importFrom stats setNames
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data("pseudo_seurat")
 #' ### No group filter
 #' top_neighbors <- search_neighbors(seurat = pseudo_seurat,

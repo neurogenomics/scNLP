@@ -50,7 +50,7 @@ Run Term Frequency - Inverse Document Frequency (TF-IDF) analysis on
 samples metadata to characterise each cluster.
 }
 \examples{
-\donttest{
+\dontrun{
 data("pseudo_seurat")
 obj2 <- run_tfidf(obj = pseudo_seurat,
                   cluster_var = "cluster",

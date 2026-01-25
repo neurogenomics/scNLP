@@ -19,7 +19,7 @@
 #' 
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data("pseudo_seurat")
 #' obj2 <- run_tfidf(obj = pseudo_seurat,
 #'                   cluster_var = "cluster",
