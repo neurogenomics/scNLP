@@ -34,7 +34,6 @@ biocViews:
     RNASeq
 Imports:
     dplyr,
-    tibble,
     data.table,
     tidytext,
     ggplot2,
@@ -42,9 +41,9 @@ Imports:
     Matrix,
     ggrepel,
     scales,
+    reshape2,
     Seurat,
     SeuratObject,
-    future,
     pals,
     methods,
     stats
@@ -58,7 +57,8 @@ Suggests:
     ontoProc,
     ggwordcloud,
     testthat (>= 3.0.0),
-    BiocStyle
+    BiocStyle,
+    SingleCellExperiment
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3

@@ -15,10 +15,30 @@
 #' }
 get_ancestors <- function(meta,
                           id_col="cell_ontology_id",
-                          ontology = ontoProc::getCellOnto(),
+                          ontology = NULL,
                           levels_up=1,
                           ancestor_col=paste0("ancestor",levels_up)
-                          ){   
+                          ){
+  # Get Cell Ontology if not provided
+  if (is.null(ontology)) {
+    if (!requireNamespace("ontoProc", quietly = TRUE)) {
+      stop("Package 'ontoProc' is required for get_ancestors(). ",
+           "Please install it or provide an 'ontology' argument.")
+    }
+    # Try the current function name, fall back to deprecated name
+    ontology <- tryCatch(
+      ontoProc::getOnto("cellOnto"),
+      error = function(e) {
+        tryCatch(
+          ontoProc::getCellOnto(),
+          error = function(e2) {
+            stop("Could not load Cell Ontology from ontoProc. ",
+                 "Please provide an 'ontology' argument directly.")
+          }
+        )
+      }
+    )
+  }   
   
   requireNamespace("ontoProc")
   requireNamespace("ontologyIndex")

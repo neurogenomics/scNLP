@@ -7,7 +7,7 @@
 get_ancestors(
   meta,
   id_col = "cell_ontology_id",
-  ontology = ontoProc::getCellOnto(),
+  ontology = NULL,
   levels_up = 1,
   ancestor_col = paste0("ancestor", levels_up)
 )
