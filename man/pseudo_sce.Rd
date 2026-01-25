@@ -17,9 +17,13 @@ Mean expression matrices have been downsampled to 1,000/21,000 genes.
 \examples{
 \dontrun{
 set.seed(2021)
-pseudo_sce <- scKirby::ingest_data(scNLP::pseudo_seurat, save_output = F)
-SingleCellExperiment::reducedDim(pseudo_sce,"UMAP") <- data.frame(SummarizedExperiment::colData(pseudo_sce)[,c("UMAP.1","UMAP.2")])
-usethis::use_data(pseudo_sce, overwrite = T)
+pseudo_sce <- scKirby::ingest_data(scNLP::pseudo_seurat)
+umap_cols <- c("UMAP.1", "UMAP.2")
+umap_df <- data.frame(
+    SummarizedExperiment::colData(pseudo_sce)[, umap_cols]
+)
+SingleCellExperiment::reducedDim(pseudo_sce, "UMAP") <- umap_df
+usethis::use_data(pseudo_sce, overwrite = TRUE)
 }
 }
 \keyword{datasets}

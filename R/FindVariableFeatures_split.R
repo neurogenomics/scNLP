@@ -44,7 +44,7 @@ FindVariableFeatures_split <- function(seurat,
   }) |> `names<-`(splits) 
   #### Prioritize variable genes shared across datasets
   feature_counts <- sort(table(unlist(var_features)), decreasing = TRUE) 
-  top_features <- head(names(feature_counts), nfeatures_max) 
+  top_features <- utils::head(names(feature_counts), nfeatures_max) 
   
   if(return_nested){
     var_features <- lapply(var_features, function(x)x[x %in% top_features]) |>

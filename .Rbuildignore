@@ -1,6 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-
+^Icon
+^README_files$
+^CLAUDE\.md$
+^\.claude$
 
 ^\.github$
 ^README.Rmd

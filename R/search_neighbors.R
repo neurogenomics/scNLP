@@ -121,7 +121,7 @@ search_neighbors <- function(seurat,
     subset(similarity>0) |>
     dplyr::group_by(Var1) |> 
     dplyr::slice_max(order_by = similarity, n = max_neighbors) |> 
-    dplyr::arrange(desc(similarity)) |> 
+    dplyr::arrange(dplyr::desc(similarity)) |> 
     data.table::data.table()    
   
   if(!is.null(group_col)){

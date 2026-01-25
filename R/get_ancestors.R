@@ -59,7 +59,7 @@ get_ancestors <- function(meta,
       }
      
     }))
-    message("Identified ",length(unique(na.omit(all_ancests)))," unique ancestors.")
+    message("Identified ",length(unique(stats::na.omit(all_ancests)))," unique ancestors.")
     message(sum(is.na(all_ancests))," / ",length(id_list)," rows could not be mapped.")
     return(all_ancests)
   }
