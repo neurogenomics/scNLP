@@ -91,7 +91,7 @@ Author: <i>Brian M. Schilder</i><br>
 Most recent update: <i>Jan-25-2026</i><br>
 </h5></h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/neurogenomics/scNLP/blob/bioconductor-prep/vignettes/harmonise_celltypes.Rmd" class="external-link"><code>vignettes/harmonise_celltypes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/neurogenomics/scNLP/blob/main/vignettes/harmonise_celltypes.Rmd" class="external-link"><code>vignettes/harmonise_celltypes.Rmd</code></a></small>
       <div class="hidden name"><code>harmonise_celltypes.Rmd</code></div>
 
     </div>
@@ -240,12 +240,12 @@ several of these kinds of tools.</p>
 <span>                                       classification.method <span class="op">=</span><span class="st">"Ensemble"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">relate</span><span class="op">)</span></span>
-<span><span class="va">sig_res</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span><span class="va">relate</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="va">relate</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">Cells</span><span class="op">==</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">sig_res</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span><span class="va">relate</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="va">relate</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">Cells</span><span class="op">==</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">relate</span>, <span class="st">"/Desktop/pseudo_bulk_ELeFHAnt_relate.rds"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></span><span class="op">(</span><span class="va">relate</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/dcast.data.table.html" class="external-link">dcast.data.table</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">reference1</span><span class="op">~</span> <span class="va">reference2</span>, </span>
+<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></span><span class="op">(</span><span class="va">relate</span><span class="op">$</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/dcast.data.table.html" class="external-link">dcast.data.table</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">reference1</span><span class="op">~</span> <span class="va">reference2</span>, </span>
 <span>                               fun.aggregate <span class="op">=</span> <span class="va">mean</span>, </span>
 <span>                               value.var <span class="op">=</span> <span class="st">"Cells"</span>, </span>
 <span>                               fill <span class="op">=</span> <span class="fl">0</span>, </span>
