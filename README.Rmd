@@ -24,7 +24,9 @@ In our case, our words are within the non-standardized cell labels and our "docu
 Another use case is to identify whether certain metadata attributes (e.g. dataset, species, brain region) are over-represented in some clusters relative to others This is a quantitative way to assess whether, for example, two or more datasets have successfully been integrated (i.e. are well-"mixed"), or whether some clusters are more representative of a particular anatomical region. 
 
 # [Documentation website](https://neurogenomics.github.io/scNLP/) 
-# [tf-idf vignette](https://neurogenomics.github.io/scNLP/articles/tf-idf.html)  
+## [Get started](https://neurogenomics.github.io/scNLP/articles/scNLP.html)  
+## [tf-idf vignette](https://neurogenomics.github.io/scNLP/articles/tf-idf.html)  
+## [Docker/Singularity vignette](https://neurogenomics.github.io/scNLP/articles/docker.html)  
 
 # Quick examples 
 
