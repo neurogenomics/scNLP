@@ -61,6 +61,9 @@ Clustering
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/docker.html">Docker/Singularity Containers</a>
+    </li>
+    <li>
       <a href="../articles/harmonise_celltypes.html">Harmonizing Cell-type Labels</a>
     </li>
     <li>
@@ -200,10 +203,10 @@ neighbors, and cluster assignments.</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> This message will be shown once per session</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:12 UMAP embedding parameters a = 0.9922 b = 1.112</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:12 Read 801 rows and found 30 numeric columns</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:12 Using Annoy for neighbor search, n_neighbors = 30</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:12 Building Annoy index with metric = cosine, n_trees = 50</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:11 UMAP embedding parameters a = 0.9922 b = 1.112</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:11 Read 801 rows and found 30 numeric columns</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:11 Using Annoy for neighbor search, n_neighbors = 30</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:11 Building Annoy index with metric = cosine, n_trees = 50</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 0%   10   20   30   40   50   60   70   80   90   100%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [----|----|----|----|----|----|----|----|----|----|</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
@@ -257,19 +260,19 @@ neighbors, and cluster assignments.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> |</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:12 Writing NN index file to temp file /tmp/Rtmp6nYP3i/file12ab5ae1eae3</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:12 Searching Annoy index using 1 thread, search_k = 3000</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:13 Annoy recall = 100%</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:13 Commencing smooth kNN distance calibration using 1 thread</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:11 Writing NN index file to temp file /tmp/RtmpnTEFXI/file11f861b2df07</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:11 Searching Annoy index using 1 thread, search_k = 3000</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:11 Annoy recall = 100%</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:12 Commencing smooth kNN distance calibration using 1 thread</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>  with target n_neighbors = 30</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:14 Found 2 connected components, </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:13 Found 2 connected components, </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> falling back to 'spca' initialization with init_sdev = 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:14 Using 'irlba' for PCA</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:14 PCA: 2 components explained 52.16% variance</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:14 Scaling init to sdev = 1</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:14 Commencing optimization for 500 epochs, with 27816 positive edges</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:14 Using rng type: pcg</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:52:15 Optimization finished</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:13 Using 'irlba' for PCA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:13 PCA: 2 components explained 52.16% variance</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:13 Scaling init to sdev = 1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:13 Commencing optimization for 500 epochs, with 27816 positive edges</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:13 Using rng type: pcg</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 01:24:14 Optimization finished</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Running FindNeighbors...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Computing nearest neighbor graph</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Computing SNN</span>
