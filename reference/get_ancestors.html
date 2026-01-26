@@ -23,6 +23,9 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
+  <a href="../articles/scNLP.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -32,7 +35,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/harmonise_celltypes.html">Harmonise Cell-type labels</a>
+      <a href="../articles/harmonise_celltypes.html">Harmonizing Cell-type Labels</a>
     </li>
     <li>
       <a href="../articles/tf-idf.html">tf-idf</a>
@@ -97,7 +100,7 @@ should ancestors be retrieved from.</p></dd>
 
 
 <dt id="arg-ancestor-col">ancestor_col<a class="anchor" aria-label="anchor" href="#arg-ancestor-col"></a></dt>
-<dd><p>The name of the column where the ancestor IDs will be stored.</p></dd>
+<dd><p>Name of the column where ancestor IDs will be stored.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -108,8 +111,11 @@ should ancestors be retrieved from.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="va">hpca_sce</span> <span class="op">=</span> <span class="fu">celldex</span><span class="fu">::</span><span class="fu">HumanPrimaryCellAtlasData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">meta_ancest</span> <span class="op">&lt;-</span> <span class="fu">get_ancestors</span><span class="op">(</span>meta<span class="op">=</span><span class="va">hpca_sce</span><span class="op">@</span><span class="va">colData</span> , id_col<span class="op">=</span><span class="st">"label.ont"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">hpca_sce</span> <span class="op">&lt;-</span> <span class="fu">celldex</span><span class="fu">::</span><span class="fu">HumanPrimaryCellAtlasData</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">meta_ancest</span> <span class="op">&lt;-</span> <span class="fu">get_ancestors</span><span class="op">(</span></span></span>
+<span class="r-in"><span>        meta <span class="op">=</span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData</a></span><span class="op">(</span><span class="va">hpca_sce</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        id_col <span class="op">=</span> <span class="st">"label.ont"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

@@ -23,6 +23,9 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
+  <a href="../articles/scNLP.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -32,7 +35,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/harmonise_celltypes.html">Harmonise Cell-type labels</a>
+      <a href="../articles/harmonise_celltypes.html">Harmonizing Cell-type Labels</a>
     </li>
     <li>
       <a href="../articles/tf-idf.html">tf-idf</a>
@@ -107,7 +110,26 @@ set <code>force_new=TRUE</code> to replace them with new results.</p></dd>
 <dd><p>Whether to print messages.</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>A <code>data.table</code> with GPT summaries per cluster.</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Show expected input format (API call not executed)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pseudo_seurat"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">clusts</span> <span class="op">&lt;-</span> <span class="va">pseudo_seurat</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">clusts</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"celltype"</span>, <span class="st">"cluster"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         celltype cluster</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> human.DRONC_human.ASC1      ASC1       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> human.DRONC_human.ASC2      ASC2       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> human.DRONC_human.END        END       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> human.DRONC_human.exCA1    exCA1       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> human.DRONC_human.exCA3    exCA3       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> human.DRONC_human.exDG      exDG       0</span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

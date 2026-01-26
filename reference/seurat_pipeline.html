@@ -49,6 +49,9 @@ Clustering
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
+  <a href="../articles/scNLP.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -58,7 +61,7 @@ Clustering
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/harmonise_celltypes.html">Harmonise Cell-type labels</a>
+      <a href="../articles/harmonise_celltypes.html">Harmonizing Cell-type Labels</a>
     </li>
     <li>
       <a href="../articles/tf-idf.html">tf-idf</a>
@@ -115,7 +118,7 @@ Automatically performs:</p><dl><dt><code>NormalizeData</code></dt>
 </dl></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">seurat_pipeline</span><span class="op">(</span><span class="va">obj</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">30</span>, resolution <span class="op">=</span> <span class="fl">0.8</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">seurat_pipeline</span><span class="op">(</span><span class="va">obj</span>, dims <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, resolution <span class="op">=</span> <span class="fl">0.8</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -127,7 +130,7 @@ Automatically performs:</p><dl><dt><code>NormalizeData</code></dt>
 
 
 <dt id="arg-dims">dims<a class="anchor" aria-label="anchor" href="#arg-dims"></a></dt>
-<dd><p>Dimensions to use for UMAP and neighbors (default: 1:30).</p></dd>
+<dd><p>Dimensions to use for UMAP and neighbors (default: seq_len(30)).</p></dd>
 
 
 <dt id="arg-resolution">resolution<a class="anchor" aria-label="anchor" href="#arg-resolution"></a></dt>
@@ -144,15 +147,142 @@ Automatically performs:</p><dl><dt><code>NormalizeData</code></dt>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A preprocessed <a href="https://satijalab.github.io/seurat-object/reference/Seurat-class.html" class="external-link">Seurat</a> object.</p>
+    <p>A preprocessed <a href="https://satijalab.github.io/seurat-object/reference/Seurat-class.html" class="external-link">Seurat</a> object with PCA, UMAP,
+neighbors, and cluster assignments.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pseudo_seurat"</span>, package <span class="op">=</span> <span class="st">"scNLP"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pseudo_seurat"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Re-run pipeline on existing object</span></span></span>
 <span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">seurat_pipeline</span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_seurat</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running NormalizeData...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running FindVariableFeatures...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running ScaleData...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Centering and scaling data matrix</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running PCA...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> PC_ 1 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Positive:  FTMT, ACTG1, ALAS2, HSPA1L, NME1-NME2, POTEI, OTOP2, RAPSN, BEST2, DPEP2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   HMGB2, NAPRT1, KRT8, PPIB, DSCC1, POU4F3, CCDC102A, GAPDHS, CHST6, AGXT2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   LYZL2, MTMR8, ACTG2, ACPL2, BANF1, PPAPDC2, HTR1A, IFI30, CYBRD1, LHX8 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Negative:  FAIM2, CAMK2A, SCN1A, CAMK2B, FRRS1L, UNC80, PHYHIP, RASGRF2, CCK, GRIA2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   STXBP5L, ARPP21, SLC12A5, DIRAS2, RYR2, SLC4A10, KCNT1, GRM5, CAMKV, KIAA1211L </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   GABRA4, GABRA1, SV2B, CX3CL1, AK5, PNMA2, JPH4, DGKG, GPR158, KCNC2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> PC_ 2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Positive:  CAMKK1, DGKQ, NT5DC3, CA7, ABCG4, HTR1A, C5orf28, OTOP2, HYKK, DPEP2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   CHST6, POTEI, SLC8A3, SLC38A11, ADRA2A, MPPED1, MTMR8, HTR7, CACNA1B, PPAPDC2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   C2orf69, GRIK1, IFI30, STK32B, RASL10B, SLC24A4, FAXDC2, ADCY3, ACSS2, ANKRD29 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Negative:  RAN, HSP90AA1, H2AFZ, HNRNPAB, CCT5, NPM1, GNG5, DBI, HMGB2, ITM2B </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   ATP6V1G1, SERPINH1, CIRBP, CD63, NDUFA6, MDK, JUN, MYL12B, SPARC, NPC2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   GLUL, ID3, EEF1A1, VIM, CLIC1, COX6B1, LDHA, DDAH2, ENO1, CNN3 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> PC_ 3 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Positive:  ADGRL2, AC011288.2, RP11-420N3.3, RP11-191L9.4, NRXN3, PLPPR1, RP11-123O10.4, ZNF385D, AC114765.1, NWD2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   RBFOX3, MIR137HG, MIR325HG, SGOL1-AS1, POU6F2, ANKRD18A, LY86-AS1, LINC01197, DGCR5, DPY19L1P1 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   MIR4300HG, AQP4-AS1, HPSE2, LINC00632, NLGN4X, AC067956.1, PWRN1, LINC00599, CABP1, LINC01158 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Negative:  KRTCAP2, APOE, C20orf24, PDIA6, PGLS, GNG11, S100A13, HIST1H2BI, ISCA2, GSTM5 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   LAPTM4A, CST3, TMEM176B, KLF4, PDLIM2, CAP1, S100A16, APRT, CYR61, FAIM </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   IFITM3, CDKN1A, KLF2, CLIC1, ARPC1B, IER2, S100A1, CMTM5, FXYD1, TCN2 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> PC_ 4 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Positive:  RESP18, CTXN2, ATP6V1G2, GNG13, DISP2, C15orf59, CCDC85A, GNG3, SYNGR3, RGS8 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   VWA5B2, C1QL3, HPCA, TUBB3, CALB1, SNCB, HTR3A, ARHGDIG, L1CAM, NAP1L5 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   PCDH20, HMP19, DBNDD2, NPAS4, FABP3, CALY, FAM43B, CKMT1B, LOC728392, LTK </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Negative:  PTPN18, SLCO1A2, LINC00639, INPP5D, IFI44, LYN, DISC1, NEAT1, NRGN, CMYA5 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   IFI44L, GALNT15, PARP14, AC012593.1, AQP4-AS1, MSR1, MT2A, ISG15, SHROOM4, CABP1 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   UACA, KCNQ1OT1, PART1, CNDP1, FAM153B, DGCR5, SOX2-OT, LINC00844, ADGRG1, LINC00599 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> PC_ 5 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Positive:  MEST, IGFBP2, CNN3, FBXL7, NNAT, TUBB2B, GPC3, VIM, NKAIN4, ID1 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   BMP7, CSRP2, NDN, DDAH2, GPX8, IGFBPL1, MARCKSL1, GSTM3, FBLN1, PARD3 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   MFAP4, PTN, FABP7, COPS6, CTNNA2, ZBTB20, BEX1, CD81, ENO1, NPAS3 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Negative:  C1QB, FCGR2A, MS4A6A, TYROBP, C1QC, AIF1, C1QA, CSF1R, CD86, MRC1 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   MS4A7, CTSS, CCL24, FCER1G, CD53, CD14, FCGR1A, PLEK, C3AR1, LYZ </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 	   FCGR2B, CX3CR1, CCL3L3, CCL2, CCR1, CD68, C5AR1, PF4, HPGDS, LY86 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running UMAP...</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> This message will be shown once per session</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 UMAP embedding parameters a = 0.9922 b = 1.112</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 Read 801 rows and found 30 numeric columns</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 Using Annoy for neighbor search, n_neighbors = 30</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 Building Annoy index with metric = cosine, n_trees = 50</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 0%   10   20   30   40   50   60   70   80   90   100%</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [----|----|----|----|----|----|----|----|----|----|</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> *</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> |</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 Writing NN index file to temp file /tmp/Rtmp1oEotQ/file10b749003bdf</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 Searching Annoy index using 1 thread, search_k = 3000</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 Annoy recall = 100%</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:37 Commencing smooth kNN distance calibration using 1 thread</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  with target n_neighbors = 30</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:39 Found 2 connected components, </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> falling back to 'spca' initialization with init_sdev = 1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:39 Using 'irlba' for PCA</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:39 PCA: 2 components explained 52.16% variance</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:39 Scaling init to sdev = 1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:39 Commencing optimization for 500 epochs, with 27816 positive edges</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:39 Using rng type: pcg</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 00:13:40 Optimization finished</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running FindNeighbors...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing nearest neighbor graph</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing SNN</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running FindClusters...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nodes: 801</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of edges: 19587</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Running Louvain algorithm...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Maximum modularity in 10 random starts: 0.8727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of communities: 12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Elapsed time: 0 seconds</span>
 </code></pre></div>
     </div>
   </div>

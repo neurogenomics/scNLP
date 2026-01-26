@@ -39,6 +39,9 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="../articles/scNLP.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -49,7 +52,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/harmonise_celltypes.html">Harmonise Cell-type labels</a>
+      <a href="../articles/harmonise_celltypes.html">Harmonizing Cell-type Labels</a>
     </li>
     <li>
       <a href="../articles/tf-idf.html">tf-idf</a>
@@ -88,7 +91,7 @@ Author: <i>Brian M. Schilder</i><br>
             
             <h4 data-toc-skip class="date"><h5>
 <br>
-Most recent update: <i>Jan-25-2026</i><br>
+Most recent update: <i>Jan-26-2026</i><br>
 </h5></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/neurogenomics/scNLP/blob/main/vignettes/tf-idf.Rmd" class="external-link"><code>vignettes/tf-idf.Rmd</code></a></small>
@@ -101,7 +104,7 @@ Most recent update: <i>Jan-25-2026</i><br>
 <div class="section level2">
 <h2 id="intro">Intro<a class="anchor" aria-label="anchor" href="#intro"></a>
 </h2>
-<p>Term frequency–inverse document frequency (<strong>tf-idf</strong>)
+<p>Term frequency-inverse document frequency (<strong>tf-idf</strong>)
 is an NLP technique to identify words or phrases that are enriched in
 one document relative to some other larger set of documents.</p>
 <p>In our case, our words are within the non-standardized cell labels
@@ -114,7 +117,7 @@ cluster.</p>
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/neurogenomics/scNLP" class="external-link">scNLP</a></span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/neurogenomics/scNLP" class="external-link">scNLP</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pseudo_seurat"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
@@ -125,11 +128,13 @@ following support function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Create a fresh Seurat object from raw data</span></span>
 <span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu">Seurat</span><span class="fu">::</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/AssayData.html" class="external-link">GetAssayData</a></span><span class="op">(</span><span class="va">pseudo_seurat</span>, layer <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span></span>
-<span><span class="va">meta.data</span> <span class="op">&lt;-</span> <span class="va">pseudo_seurat</span><span class="op">@</span><span class="va">meta.data</span></span>
+<span><span class="va">meta.data</span> <span class="op">&lt;-</span> <span class="va">pseudo_seurat</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co">## Create Seurat object with metadata, then run pipeline</span></span>
-<span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">SeuratObject</span><span class="fu">::</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">counts</span>,</span>
-<span>                                        meta.data <span class="op">=</span> <span class="va">meta.data</span><span class="op">)</span></span>
+<span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">SeuratObject</span><span class="fu">::</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/CreateSeuratObject.html" class="external-link">CreateSeuratObject</a></span><span class="op">(</span></span>
+<span>    counts <span class="op">=</span> <span class="va">counts</span>,</span>
+<span>    meta.data <span class="op">=</span> <span class="va">meta.data</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">processed_seurat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/seurat_pipeline.html">seurat_pipeline</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">obj</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running NormalizeData...</span></span></code></pre>
 <pre><code><span><span class="co">## Normalizing layer: counts</span></span></code></pre>
@@ -177,24 +182,24 @@ following support function.</p>
 <pre><code><span><span class="co">## Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span></span>
 <span><span class="co">## To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span></span>
 <span><span class="co">## This message will be shown once per session</span></span></code></pre>
-<pre><code><span><span class="co">## 19:40:43 UMAP embedding parameters a = 0.9922 b = 1.112</span></span></code></pre>
-<pre><code><span><span class="co">## 19:40:43 Read 801 rows and found 30 numeric columns</span></span></code></pre>
-<pre><code><span><span class="co">## 19:40:43 Using Annoy for neighbor search, n_neighbors = 30</span></span></code></pre>
-<pre><code><span><span class="co">## 19:40:43 Building Annoy index with metric = cosine, n_trees = 50</span></span></code></pre>
+<pre><code><span><span class="co">## 00:14:41 UMAP embedding parameters a = 0.9922 b = 1.112</span></span></code></pre>
+<pre><code><span><span class="co">## 00:14:41 Read 801 rows and found 30 numeric columns</span></span></code></pre>
+<pre><code><span><span class="co">## 00:14:41 Using Annoy for neighbor search, n_neighbors = 30</span></span></code></pre>
+<pre><code><span><span class="co">## 00:14:41 Building Annoy index with metric = cosine, n_trees = 50</span></span></code></pre>
 <pre><code><span><span class="co">## 0%   10   20   30   40   50   60   70   80   90   100%</span></span></code></pre>
 <pre><code><span><span class="co">## [----|----|----|----|----|----|----|----|----|----|</span></span></code></pre>
 <pre><code><span><span class="co">## **************************************************|</span></span>
-<span><span class="co">## 19:40:43 Writing NN index file to temp file /tmp/RtmpoUxk1T/file3c732bb1bde4</span></span>
-<span><span class="co">## 19:40:43 Searching Annoy index using 1 thread, search_k = 3000</span></span>
-<span><span class="co">## 19:40:43 Annoy recall = 100%</span></span>
-<span><span class="co">## 19:40:44 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
-<span><span class="co">## 19:40:44 Found 2 connected components, falling back to 'spca' initialization with init_sdev = 1</span></span>
-<span><span class="co">## 19:40:44 Using 'irlba' for PCA</span></span>
-<span><span class="co">## 19:40:44 PCA: 2 components explained 52.16% variance</span></span>
-<span><span class="co">## 19:40:44 Scaling init to sdev = 1</span></span>
-<span><span class="co">## 19:40:44 Commencing optimization for 500 epochs, with 27816 positive edges</span></span>
-<span><span class="co">## 19:40:44 Using rng type: pcg</span></span>
-<span><span class="co">## 19:40:45 Optimization finished</span></span>
+<span><span class="co">## 00:14:41 Writing NN index file to temp file /tmp/RtmpZYympl/file139a7f513330</span></span>
+<span><span class="co">## 00:14:41 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">## 00:14:41 Annoy recall = 100%</span></span>
+<span><span class="co">## 00:14:41 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
+<span><span class="co">## 00:14:42 Found 2 connected components, falling back to 'spca' initialization with init_sdev = 1</span></span>
+<span><span class="co">## 00:14:42 Using 'irlba' for PCA</span></span>
+<span><span class="co">## 00:14:42 PCA: 2 components explained 52.16% variance</span></span>
+<span><span class="co">## 00:14:42 Scaling init to sdev = 1</span></span>
+<span><span class="co">## 00:14:42 Commencing optimization for 500 epochs, with 27816 positive edges</span></span>
+<span><span class="co">## 00:14:42 Using rng type: pcg</span></span>
+<span><span class="co">## 00:14:43 Optimization finished</span></span>
 <span><span class="co">## Running FindNeighbors...</span></span>
 <span><span class="co">## Computing nearest neighbor graph</span></span>
 <span><span class="co">## Computing SNN</span></span>
@@ -216,16 +221,18 @@ following support function.</p>
 cluster and put the results in the <strong>enriched_words</strong> and
 <strong>tf_idf</strong> cols of the <code>meta.data</code>.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pseudo_seurat_tfidf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_tfidf.html">run_tfidf</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_seurat</span>,</span>
-<span>                                 reduction <span class="op">=</span> <span class="st">"UMAP"</span>,</span>
-<span>                                 cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
-<span>                                 label_var <span class="op">=</span> <span class="st">"celltype"</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pseudo_seurat_tfidf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_tfidf.html">run_tfidf</a></span><span class="op">(</span></span>
+<span>    obj <span class="op">=</span> <span class="va">pseudo_seurat</span>,</span>
+<span>    reduction <span class="op">=</span> <span class="st">"UMAP"</span>,</span>
+<span>    cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
+<span>    label_var <span class="op">=</span> <span class="st">"celltype"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Extracting obsm from Seurat: umap</span></span></code></pre>
 <pre><code><span><span class="co">## + Dropping 2 conflicting obs variables: UMAP.1, UMAP.2</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required namespace: tidytext</span></span></code></pre>
 <pre><code><span><span class="co">## Setting cell metadata (obs) in obj.</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pseudo_seurat_tfidf</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pseudo_seurat_tfidf</span><span class="op">[[</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         cluster       batch species     dataset celltype label</span></span>
 <span><span class="co">## human.DRONC_human.ASC1        5 DRONC_human   human DRONC_human     ASC1  ASC1</span></span>
 <span><span class="co">## human.DRONC_human.ASC2        5 DRONC_human   human DRONC_human     ASC2  ASC2</span></span>
@@ -268,10 +275,12 @@ items. - <code>data</code>: The processed data used to create the plot.
 <code>Seurat</code> input<a class="anchor" aria-label="anchor" href="#seurat-input"></a>
 </h4>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_seurat</span>, </span>
-<span>                  label_var <span class="op">=</span> <span class="st">"celltype"</span>, </span>
-<span>                  cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, </span>
-<span>                  show_plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span></span>
+<span>    obj <span class="op">=</span> <span class="va">pseudo_seurat</span>,</span>
+<span>    label_var <span class="op">=</span> <span class="st">"celltype"</span>,</span>
+<span>    cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
+<span>    show_plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Extracting obsm from Seurat: umap</span></span></code></pre>
 <pre><code><span><span class="co">## + Dropping 2 conflicting obs variables: UMAP.1, UMAP.2</span></span></code></pre>
 <pre><code><span><span class="co">## Setting cell metadata (obs) in obj.</span></span></code></pre>
@@ -292,20 +301,22 @@ items. - <code>data</code>: The processed data used to create the plot.
 <span><span class="co">## <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
 <span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
 <span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
-<p><img src="tf-idf_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="tf-idf_files/figure-html/plot-tfidf-1.png" class="r-plt" alt="" width="672"></p>
 <p>You can color the point by other metadata attributes instead.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_seurat</span>, </span>
-<span>                  label_var <span class="op">=</span> <span class="st">"celltype"</span>, </span>
-<span>                  cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, </span>
-<span>                  color_var <span class="op">=</span> <span class="st">"batch"</span>,</span>
-<span>                  show_plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span></span>
+<span>    obj <span class="op">=</span> <span class="va">pseudo_seurat</span>,</span>
+<span>    label_var <span class="op">=</span> <span class="st">"celltype"</span>,</span>
+<span>    cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
+<span>    color_var <span class="op">=</span> <span class="st">"batch"</span>,</span>
+<span>    show_plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Extracting obsm from Seurat: umap</span></span></code></pre>
 <pre><code><span><span class="co">## + Dropping 2 conflicting obs variables: UMAP.1, UMAP.2</span></span></code></pre>
 <pre><code><span><span class="co">## Setting cell metadata (obs) in obj.</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in ggplot2::geom_point(ggplot2::aes_string(color = color_var, size =</span></span>
 <span><span class="co">## size_var, : Ignoring unknown aesthetics: <span style="color: #00BB00;">label</span></span></span></code></pre>
-<p><img src="tf-idf_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
+<p><img src="tf-idf_files/figure-html/plot-by-batch-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level4">
 <h4 id="singlecellexperiment-input">
@@ -316,10 +327,12 @@ items. - <code>data</code>: The processed data used to create the plot.
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pseudo_sce"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_sce</span>, </span>
-<span>                  label_var <span class="op">=</span> <span class="st">"celltype"</span>, </span>
-<span>                  cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, </span>
-<span>                  show_plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span></span>
+<span>    obj <span class="op">=</span> <span class="va">pseudo_sce</span>,</span>
+<span>    label_var <span class="op">=</span> <span class="st">"celltype"</span>,</span>
+<span>    cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
+<span>    show_plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="list-input">
@@ -329,53 +342,58 @@ items. - <code>data</code>: The processed data used to create the plot.
 can simply supply a named <code>list</code> with
 <strong>metadata</strong> and <strong>embeddings</strong>.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>metadata <span class="op">=</span> <span class="fu">SingleCellExperiment</span><span class="fu">::</span><span class="fu">colData</span><span class="op">(</span><span class="va">pseudo_sce</span><span class="op">)</span>,</span>
-<span>                  embeddings <span class="op">=</span> <span class="fu">SingleCellExperiment</span><span class="fu">::</span><span class="fu">colData</span><span class="op">(</span><span class="va">pseudo_sce</span><span class="op">)</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"UMAP.1"</span>,<span class="st">"UMAP.2"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sce_coldata</span> <span class="op">&lt;-</span> <span class="fu">SingleCellExperiment</span><span class="fu">::</span><span class="fu">colData</span><span class="op">(</span><span class="va">pseudo_sce</span><span class="op">)</span></span>
+<span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    metadata <span class="op">=</span> <span class="va">sce_coldata</span>,</span>
+<span>    embeddings <span class="op">=</span> <span class="va">sce_coldata</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"UMAP.1"</span>, <span class="st">"UMAP.2"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">data_list</span>,</span>
-<span>                  label_var <span class="op">=</span> <span class="st">"celltype"</span>, </span>
-<span>                  cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, </span>
-<span>                  show_plot <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span></span>
+<span>    obj <span class="op">=</span> <span class="va">data_list</span>,</span>
+<span>    label_var <span class="op">=</span> <span class="st">"celltype"</span>,</span>
+<span>    cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
+<span>    show_plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="interactive-mode">Interactive mode<a class="anchor" aria-label="anchor" href="#interactive-mode"></a>
 </h4>
 <p>You can also create an interactive version of this plot.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_seurat_tfidf</span>,</span>
-<span>                  label_var <span class="op">=</span> <span class="st">"celltype"</span>, </span>
-<span>                  cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, </span>
-<span>                  interact <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                  show_plot <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                  <span class="co">### Add other metadata vars you want in the hover label like so:</span></span>
-<span>                  species<span class="op">=</span><span class="st">"species"</span>,</span>
-<span>                  dataset<span class="op">=</span><span class="st">"dataset"</span>, </span>
-<span>                  enriched_words<span class="op">=</span><span class="st">"enriched_words"</span>,</span>
-<span>                  tf_idf<span class="op">=</span><span class="st">"tf_idf"</span><span class="op">)</span> </span></code></pre></div>
-<pre><code><span><span class="co">## Extracting obsm from Seurat: umap</span></span></code></pre>
-<pre><code><span><span class="co">## + Dropping 2 conflicting obs variables: UMAP_1, UMAP_2</span></span></code></pre>
-<pre><code><span><span class="co">## Setting cell metadata (obs) in obj.</span></span></code></pre>
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_tfidf.html">plot_tfidf</a></span><span class="op">(</span></span>
+<span>    obj <span class="op">=</span> <span class="va">pseudo_seurat_tfidf</span>,</span>
+<span>    label_var <span class="op">=</span> <span class="st">"celltype"</span>,</span>
+<span>    cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
+<span>    interact <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    show_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    species <span class="op">=</span> <span class="st">"species"</span>,</span>
+<span>    dataset <span class="op">=</span> <span class="st">"dataset"</span>,</span>
+<span>    enriched_words <span class="op">=</span> <span class="st">"enriched_words"</span>,</span>
+<span>    tf_idf <span class="op">=</span> <span class="st">"tf_idf"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="tf-idf-wordcloud">tf-idf wordcloud<a class="anchor" aria-label="anchor" href="#tf-idf-wordcloud"></a>
 </h2>
-<p>You can also show the per-cluster <strong>tf-idk</strong> results as
+<p>You can also show the per-cluster <strong>tf-idf</strong> results as
 a wordcloud.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wordcloud_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wordcloud_tfidf.html">wordcloud_tfidf</a></span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_seurat</span>,</span>
-<span>                                 label_var <span class="op">=</span> <span class="st">"celltype"</span>, </span>
-<span>                                 cluster_var <span class="op">=</span> <span class="st">"cluster"</span>, </span>
-<span>                                 terms_per_cluster<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wordcloud_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wordcloud_tfidf.html">wordcloud_tfidf</a></span><span class="op">(</span></span>
+<span>    obj <span class="op">=</span> <span class="va">pseudo_seurat</span>,</span>
+<span>    label_var <span class="op">=</span> <span class="st">"celltype"</span>,</span>
+<span>    cluster_var <span class="op">=</span> <span class="st">"cluster"</span>,</span>
+<span>    terms_per_cluster <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required namespace: ggwordcloud</span></span></code></pre>
 <pre><code><span><span class="co">## Extracting obsm from Seurat: umap</span></span></code></pre>
 <pre><code><span><span class="co">## + Dropping 2 conflicting obs variables: UMAP.1, UMAP.2</span></span></code></pre>
 <pre><code><span><span class="co">## Setting cell metadata (obs) in obj.</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in ggplot2::geom_point(ggplot2::aes_string(color = color_var, size =</span></span>
 <span><span class="co">## size_var, : Ignoring unknown aesthetics: <span style="color: #00BB00;">label</span></span></span></code></pre>
-<p><img src="tf-idf_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="672"></p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<p><img src="tf-idf_files/figure-html/wordcloud-1.png" class="r-plt" alt="" width="672"></p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">wordcloud_res</span><span class="op">$</span><span class="va">tfidf_df</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 147 × 8</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># Groups:   cluster [15]</span></span></span>
@@ -396,7 +414,7 @@ a wordcloud.</p>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<details><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<details><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R Under development (unstable) (2026-01-22 r89323)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
@@ -438,39 +456,39 @@ a wordcloud.</p>
 <span><span class="co">##  [34] fastmap_1.2.0          fitdistrplus_1.2-6     shiny_1.12.1          </span></span>
 <span><span class="co">##  [37] digest_0.6.39          tidytext_0.4.3         colorspace_2.1-2      </span></span>
 <span><span class="co">##  [40] patchwork_1.3.2        Seurat_5.4.0           tensor_1.5.1          </span></span>
-<span><span class="co">##  [43] RSpectra_0.16-2        irlba_2.3.5.1          crosstalk_1.2.2       </span></span>
-<span><span class="co">##  [46] SnowballC_0.7.1        textshaping_1.0.4      labeling_0.4.3        </span></span>
-<span><span class="co">##  [49] progressr_0.18.0       spatstat.sparse_3.1-0  httr_1.4.7            </span></span>
-<span><span class="co">##  [52] polyclip_1.10-7        abind_1.4-8            compiler_4.6.0        </span></span>
-<span><span class="co">##  [55] withr_3.0.2            S7_0.2.1               fastDummies_1.7.5     </span></span>
-<span><span class="co">##  [58] maps_3.4.3             MASS_7.3-65            tools_4.6.0           </span></span>
-<span><span class="co">##  [61] lmtest_0.9-40          otel_0.2.0             httpuv_1.6.16         </span></span>
-<span><span class="co">##  [64] future.apply_1.20.1    goftest_1.2-3          glue_1.8.0            </span></span>
-<span><span class="co">##  [67] nlme_3.1-168           promises_1.5.0         gridtext_0.1.5        </span></span>
-<span><span class="co">##  [70] grid_4.6.0             Rtsne_0.17             cluster_2.1.8.1       </span></span>
-<span><span class="co">##  [73] reshape2_1.4.5         generics_0.1.4         isoband_0.3.0         </span></span>
-<span><span class="co">##  [76] gtable_0.3.6           spatstat.data_3.1-9    tidyr_1.3.2           </span></span>
-<span><span class="co">##  [79] data.table_1.18.0      utf8_1.2.6             xml2_1.5.2            </span></span>
-<span><span class="co">##  [82] sp_2.2-0               spatstat.geom_3.7-0    RcppAnnoy_0.0.23      </span></span>
-<span><span class="co">##  [85] markdown_2.0           ggrepel_0.9.6          RANN_2.6.2            </span></span>
-<span><span class="co">##  [88] pillar_1.11.1          stringr_1.6.0          pals_1.10             </span></span>
-<span><span class="co">##  [91] spam_2.11-3            RcppHNSW_0.6.0         later_1.4.5           </span></span>
-<span><span class="co">##  [94] splines_4.6.0          dplyr_1.1.4            lattice_0.22-7        </span></span>
-<span><span class="co">##  [97] survival_3.8-6         deldir_2.0-4           tidyselect_1.2.1      </span></span>
-<span><span class="co">## [100] miniUI_0.1.2           pbapply_1.7-4          knitr_1.51            </span></span>
-<span><span class="co">## [103] gridExtra_2.3          litedown_0.9           bookdown_0.46         </span></span>
-<span><span class="co">## [106] scattermore_1.2        xfun_0.56              matrixStats_1.5.0     </span></span>
-<span><span class="co">## [109] stringi_1.8.7          lazyeval_0.2.2         yaml_2.3.12           </span></span>
-<span><span class="co">## [112] evaluate_1.0.5         codetools_0.2-20       ggwordcloud_0.6.2     </span></span>
-<span><span class="co">## [115] tibble_3.3.1           BiocManager_1.30.27    cli_3.6.5             </span></span>
-<span><span class="co">## [118] uwot_0.2.4             xtable_1.8-4           reticulate_1.44.1     </span></span>
-<span><span class="co">## [121] systemfonts_1.3.1      jquerylib_0.1.4        dichromat_2.0-0.1     </span></span>
-<span><span class="co">## [124] Rcpp_1.1.1             globals_0.18.0         spatstat.random_3.4-4 </span></span>
-<span><span class="co">## [127] mapproj_1.2.12         png_0.1-8              spatstat.univar_3.1-6 </span></span>
-<span><span class="co">## [130] parallel_4.6.0         pkgdown_2.2.0          ggplot2_4.0.1         </span></span>
-<span><span class="co">## [133] dotCall64_1.2          listenv_0.10.0         viridisLite_0.4.2     </span></span>
-<span><span class="co">## [136] scales_1.4.0           ggridges_0.5.7         SeuratObject_5.3.0    </span></span>
-<span><span class="co">## [139] purrr_1.2.1            rlang_1.1.7            cowplot_1.2.0</span></span></code></pre>
+<span><span class="co">##  [43] RSpectra_0.16-2        irlba_2.3.5.1          SnowballC_0.7.1       </span></span>
+<span><span class="co">##  [46] textshaping_1.0.4      labeling_0.4.3         progressr_0.18.0      </span></span>
+<span><span class="co">##  [49] spatstat.sparse_3.1-0  httr_1.4.7             polyclip_1.10-7       </span></span>
+<span><span class="co">##  [52] abind_1.4-8            compiler_4.6.0         withr_3.0.2           </span></span>
+<span><span class="co">##  [55] S7_0.2.1               fastDummies_1.7.5      maps_3.4.3            </span></span>
+<span><span class="co">##  [58] MASS_7.3-65            tools_4.6.0            lmtest_0.9-40         </span></span>
+<span><span class="co">##  [61] otel_0.2.0             httpuv_1.6.16          future.apply_1.20.1   </span></span>
+<span><span class="co">##  [64] goftest_1.2-3          glue_1.8.0             nlme_3.1-168          </span></span>
+<span><span class="co">##  [67] promises_1.5.0         gridtext_0.1.5         grid_4.6.0            </span></span>
+<span><span class="co">##  [70] Rtsne_0.17             cluster_2.1.8.1        reshape2_1.4.5        </span></span>
+<span><span class="co">##  [73] generics_0.1.4         isoband_0.3.0          gtable_0.3.6          </span></span>
+<span><span class="co">##  [76] spatstat.data_3.1-9    tidyr_1.3.2            data.table_1.18.0     </span></span>
+<span><span class="co">##  [79] utf8_1.2.6             xml2_1.5.2             sp_2.2-0              </span></span>
+<span><span class="co">##  [82] spatstat.geom_3.7-0    RcppAnnoy_0.0.23       markdown_2.0          </span></span>
+<span><span class="co">##  [85] ggrepel_0.9.6          RANN_2.6.2             pillar_1.11.1         </span></span>
+<span><span class="co">##  [88] stringr_1.6.0          pals_1.10              spam_2.11-3           </span></span>
+<span><span class="co">##  [91] RcppHNSW_0.6.0         later_1.4.5            splines_4.6.0         </span></span>
+<span><span class="co">##  [94] dplyr_1.1.4            lattice_0.22-7         survival_3.8-6        </span></span>
+<span><span class="co">##  [97] deldir_2.0-4           tidyselect_1.2.1       miniUI_0.1.2          </span></span>
+<span><span class="co">## [100] pbapply_1.7-4          knitr_1.51             gridExtra_2.3         </span></span>
+<span><span class="co">## [103] litedown_0.9           bookdown_0.46          scattermore_1.2       </span></span>
+<span><span class="co">## [106] xfun_0.56              matrixStats_1.5.0      stringi_1.8.7         </span></span>
+<span><span class="co">## [109] lazyeval_0.2.2         yaml_2.3.12            evaluate_1.0.5        </span></span>
+<span><span class="co">## [112] codetools_0.2-20       ggwordcloud_0.6.2      tibble_3.3.1          </span></span>
+<span><span class="co">## [115] BiocManager_1.30.27    cli_3.6.5              uwot_0.2.4            </span></span>
+<span><span class="co">## [118] xtable_1.8-4           reticulate_1.44.1      systemfonts_1.3.1     </span></span>
+<span><span class="co">## [121] jquerylib_0.1.4        dichromat_2.0-0.1      Rcpp_1.1.1            </span></span>
+<span><span class="co">## [124] globals_0.18.0         spatstat.random_3.4-4  mapproj_1.2.12        </span></span>
+<span><span class="co">## [127] png_0.1-8              spatstat.univar_3.1-6  parallel_4.6.0        </span></span>
+<span><span class="co">## [130] pkgdown_2.2.0          ggplot2_4.0.1          dotCall64_1.2         </span></span>
+<span><span class="co">## [133] listenv_0.10.0         viridisLite_0.4.2      scales_1.4.0          </span></span>
+<span><span class="co">## [136] ggridges_0.5.7         SeuratObject_5.3.0     purrr_1.2.1           </span></span>
+<span><span class="co">## [139] rlang_1.1.7            cowplot_1.2.0</span></span></code></pre>
 </details>
 </div>
   </div>

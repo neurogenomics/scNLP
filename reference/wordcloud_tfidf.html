@@ -23,6 +23,9 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
+  <a href="../articles/scNLP.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -32,7 +35,7 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/harmonise_celltypes.html">Harmonise Cell-type labels</a>
+      <a href="../articles/harmonise_celltypes.html">Harmonizing Cell-type Labels</a>
     </li>
     <li>
       <a href="../articles/tf-idf.html">tf-idf</a>
@@ -102,10 +105,35 @@ cluster each cell is assigned to.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional parameters to pass to <code>ggplot2::ggplot(aes_string(...))</code>.</p></dd>
+<dd><p>Additional parameters passed to <code>ggplot2::ggplot(aes(...))</code>.</p></dd>
+
+</dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>A list containing:</p><dl><dt>plot</dt>
+<dd><p>The wordcloud ggplot object.</p></dd>
+
+  <dt>tfidf_df</dt>
+<dd><p>The TF-IDF results data.frame.</p></dd>
+
 
 </dl></div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pseudo_seurat"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"ggwordcloud"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">wordcloud_res</span> <span class="op">&lt;-</span> <span class="fu">wordcloud_tfidf</span><span class="op">(</span>obj <span class="op">=</span> <span class="va">pseudo_seurat</span>,</span></span>
+<span class="r-in"><span>                                     label_var <span class="op">=</span> <span class="st">"celltype"</span>,</span></span>
+<span class="r-in"><span>                                     cluster_var <span class="op">=</span> <span class="st">"cluster"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Extracting obsm from Seurat: umap</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> + Dropping 2 conflicting obs variables: UMAP.1, UMAP.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting cell metadata (obs) in obj.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Ignoring unknown aesthetics: <span style="color: #00BB00;">label</span></span>
+<span class="r-plt img"><img src="wordcloud_tfidf-1.png" alt="" width="700" height="433"></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
